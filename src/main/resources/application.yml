@@ -1,0 +1,26 @@
+# MybatisPlus 配置
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+
+#spring
+spring:
+  #Redis的配置
+  Redis:
+    #Redis所在的ip地址
+    host: 43.142.99.39
+    #Redis的端口号 默认就是6379
+    port: 6379
+    #redis选择的数据库，一共16个，默认选择0号
+    database: 0
+    #redis的连接超时时间设置
+    timeout: 10000ms
+    lettuce:
+      pool:
+        #最大连接数 默认8
+        max-active: 8
+        #最大连接阻塞等待时间，默认-1
+        max-wait: 1000ms
+        #最大空闲连接，默认8
+        max-idle: 200
+        #最小空闲连接，默认0
+        min-idle: 5
