@@ -1,7 +1,11 @@
 package com.example.rgtask.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.rgtask.pojo.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.example.rgtask.vo.UserPageVO;
+import com.example.rgtask.vo.UserVO;
 
 /**
  * <p>
@@ -13,4 +17,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface UserService extends IService<User> {
     User getUserByLoginNameAndPassword(String loginName,String password);
+
+    User getUserByLoginName(String loginName);
+
+    int insert(UserVO userVO);
+
+    IPage<User> findPage(Page<User> page, UserPageVO pageVO);
 }

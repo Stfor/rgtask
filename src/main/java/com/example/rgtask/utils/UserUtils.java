@@ -2,16 +2,21 @@ package com.example.rgtask.utils;
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.example.rgtask.pojo.User;
+import com.example.rgtask.service.UserService;
 import com.example.rgtask.service.impl.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Slf4j
 public class UserUtils {
 
-    private static UserServiceImpl userService;
-
+    private static UserService userService;
+    @Autowired
+    public void setUserService(UserService userService) {
+        UserUtils.userService = userService;
+    }
 
     public static String getPrincipal() {
         try {

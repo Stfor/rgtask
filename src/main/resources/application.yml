@@ -1,9 +1,13 @@
 # MybatisPlus 配置
 mybatis-plus:
   mapper-locations: classpath:mapper/*.xml
+  check-config-location: true
 
 #spring
 spring:
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
   #Redis的配置
   Redis:
     #Redis所在的ip地址
@@ -24,3 +28,9 @@ spring:
         max-idle: 200
         #最小空闲连接，默认0
         min-idle: 5
+
+
+jwt:
+  secret: 123
+  expire_time: 5*60*1000
+  auth_header: Access-Token

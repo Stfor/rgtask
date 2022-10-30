@@ -1,40 +1,21 @@
-package com.example.rgtask.pojo;
+package com.example.rgtask.vo;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Date;
-import java.io.Serializable;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-/**
- * <p>
- * 
- * </p>
- *
- * @author xa
- * @since 2022-10-28
- */
 @Data
-@EqualsAndHashCode(callSuper = false)
-public class User implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    /**
-     * 用户id
-     */
-    private String id;
+@AllArgsConstructor
+@NoArgsConstructor
+public class UserPageVO extends PageVO{
 
     /**
      * 登录名
      */
     private String loginName;
-
-    /**
-     * 登录密码
-     */
-    private String password;
 
     /**
      * 姓名
@@ -77,14 +58,9 @@ public class User implements Serializable {
     private String phone;
 
     /**
-     * 用户头像
-     */
-    private String photo;
-
-    /**
      * 最近登录日期
      */
-    private LocalTime loginDate;
+    private LocalDateTime loginDate;
 
     /**
      * 是否允许登录
@@ -110,6 +86,5 @@ public class User implements Serializable {
      * 备注信息
      */
     private String remarks;
-
 
 }

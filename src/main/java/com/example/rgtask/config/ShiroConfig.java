@@ -106,19 +106,11 @@ public class ShiroConfig {
 
 
         // 根据需要配置需要拦截的url
-
-        filterChainDefinitionMap.put("/api/sys/smsConfAliyun/**", "jwtFilter");// 阿里云短信测试
-        filterChainDefinitionMap.put("/api/sys/smsConfTencent/**", "jwtFilter");// 腾讯云短信测试
-        filterChainDefinitionMap.put("/api/sys/smsTemplateManagement/**", "jwtFilter");// 配置分页测试
-
         filterChainDefinitionMap.put("/api/login", "anon");// 开放登录接口
-        filterChainDefinitionMap.put("/api/cas", "anon");// 开放cas登录接口
-        filterChainDefinitionMap.put("/api/token/refresh", "anon");// 开放token刷新接口
 
-        filterChainDefinitionMap.put("/api/user/**", "jwtFilter");
-        filterChainDefinitionMap.put("/api/asd","jwtFilter");
-        filterChainDefinitionMap.put("/api/aaa","jwtFilter");
-//        filterChainDefinitionMap.put("/user/**","jwtFilter");
+        //登录接口拦截
+        filterChainDefinitionMap.put("/user/update", "jwtFilter");
+        filterChainDefinitionMap.put("/user/delete", "jwtFilter");
 
         //其余接口一律拦截
         //主要这行代码必须放在所有权限设置的最后，不然会导致所有 url 都被拦截

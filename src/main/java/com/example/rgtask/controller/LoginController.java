@@ -5,6 +5,7 @@ import com.example.rgtask.pojo.User;
 import com.example.rgtask.service.UserService;
 import com.example.rgtask.shiro.JwtToken;
 import com.example.rgtask.utils.JwtUtils;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import org.apache.shiro.SecurityUtils;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api")
+@Api(value = "LoginController", tags = "登录接口")
 public class LoginController {
     @Autowired
     private UserService userService;
@@ -32,18 +34,5 @@ public class LoginController {
         String tokenReturn = JwtUtils.sign(user.getId(),user.getLoginName(),JwtUtils.SECRET);
         result.success("token",tokenReturn);
         return result;
-    }
-
-    @GetMapping("/asd")
-    public String asd(){
-        return "asd";
-    }
-
-    @GetMapping("/aaa")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "Access-Token", value = "访问token", paramType = "header", dataType = "string", required = true)
-    })
-    public String aaa(){
-        return "aaa";
     }
 }

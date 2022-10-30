@@ -1,5 +1,7 @@
 package com.example.rgtask.utils;
 
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator;
@@ -19,16 +21,22 @@ import java.util.Date;
 import java.util.Map;
 
 @Component
-public class JwtUtils {
+public class JwtUtils implements InitializingBean {
+
+
     // 过期时间5分钟
-    private static final long EXPIRE_TIME = 5*60*1000;
+    private static  long EXPIRE_TIME = 5*60*1000;
 
     //自己定制密钥
-    public static final String SECRET = "123";
+    public static  String SECRET;
 
     //请求头
-    public static final String AUTH_HEADER = "Access-Token";
+    public static  String AUTH_HEADER;
 
+    @Value("secret")
+    private String secret;
+    @Value("auth_header")
+    private String authHeader;
     /**
      * 验证token是否正确
      * @param token
@@ -145,5 +153,11 @@ public class JwtUtils {
         SecureRandomNumberGenerator secureRandomNumberGenerator = new SecureRandomNumberGenerator();
         String hex = secureRandomNumberGenerator.nextBytes(16).toHex();
         return hex;
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        SECRET = secret;
+        AUTH_HEADER = authHeader;
     }
 }
