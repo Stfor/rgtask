@@ -5,6 +5,7 @@ import com.example.rgtask.pojo.User;
 import com.example.rgtask.service.UserService;
 import com.example.rgtask.shiro.JwtToken;
 import com.example.rgtask.utils.JwtUtils;
+import com.example.rgtask.utils.UserUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -32,6 +33,7 @@ public class LoginController {
         subject.login(token);
 
         String tokenReturn = JwtUtils.sign(user.getId(),user.getLoginName(),JwtUtils.SECRET);
+        UserUtils.setUserIntoRedis(user);
         result.success("token",tokenReturn);
         return result;
     }

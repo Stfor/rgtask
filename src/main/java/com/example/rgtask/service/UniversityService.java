@@ -1,7 +1,8 @@
 package com.example.rgtask.service;
 
-import com.example.rgtask.pojo.School;
+import com.example.rgtask.pojo.University;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * <p>
@@ -11,6 +12,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author xa
  * @since 2022-10-30
  */
-public interface SchoolService extends IService<School> {
+@Mapper
+public interface UniversityService extends IService<University> {
 
 }

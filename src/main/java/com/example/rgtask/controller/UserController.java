@@ -7,6 +7,7 @@ import com.example.rgtask.pojo.PageResult;
 import com.example.rgtask.pojo.User;
 import com.example.rgtask.service.UserService;
 import com.example.rgtask.utils.UserUtils;
+import com.example.rgtask.validation.Create;
 import com.example.rgtask.vo.UserPageVO;
 import com.example.rgtask.vo.UserVO;
 import com.fasterxml.jackson.databind.util.BeanUtil;
@@ -51,7 +52,7 @@ public class UserController {
     }
 
     @PostMapping("/insert")
-    public CommonResult add(@RequestBody @Valid UserVO userVO,BindingResult bindingResult){
+    public CommonResult add(@RequestBody @Valid UserVO userVO, BindingResult bindingResult){
         CommonResult result = new CommonResult().init();
         String loginName = userVO.getLoginName();
         //参数验证

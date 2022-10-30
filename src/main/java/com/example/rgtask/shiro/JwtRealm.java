@@ -1,8 +1,10 @@
 package com.example.rgtask.shiro;
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.example.rgtask.Exception.TokenException;
 import com.example.rgtask.pojo.User;
 import com.example.rgtask.service.UserService;
+import com.example.rgtask.utils.UserUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -36,7 +38,13 @@ public class JwtRealm extends AuthorizingRealm {
         JwtToken token = (JwtToken) authenticationToken;
         String userId = (String)token.getPrincipal();
         if (StringUtils.isNotBlank(userId)){
-            User user = userService.getById(userId);
+            User user = UserUtils.getUserFromRedis(userId);
+            if (user == null){
+                user = userService.getById(userId);
+            }
+            if (user == null){
+                throw new TokenException(-100086,"不存在该用户");
+            }
             return new SimpleAuthenticationInfo(user.getId(),user.getLoginName(), getName());
         }
         return null;
