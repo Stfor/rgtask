@@ -1,5 +1,6 @@
 package com.example.rgtask.vo;
 
+import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,6 +11,7 @@ import java.time.LocalTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ApiModel(value = "UserPageVO", description = "UserPageVO")
 public class UserPageVO extends PageVO{
 
     /**

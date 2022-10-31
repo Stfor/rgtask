@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.rgtask.mapper.ErrandMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.example.rgtask.pojo.Errand">
+        <id column="id" property="id" />
+        <result column="sponsor_id" property="sponsorId" />
+        <result column="recipient_id" property="recipientId" />
+        <result column="title" property="title" />
+        <result column="content" property="content" />
+        <result column="label" property="label" />
+        <result column="start_date" property="startDate" />
+        <result column="end_date" property="endDate" />
+        <result column="task_address" property="taskAddress" />
+        <result column="delivery_address" property="deliveryAddress" />
+        <result column="status" property="status" />
+        <result column="rewarded" property="rewarded" />
+        <result column="create_date" property="createDate" />
+        <result column="update_date" property="updateDate" />
+        <result column="del_flag" property="delFlag" />
+        <result column="remark" property="remark" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, sponsor_id, recipient_id, title, content, label, start_date, end_date, task_address, delivery_address, status, rewarded, create_date, update_date, del_flag, remark
+    </sql>
+
+</mapper>

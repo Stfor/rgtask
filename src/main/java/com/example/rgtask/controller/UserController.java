@@ -8,6 +8,7 @@ import com.example.rgtask.pojo.User;
 import com.example.rgtask.service.UserService;
 import com.example.rgtask.utils.UserUtils;
 import com.example.rgtask.validation.Create;
+import com.example.rgtask.validation.Update;
 import com.example.rgtask.vo.UserPageVO;
 import com.example.rgtask.vo.UserVO;
 import com.fasterxml.jackson.databind.util.BeanUtil;
@@ -19,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
@@ -52,7 +54,7 @@ public class UserController {
     }
 
     @PostMapping("/insert")
-    public CommonResult add(@RequestBody @Valid UserVO userVO, BindingResult bindingResult){
+    public CommonResult add(@RequestBody @Validated({Create.class}) UserVO userVO, BindingResult bindingResult){
         CommonResult result = new CommonResult().init();
         String loginName = userVO.getLoginName();
         //参数验证
@@ -73,7 +75,7 @@ public class UserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Access-Token", value = "访问token", paramType = "header", dataType = "string", required = true)
     })
-    public CommonResult update(@RequestBody @Valid UserVO userVO,BindingResult bindingResult){
+    public CommonResult update(@RequestBody @Validated({Update.class}) UserVO userVO, BindingResult bindingResult){
         CommonResult result = new CommonResult().init();
         String userId = userVO.getId();
         //参数验证

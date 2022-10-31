@@ -5,7 +5,6 @@ import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
@@ -13,12 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
  * </p>
  *
  * @author xa
- * @since 2022-10-30
+ * @since 2022-10-31
  */
-
-@RestController
-@RequestMapping("/university")
-@Api(value = "UniversityController", tags = "大学接口")
-public class UniversityController {
+@Controller
+@RequestMapping("/vote-option")
+@Api(value = "VoteOptionController", tags = "投票选项接口")
+public class VoteOptionController {
 
 }

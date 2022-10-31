@@ -36,19 +36,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public User getUserByLoginNameAndPassword(String loginName,String password) {
-        QueryWrapper wrapper = new QueryWrapper<>();
+        QueryWrapper<User> wrapper = new QueryWrapper<>();
         wrapper.eq("login_name",loginName);
         wrapper.eq("password",password);
-        User user = userMapper.selectOne(wrapper);
-        return user;
+        return userMapper.selectOne(wrapper);
     }
 
     @Override
     public User getUserByLoginName(String loginName) {
-        QueryWrapper wrapper = new QueryWrapper<>();
+        QueryWrapper<User> wrapper = new QueryWrapper<>();
         wrapper.eq("login_name",loginName);
-        User user = userMapper.selectOne(wrapper);
-        return user;
+        return userMapper.selectOne(wrapper);
     }
 
     @Override
@@ -70,7 +68,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public IPage<User> findPage(Page<User> page, UserPageVO pageVO) {
         //创建查询条件
-        QueryWrapper wrapper = new QueryWrapper<>();
+        QueryWrapper<User> wrapper = new QueryWrapper<>();
 
         //根据登录名条件查询
         if (pageVO.getLoginName() != null){
@@ -128,7 +126,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         if (pageVO.getDelFlag() != null){
             wrapper.eq("del_flag",pageVO.getDelFlag());
         }
-        IPage<User> userIPage = userMapper.selectPage(page , wrapper);
-        return userIPage;
+        return userMapper.selectPage(page , wrapper);
     }
 }
