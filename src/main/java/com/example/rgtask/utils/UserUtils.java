@@ -68,13 +68,14 @@ public class UserUtils {
             User user = new User();
             user.setId(split[0]);
             user.setLoginName(split[1]);
+            user.setSalt(split[2]);
             return user;
         }
     }
 
     public static void setUserIntoRedis(User user){
         String key = "userId:"+user.getId();
-        String value = user.getId()+","+user.getLoginName();
+        String value = user.getLoginName()+","+user.getPassword()+","+user.getSalt();
         ValueOperations valueOperations = redisTemplate.opsForValue();
         valueOperations.set(key,value,UserUtils.EXPIRE_TIME, TimeUnit.MILLISECONDS);
     }

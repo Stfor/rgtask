@@ -17,7 +17,7 @@ public class JwtFilter extends AuthenticatingFilter {
     @Override
     protected AuthenticationToken createToken(ServletRequest servletRequest, ServletResponse servletResponse) throws Exception {
         JwtToken token = new JwtToken((String) servletRequest.getAttribute("username"),
-                (String) servletRequest.getAttribute("userId"));
+                (String) servletRequest.getAttribute("password"));
         return token;
     }
 
@@ -31,15 +31,15 @@ public class JwtFilter extends AuthenticatingFilter {
         {
             throw new TokenException(-100002,"token为空");
         }
-        String userId = JwtUtils.getClaimFiled(token,"userId");
+        String password = JwtUtils.getClaimFiled(token,"password");
         String username = JwtUtils.getClaimFiled(token,"username");
-        if(!JwtUtils.verify(token,userId,username,JwtUtils.SECRET))
+        if(!JwtUtils.verify(token,password,username,JwtUtils.SECRET))
             {
                 throw new TokenException(-10014,"token以失效，请重新登录");
                 //throw new ExpiredCredentialsException("token以失效，请重新登录");
             }
         servletRequest.setAttribute("username",username);
-        servletRequest.setAttribute("userId",userId);
+        servletRequest.setAttribute("password",password);
         return executeLogin(servletRequest,servletResponse);
     }
 }

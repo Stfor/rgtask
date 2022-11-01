@@ -111,5 +111,8 @@ public class User implements Serializable {
      */
     private String remarks;
 
-
+    /**
+     * 随机盐
+     */
+    private String salt;
 }

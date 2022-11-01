@@ -35,14 +35,14 @@ public class UserVO extends BaseVO implements Serializable {
     /**
      * 登录名
      */
-    @NotBlank(groups = {Create.class, Update.class}, message = "用户登录名不能为空")
-    @ApiModelProperty(value = "用户登录名", example = "1812312", required = true)
+    @NotBlank(groups = {Create.class}, message = "用户登录名不能为空")
+    @ApiModelProperty(value = "用户登录名", example = "root", required = true)
     private String loginName;
 
     /**
      * 登录密码
      */
-    @NotBlank(groups = {Create.class, Update.class}, message = "用户密码")
+    @NotBlank(groups = {Create.class}, message = "用户密码")
     @ApiModelProperty(value = "用户密码", example = "123456", required = true)
     private String password;
 

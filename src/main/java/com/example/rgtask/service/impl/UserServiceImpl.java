@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.rgtask.vo.PageVO;
 import com.example.rgtask.vo.UserPageVO;
 import com.example.rgtask.vo.UserVO;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 
 /**
  * <p>
@@ -58,6 +60,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         user.setCredit(80);
         user.setDelFlag("1");
         user.setExperienceValue("0");
+        user.setSalt(UUID.randomUUID().toString());
+        Md5Hash md5Hash = new Md5Hash(user.getPassword(),user.getSalt(),2);
+        user.setPassword(md5Hash.toString());
         if (super.save(user)){
             return 1;
         }else {

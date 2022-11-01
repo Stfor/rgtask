@@ -44,10 +44,10 @@ public class JwtUtils implements InitializingBean {
      * @param secret
      * @return
      */
-    public static boolean verify(String token,String userId ,String username, String secret){
+    public static boolean verify(String token,String password ,String username, String secret){
         try{
             Algorithm algorithm = Algorithm.HMAC256(secret);
-            JWTVerifier verifier = JWT.require(algorithm).withClaim("userId",userId).withClaim("username",username).build();
+            JWTVerifier verifier = JWT.require(algorithm).withClaim("username",username).withClaim("password",password).build();
             verifier.verify(token);
             return true;
         } catch (JWTVerificationException exception){
@@ -80,12 +80,12 @@ public class JwtUtils implements InitializingBean {
      * @param secret
      * @return
      */
-    public static String sign(String username,String userId,String secret){
+    public static String sign(String username,String password,String secret){
         try{
             Date date = new Date(System.currentTimeMillis() + EXPIRE_TIME);
             Algorithm algorithm = Algorithm.HMAC256(secret);
             //附带username,nickname信息
-            return JWT.create().withClaim("userId",userId).withClaim("username",username).withExpiresAt(date).sign(algorithm);
+            return JWT.create().withClaim("username",username).withClaim("password",password).withExpiresAt(date).sign(algorithm);
         } catch (JWTCreationException e){
             e.printStackTrace();
             return null;

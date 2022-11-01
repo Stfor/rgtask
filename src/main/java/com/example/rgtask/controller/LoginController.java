@@ -28,11 +28,11 @@ public class LoginController {
         CommonResult result = new CommonResult().init();
         Subject subject = SecurityUtils.getSubject();
         //将用户请求参数封装后，直接提交给Shiro处理
-        User user = userService.getUserByLoginNameAndPassword(userName, password);
-        JwtToken token = new JwtToken(user.getId(),user.getLoginName());
+        User user = userService.getUserByLoginName(userName);
+        JwtToken token = new JwtToken(userName,password);
         subject.login(token);
 
-        String tokenReturn = JwtUtils.sign(user.getId(),user.getLoginName(),JwtUtils.SECRET);
+        String tokenReturn = JwtUtils.sign(user.getLoginName(),user.getPassword(),JwtUtils.SECRET);
         UserUtils.setUserIntoRedis(user);
         result.success("token",tokenReturn);
         return result;

@@ -2,6 +2,7 @@ package com.example.rgtask.config;
 
 import com.example.rgtask.shiro.JwtFilter;
 import com.example.rgtask.shiro.JwtRealm;
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.*;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
@@ -164,7 +165,15 @@ public class ShiroConfig {
      */
     @Bean
     public JwtRealm jwtRealm() {
-        return new JwtRealm();
+        //配置校验规则
+        HashedCredentialsMatcher matcher = new HashedCredentialsMatcher();
+        //使用DM5进行加密
+        matcher.setHashAlgorithmName("MD5");
+        //加密次数
+        matcher.setHashIterations(2);
+        JwtRealm jwtRealm = new JwtRealm();
+        jwtRealm.setCredentialsMatcher(matcher);
+        return jwtRealm;
     }
 
     @Bean

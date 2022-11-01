@@ -4,28 +4,28 @@ import org.apache.shiro.authc.AuthenticationToken;
 
 public class JwtToken implements AuthenticationToken {
     private String username;
-    private String userid;
+    private String password;
 
     @Override
     public Object getPrincipal() {
-        return userid;
+        return username;
     }
 
     @Override
     public Object getCredentials() {
-        return username;
+        return password;
     }
 
-    public JwtToken(String userid,String username) {
+    public JwtToken(String username,String password) {
         this.username = username;
-        this.userid = userid;
+        this.password = password;
     }
 
     @Override
     public String toString() {
         return "JwtToken{" +
                 "username='" + username + '\'' +
-                ", userid='" + userid + '\'' +
+                ", password='" + password + '\'' +
                 '}';
     }
 }
