@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * <p>
@@ -40,6 +41,7 @@ public class ErrandServiceImpl extends ServiceImpl<ErrandMapper, Errand> impleme
         errand.setCreateDate(LocalDateTime.now());
         errand.setDelFlag("1");
         errand.setRecipientId(UserUtils.getPrincipal());
+        errand.setId(UUID.randomUUID().toString());
         if (errandMapper.insert(errand) > 0){
             return 1;
         }else {

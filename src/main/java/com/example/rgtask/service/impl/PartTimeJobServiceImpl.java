@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * <p>
@@ -39,6 +40,7 @@ public class PartTimeJobServiceImpl extends ServiceImpl<PartTimeJobMapper, PartT
         partTimeJob.setCreateDate(LocalDateTime.now());
         partTimeJob.setDelFlag("1");
         partTimeJob.setSponsorId(UserUtils.getPrincipal());
+        partTimeJob.setId(UUID.randomUUID().toString());
         if (partTimeJobMapper.insert(partTimeJob) > 0){
             return 1;
         }else {

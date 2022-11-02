@@ -20,6 +20,10 @@ public class PartTimeJob implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * 兼职任务id
+     */
+    private String id;
 
     /**
      * 发起人id

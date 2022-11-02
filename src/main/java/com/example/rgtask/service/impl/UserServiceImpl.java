@@ -61,6 +61,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         user.setDelFlag("1");
         user.setExperienceValue("0");
         user.setSalt(UUID.randomUUID().toString());
+        user.setId(UUID.randomUUID().toString());
         Md5Hash md5Hash = new Md5Hash(user.getPassword(),user.getSalt(),2);
         user.setPassword(md5Hash.toString());
         if (super.save(user)){
