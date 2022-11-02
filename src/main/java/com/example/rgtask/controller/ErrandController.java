@@ -46,6 +46,9 @@ public class ErrandController {
     }
 
     @PostMapping("/insert")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Access-Token", value = "访问token", paramType = "header", dataType = "string", required = true)
+    })
     public CommonResult add(@RequestBody @Validated({Create.class}) ErrandVO errandVO, BindingResult bindingResult){
         CommonResult result = new CommonResult().init();
         //参数验证

@@ -1,5 +1,6 @@
 package com.example.rgtask.Exception;
 
+import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.example.rgtask.pojo.CommonResult;
 import com.example.rgtask.utils.MsgCodeUtils;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -25,4 +26,14 @@ public class GlobalExceptionHandler {
         result.fail(MsgCodeUtils.MSG_CODE_JWT_TOKEN_ISNULL);
         return result;
     }
+
+//    @ExceptionHandler(JWTDecodeException.class)
+//    public Object handleException2(Exception e) {
+//        //异常具体位置
+//        StackTraceElement[] stackTrace = e.getStackTrace();
+//        CommonResult result = new CommonResult().init();
+//        result.fail(MsgCodeUtils.MSG_CODE_JWT_MALFORMED);
+//        return result;
+//    }
+
 }

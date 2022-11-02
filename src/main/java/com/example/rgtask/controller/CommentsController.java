@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
  * </p>
  *
  * @author xa
- * @since 2022-10-31
+ * @since 2022-11-02
  */
 @RestController
-@RequestMapping("/vote")
-@Api(value = "VoteController", tags = "投票接口")
-public class VoteController {
+@RequestMapping("/comments")
+@Api(value = "CommentsController", tags = "评论接口")
+public class CommentsController {
 
 }

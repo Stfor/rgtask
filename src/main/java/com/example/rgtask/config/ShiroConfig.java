@@ -112,6 +112,11 @@ public class ShiroConfig {
         //登录接口拦截
         filterChainDefinitionMap.put("/user/update", "jwtFilter");
         filterChainDefinitionMap.put("/user/delete", "jwtFilter");
+        //跑腿任务接口拦截
+        filterChainDefinitionMap.put("/errand/**", "jwtFilter");
+        //兼职任务接口拦截
+        filterChainDefinitionMap.put("/part-time-job/**", "jwtFilter");
+
 
         //其余接口一律拦截
         //主要这行代码必须放在所有权限设置的最后，不然会导致所有 url 都被拦截

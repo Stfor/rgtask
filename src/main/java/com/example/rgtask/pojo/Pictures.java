@@ -12,38 +12,28 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author xa
- * @since 2022-10-31
+ * @since 2022-11-02
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class Vote implements Serializable {
+public class Pictures implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * 投票id
+     * 照片id
      */
     private String id;
 
     /**
-     * 用户id
+     * 区域id（多个位置共享）
      */
-    private String userId;
+    private String areaId;
 
     /**
-     * 标题
+     * 图片信息(采用base64编码)
      */
-    private String title;
-
-    /**
-     * 内容描述
-     */
-    private String content;
-
-    /**
-     * 标签
-     */
-    private String label;
+    private String picture;
 
     /**
      * 创建时间
@@ -53,7 +43,7 @@ public class Vote implements Serializable {
     /**
      * 更新时间
      */
-    private LocalDateTime updateDate;
+    private LocalDateTime updateTime;
 
     /**
      * 删除标记
@@ -61,7 +51,7 @@ public class Vote implements Serializable {
     private String delFlag;
 
     /**
-     * 备注信息
+     * 注释
      */
     private String remark;
 

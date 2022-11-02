@@ -5,6 +5,7 @@ import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Controller;
  * @author xa
  * @since 2022-10-31
  */
-@Controller
+@RestController
 @RequestMapping("/idle-goods")
 @Api(value = "IdleGoodsController", tags = "闲置物品接口")
 public class IdleGoodsController {

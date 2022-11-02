@@ -1,5 +1,6 @@
 package com.example.rgtask.pojo;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.io.Serializable;
 import lombok.Data;
@@ -57,12 +58,12 @@ public class IdleGoods implements Serializable {
     /**
      * 创建时间
      */
-    private Date createDate;
+    private LocalDateTime createDate;
 
     /**
      * 更新时间
      */
-    private Date updateDate;
+    private LocalDateTime updateDate;
 
     /**
      * 删除标记

@@ -30,6 +30,10 @@ public class LoginController {
     @Autowired
     private UserService userService;
     @GetMapping("/login")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userName", value = "登录名", paramType = "query", dataType = "string", required = true, defaultValue = "root"),
+            @ApiImplicitParam(name = "password", value = "密码", paramType = "query", dataType = "string", required = true, defaultValue = "123456"),
+    })
     public CommonResult login(String userName,String password){
         CommonResult result = new CommonResult().init();
         Subject subject = SecurityUtils.getSubject();
@@ -38,7 +42,7 @@ public class LoginController {
         JwtToken token = new JwtToken(userName,password);
         subject.login(token);
 
-        String tokenReturn = JwtUtils.sign(user.getLoginName(),user.getPassword(),JwtUtils.SECRET);
+        String tokenReturn = JwtUtils.sign(userName,password,JwtUtils.SECRET);
         UserUtils.setUserIntoRedis(user);
         result.success("token",tokenReturn);
         return result;

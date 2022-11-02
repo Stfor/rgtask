@@ -1,5 +1,6 @@
 package com.example.rgtask.pojo;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.io.Serializable;
 import lombok.Data;
@@ -57,12 +58,12 @@ public class Address implements Serializable {
     /**
      * 创建时间
      */
-    private Date creatTime;
+    private LocalDateTime creatTime;
 
     /**
      * 更新时间
      */
-    private Date updateTime;
+    private LocalDateTime updateTime;
 
     /**
      * 删除标记

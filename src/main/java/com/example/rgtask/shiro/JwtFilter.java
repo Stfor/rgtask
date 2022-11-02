@@ -24,7 +24,6 @@ public class JwtFilter extends AuthenticatingFilter {
     //在没登录时会调用这个方法，isAccess..是判断用户是否登录，登入则直接返回true否则调用这个方法，可以在prehandler看到
     @Override
     protected boolean onAccessDenied(ServletRequest servletRequest, ServletResponse servletResponse) throws Exception {
-        System.out.println("onAccessDenied执行了");
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         String token = httpServletRequest.getHeader("Access-Token");
         if(StringUtils.isEmpty(token))

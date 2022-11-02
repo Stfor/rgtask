@@ -45,6 +45,9 @@ public class PartTimeJobController {
     }
 
     @PostMapping("/insert")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Access-Token", value = "访问token", paramType = "header", dataType = "string", required = true)
+    })
     public CommonResult add(@RequestBody @Validated({Create.class}) PartTimeJobVO partTimeJobVO, BindingResult bindingResult){
         CommonResult result = new CommonResult().init();
         //参数验证
