@@ -10,6 +10,7 @@ import lombok.EqualsAndHashCode;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <p>
@@ -84,4 +85,11 @@ public class ErrandVO extends BaseVO implements Serializable {
     @ApiModelProperty(value = "酬劳", example = "1812312", required = true)
     private Double rewarded;
 
+
+    /**
+     * 非数据库字段
+     * 图片base64集合
+     */
+    @ApiModelProperty(value = "图片集合", example = "")
+    private List<String> pictures;
 }

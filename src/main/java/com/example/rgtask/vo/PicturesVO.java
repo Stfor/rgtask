@@ -47,6 +47,10 @@ public class PicturesVO extends BaseVO implements Serializable {
     @ApiModelProperty(value = "图片信息", example = "1812312", required = true)
     private String picture;
 
+    public PicturesVO(String areaId,String picture){
+        this.areaId = areaId;
+        this.picture = picture;
+    }
 
 
 }

@@ -115,4 +115,9 @@ public class User implements Serializable {
      * 随机盐
      */
     private String salt;
+
+    /**
+     * 学校
+     */
+    private String university;
 }

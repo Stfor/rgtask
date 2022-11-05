@@ -7,15 +7,18 @@ import com.example.rgtask.pojo.Errand;
 import com.example.rgtask.mapper.ErrandMapper;
 import com.example.rgtask.service.ErrandService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.rgtask.service.PicturesService;
 import com.example.rgtask.utils.UserUtils;
 import com.example.rgtask.vo.ErrandPageVO;
 import com.example.rgtask.vo.ErrandVO;
+import com.example.rgtask.vo.PicturesVO;
 import com.example.rgtask.vo.UserPageVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -29,11 +32,15 @@ import java.util.UUID;
 @Service
 public class ErrandServiceImpl extends ServiceImpl<ErrandMapper, Errand> implements ErrandService {
     private ErrandMapper errandMapper;
+    private PicturesService picturesService;
     @Autowired
     private void setErrandService(ErrandMapper errandMapper){
         this.errandMapper = errandMapper;
     }
-
+    @Autowired
+    private void setPicturesService(PicturesService picturesService){
+        this.picturesService = picturesService;
+    }
     @Override
     public int insert(ErrandVO errandVO) {
         Errand errand = new Errand();
@@ -42,7 +49,12 @@ public class ErrandServiceImpl extends ServiceImpl<ErrandMapper, Errand> impleme
         errand.setDelFlag("1");
         errand.setRecipientId(UserUtils.getPrincipal());
         errand.setId(UUID.randomUUID().toString());
+        //插入兼职的图片
         if (errandMapper.insert(errand) > 0){
+            List<String> pictures = errandVO.getPictures();
+            for (String picture : pictures){
+                picturesService.insert(new PicturesVO(errand.getId(),picture));
+            }
             return 1;
         }else {
             return 0;

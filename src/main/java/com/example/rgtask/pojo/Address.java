@@ -75,5 +75,8 @@ public class Address implements Serializable {
      */
     private String remark;
 
-
+    /**
+     * 用户id
+     */
+    private String userId;
 }

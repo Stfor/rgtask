@@ -90,5 +90,8 @@ public class PartTimeJob implements Serializable {
      */
     private String delFlag;
 
-
+    /**
+     * 是否完成/支付（状态）
+     */
+    private String status;
 }

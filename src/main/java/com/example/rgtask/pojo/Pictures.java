@@ -54,6 +54,9 @@ public class Pictures implements Serializable {
      * 注释
      */
     private String remark;
-
+    /**
+     * 是否完成/支付（状态）
+     */
+    private String status;
 
 }
