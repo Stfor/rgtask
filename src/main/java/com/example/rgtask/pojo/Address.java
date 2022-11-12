@@ -3,6 +3,8 @@ package com.example.rgtask.pojo;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.io.Serializable;
+
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -68,6 +70,7 @@ public class Address implements Serializable {
     /**
      * 删除标记
      */
+    @TableLogic
     private String delFlag;
 
     /**

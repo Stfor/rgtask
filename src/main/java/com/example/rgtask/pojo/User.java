@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Date;
 import java.io.Serializable;
+
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -104,6 +106,7 @@ public class User implements Serializable {
     /**
      * 删除标记
      */
+    @TableLogic
     private String delFlag;
 
     /**
@@ -120,4 +123,13 @@ public class User implements Serializable {
      * 学校
      */
     private String university;
+
+    public User(String password, String loginName, String id){
+        this.password = password;
+        this.loginName = loginName;
+        this.id = id;
+    }
+
+    public User() {
+    }
 }

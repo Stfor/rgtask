@@ -46,11 +46,30 @@ public class ErrandServiceImpl extends ServiceImpl<ErrandMapper, Errand> impleme
         Errand errand = new Errand();
         BeanUtils.copyProperties(errandVO,errand);
         errand.setCreateDate(LocalDateTime.now());
-        errand.setDelFlag("1");
-        errand.setRecipientId(UserUtils.getPrincipal());
+        errand.setDelFlag("0");
+        errand.setSponsorId(UserUtils.getPrincipal());
         errand.setId(UUID.randomUUID().toString());
         //插入兼职的图片
         if (errandMapper.insert(errand) > 0){
+            List<String> pictures = errandVO.getPictures();
+            if (pictures != null){
+                for (String picture : pictures){
+                    picturesService.insert(new PicturesVO(errand.getId(),picture));
+                }
+            }
+            return 1;
+        }else {
+            return 0;
+        }
+    }
+
+    @Override
+    public int updateAllById(ErrandVO errandVO) {
+        Errand errand = new Errand();
+        BeanUtils.copyProperties(errandVO,errand);
+        errand.setUpdateDate(LocalDateTime.now());
+        if (errandMapper.updateById(errand) > 0){
+            picturesService.removeByAreaId(errand.getId());
             List<String> pictures = errandVO.getPictures();
             for (String picture : pictures){
                 picturesService.insert(new PicturesVO(errand.getId(),picture));
@@ -58,6 +77,16 @@ public class ErrandServiceImpl extends ServiceImpl<ErrandMapper, Errand> impleme
             return 1;
         }else {
             return 0;
+        }
+    }
+
+    @Override
+    public Boolean removeAllById(String errandId) {
+        if (errandMapper.deleteById(errandId) > 0){
+            picturesService.removeByAreaId(errandId);
+            return true;
+        }else {
+            return false;
         }
     }
 
@@ -128,4 +157,5 @@ public class ErrandServiceImpl extends ServiceImpl<ErrandMapper, Errand> impleme
         }
         return errandMapper.selectPage(page,wrapper);
     }
+
 }

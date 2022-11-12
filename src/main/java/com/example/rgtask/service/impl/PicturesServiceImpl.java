@@ -48,4 +48,25 @@ public class PicturesServiceImpl extends ServiceImpl<PicturesMapper, Pictures> i
         wrapper.eq("area_id",areaId);
         return picturesMapper.selectList(wrapper);
     }
+
+    @Override
+    public int removeByAreaId(String areaId) {
+        QueryWrapper<Pictures> wrapper = new QueryWrapper<>();
+        wrapper.eq("area_id",areaId);
+        return picturesMapper.delete(wrapper);
+    }
+
+    @Override
+    public boolean insertList(List<String> pictures, String areaId) {
+        if (pictures != null){
+            for (String picture : pictures){
+                Pictures pictures1 = new Pictures(picture,areaId);
+                if (picturesMapper.insert(pictures1) <= 0){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
 }

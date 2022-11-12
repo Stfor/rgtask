@@ -112,10 +112,11 @@ public class ShiroConfig {
         //登录接口拦截
         filterChainDefinitionMap.put("/user/update", "jwtFilter");
         filterChainDefinitionMap.put("/user/delete", "jwtFilter");
+        filterChainDefinitionMap.put("/user/aa", "jwtFilter");
         //跑腿任务接口拦截
-        filterChainDefinitionMap.put("/errand/**", "jwtFilter");
+//        filterChainDefinitionMap.put("/errandService/**", "jwtFilter");
         //兼职任务接口拦截
-        filterChainDefinitionMap.put("/part-time-job/**", "jwtFilter");
+//        filterChainDefinitionMap.put("/part-time-job/**", "jwtFilter");
 
 
         //其余接口一律拦截
@@ -175,7 +176,7 @@ public class ShiroConfig {
         //使用DM5进行加密
         matcher.setHashAlgorithmName("MD5");
         //加密次数
-        matcher.setHashIterations(2);
+        matcher.setHashIterations(1);
         JwtRealm jwtRealm = new JwtRealm();
         jwtRealm.setCredentialsMatcher(matcher);
         return jwtRealm;

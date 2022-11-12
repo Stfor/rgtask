@@ -2,6 +2,8 @@ package com.example.rgtask.service;
 
 import com.example.rgtask.pojo.Vote;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.example.rgtask.pojo.VoteOption;
+import com.example.rgtask.vo.VoteVO;
 
 /**
  * <p>
@@ -12,5 +14,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2022-10-31
  */
 public interface VoteService extends IService<Vote> {
+    int insert(VoteVO voteVO);
 
+    int updateAllById(VoteVO voteVO);
+
+    boolean removeAllById(String id);
 }

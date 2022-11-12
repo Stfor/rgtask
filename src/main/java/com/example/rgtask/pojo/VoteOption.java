@@ -3,6 +3,8 @@ package com.example.rgtask.pojo;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.io.Serializable;
+
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -12,7 +14,7 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author xa
- * @since 2022-10-31
+ * @since 2022-11-11
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -33,7 +35,7 @@ public class VoteOption implements Serializable {
     /**
      * 选项
      */
-    private String option;
+    private String choice;
 
     /**
      * 描选项描述
@@ -63,6 +65,7 @@ public class VoteOption implements Serializable {
     /**
      * 删除标记
      */
+    @TableLogic
     private String delFlag;
 
     /**

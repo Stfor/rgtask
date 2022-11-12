@@ -21,4 +21,8 @@ public interface ErrandService extends IService<Errand> {
     int insert(ErrandVO errandVO);
 
     IPage<Errand> findPage(Page<Errand> page, ErrandPageVO pageVO);
+
+    int updateAllById(ErrandVO errandVO);
+
+    Boolean removeAllById(String errandId);
 }

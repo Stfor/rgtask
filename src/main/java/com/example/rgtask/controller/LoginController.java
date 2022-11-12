@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -36,14 +37,18 @@ public class LoginController {
     })
     public CommonResult login(String userName,String password){
         CommonResult result = new CommonResult().init();
-        Subject subject = SecurityUtils.getSubject();
-        //将用户请求参数封装后，直接提交给Shiro处理
+        //将用户id，登录名，加密过的密码放入缓存
         User user = userService.getUserByLoginName(userName);
-        JwtToken token = new JwtToken(userName,password);
+        Md5Hash md5Pwd = new Md5Hash(password, user.getSalt());
+        JwtToken token = new JwtToken(userName,md5Pwd.toString());
+        UserUtils.setUserIntoRedis(user);
+
+        //获取subject进行登录校验
+        Subject subject = SecurityUtils.getSubject();
         subject.login(token);
 
-        String tokenReturn = JwtUtils.sign(userName,password,JwtUtils.SECRET);
-        UserUtils.setUserIntoRedis(user);
+        //生成token进行返回
+        String tokenReturn = JwtUtils.sign(user,JwtUtils.SECRET);
         result.success("token",tokenReturn);
         return result;
     }

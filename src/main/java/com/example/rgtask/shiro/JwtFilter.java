@@ -2,6 +2,7 @@ package com.example.rgtask.shiro;
 
 import com.example.rgtask.Exception.TokenException;
 import com.example.rgtask.Exception.TokenOverdue;
+import com.example.rgtask.pojo.User;
 import com.example.rgtask.utils.JwtUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -17,7 +18,7 @@ public class JwtFilter extends AuthenticatingFilter {
     @Override
     protected AuthenticationToken createToken(ServletRequest servletRequest, ServletResponse servletResponse) throws Exception {
         JwtToken token = new JwtToken((String) servletRequest.getAttribute("username"),
-                (String) servletRequest.getAttribute("password"));
+                (String) servletRequest.getAttribute("userId"));
         return token;
     }
 
@@ -26,19 +27,27 @@ public class JwtFilter extends AuthenticatingFilter {
     protected boolean onAccessDenied(ServletRequest servletRequest, ServletResponse servletResponse) throws Exception {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         String token = httpServletRequest.getHeader("Access-Token");
+        //判断token是否为空
         if(StringUtils.isEmpty(token))
         {
             throw new TokenException(-100002,"token为空");
         }
         String password = JwtUtils.getClaimFiled(token,"password");
         String username = JwtUtils.getClaimFiled(token,"username");
-        if(!JwtUtils.verify(token,password,username,JwtUtils.SECRET))
+        String userId = JwtUtils.getClaimFiled(token,"userId");
+        //验证token是否正确
+        if(!JwtUtils.verify(token,new User(password,username,userId),JwtUtils.SECRET))
             {
+                //判断token是否过期，且redis中是否存在该token存在则刷新否则重新登录
+                if (JwtUtils.isTokenExpired(token)){
+                    String key = "userId:"+userId;
+                }
                 throw new TokenException(-10014,"token以失效，请重新登录");
                 //throw new ExpiredCredentialsException("token以失效，请重新登录");
             }
         servletRequest.setAttribute("username",username);
         servletRequest.setAttribute("password",password);
+        servletRequest.setAttribute("userId",userId);
         return executeLogin(servletRequest,servletResponse);
     }
 }

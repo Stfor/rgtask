@@ -48,7 +48,7 @@ public class JwtRealm extends AuthorizingRealm {
             if (user == null){
                 throw new TokenException(-100086,"不存在该用户");
             }
-            return new SimpleAuthenticationInfo(user.getLoginName(),user.getPassword(),
+            return new SimpleAuthenticationInfo(user.getId(),user.getLoginName(),
                     ByteSource.Util.bytes(user.getSalt()), getName());
         }
         return null;

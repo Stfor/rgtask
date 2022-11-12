@@ -1,7 +1,16 @@
 # MybatisPlus 配置
 mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   mapper-locations: classpath:mapper/*.xml
   check-config-location: true
+  global-config:
+    db-config:
+      logic-delete-field: del_flag #默认deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+      id-type: auto
+
 
 #spring
 spring:

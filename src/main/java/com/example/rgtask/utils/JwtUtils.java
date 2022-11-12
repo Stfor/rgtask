@@ -1,5 +1,6 @@
 package com.example.rgtask.utils;
 
+import com.example.rgtask.pojo.User;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -40,14 +41,15 @@ public class JwtUtils implements InitializingBean {
     /**
      * 验证token是否正确
      * @param token
-     * @param username
+     * @param
      * @param secret
      * @return
      */
-    public static boolean verify(String token,String password ,String username, String secret){
+    public static boolean verify(String token, User user, String secret){
         try{
             Algorithm algorithm = Algorithm.HMAC256(secret);
-            JWTVerifier verifier = JWT.require(algorithm).withClaim("username",username).withClaim("password",password).build();
+            JWTVerifier verifier = JWT.require(algorithm).withClaim("userId",user.getId())
+                    .withClaim("username",user.getLoginName()).withClaim("password",user.getPassword()).build();
             verifier.verify(token);
             return true;
         } catch (JWTVerificationException exception){
@@ -76,16 +78,19 @@ public class JwtUtils implements InitializingBean {
 
     /**
      * 生成签名,准确地说是生成token
-     * @param username
+     * @param
      * @param secret
      * @return
      */
-    public static String sign(String username,String password,String secret){
+    public static String sign(User user,String secret){
         try{
             Date date = new Date(System.currentTimeMillis() + EXPIRE_TIME);
             Algorithm algorithm = Algorithm.HMAC256(secret);
             //附带username,nickname信息
-            return JWT.create().withClaim("username",username).withClaim("password",password).withExpiresAt(date).sign(algorithm);
+            return JWT.create().withClaim("userId",user.getId())
+                    .withClaim("username",user.getLoginName())
+                    .withClaim("password",user.getPassword())
+                    .withExpiresAt(date).sign(algorithm);
         } catch (JWTCreationException e){
             e.printStackTrace();
             return null;

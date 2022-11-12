@@ -3,29 +3,29 @@ package com.example.rgtask.shiro;
 import org.apache.shiro.authc.AuthenticationToken;
 
 public class JwtToken implements AuthenticationToken {
-    private String username;
-    private String password;
+    private String userId;
+    private String userName;
 
     @Override
     public Object getPrincipal() {
-        return username;
+        return userId;
     }
 
     @Override
     public Object getCredentials() {
-        return password;
+        return userName;
     }
 
     public JwtToken(String username,String password) {
-        this.username = username;
-        this.password = password;
+        this.userId = username;
+        this.userName = password;
     }
 
     @Override
     public String toString() {
         return "JwtToken{" +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
+                "username='" + userId + '\'' +
+                ", password='" + userName + '\'' +
                 '}';
     }
 }

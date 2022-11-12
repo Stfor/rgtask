@@ -37,6 +37,7 @@ import java.time.LocalDateTime;
  */
 @RestController
 @RequestMapping("/errand")
+@CrossOrigin
 @Api(value = "ErrandController", tags = "跑腿任务接口")
 public class ErrandController {
     private ErrandService errandService;
@@ -49,7 +50,7 @@ public class ErrandController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Access-Token", value = "访问token", paramType = "header", dataType = "string", required = true)
     })
-    public CommonResult add(@RequestBody @Validated({Create.class}) ErrandVO errandVO, BindingResult bindingResult){
+    public CommonResult add(@RequestBody ErrandVO errandVO, BindingResult bindingResult){
         CommonResult result = new CommonResult().init();
         //参数验证
         if (bindingResult.hasErrors()) {
@@ -72,11 +73,8 @@ public class ErrandController {
         if (bindingResult.hasErrors()) {
             return (CommonResult) result.failIllegalArgument(bindingResult.getFieldErrors()).end();
         }
-        Errand errand = new Errand();
-        BeanUtils.copyProperties(errandVO,errand);
-        errand.setUpdateDate(LocalDateTime.now());
-        if (errandService.updateById(errand)){
-            return result.success("errand",errand);
+        if (errandService.updateAllById(errandVO) > 0){
+            return result.success("errand",errandVO);
         }else {
             return (CommonResult) result.failCustom(-10086,"更新任务失败");
         }
@@ -91,7 +89,7 @@ public class ErrandController {
         if (errandService.getById(errandId) == null){
             return (CommonResult) result.failCustom(-10086,"该任务不存在");
         }
-        if (errandService.removeById(errandId)){
+        if (errandService.removeAllById(errandId)){
             return (CommonResult) result.success();
         }else {
             return (CommonResult) result.failCustom(-10086,"删除任务失败");
@@ -126,5 +124,15 @@ public class ErrandController {
         result.success("page",errandService.findPage(page, pageVO));
         result.end();
         return result;
+    }
+
+    @GetMapping("aa")
+    public String aa(String aa){
+        return aa;
+    }
+
+    @PostMapping("bb")
+    public String bb(@RequestBody Errand aa){
+        return aa.getContent();
     }
 }

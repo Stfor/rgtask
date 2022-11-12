@@ -2,7 +2,10 @@ package com.example.rgtask.mapper;
 
 import com.example.rgtask.pojo.VoteOption;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.example.rgtask.vo.VoteOptionVO;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * <p>
@@ -10,9 +13,8 @@ import org.apache.ibatis.annotations.Mapper;
  * </p>
  *
  * @author xa
- * @since 2022-10-31
+ * @since 2022-11-11
  */
 @Mapper
 public interface VoteOptionMapper extends BaseMapper<VoteOption> {
-
 }

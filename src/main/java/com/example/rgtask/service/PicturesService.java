@@ -19,4 +19,8 @@ public interface PicturesService extends IService<Pictures> {
     int insert(PicturesVO picturesVO);
 
     List<Pictures> findPictures(String areaId);
+
+    int removeByAreaId(String areaId);
+
+    boolean insertList (List<String> pictures,String areaId);
 }
