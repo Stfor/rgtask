@@ -42,14 +42,16 @@ public class JwtUtils implements InitializingBean {
      * 验证token是否正确
      * @param token
      * @param
-     * @param secret
+     * @param
      * @return
      */
-    public static boolean verify(String token, User user, String secret){
+    public static boolean verify(String token, User user){
         try{
-            Algorithm algorithm = Algorithm.HMAC256(secret);
-            JWTVerifier verifier = JWT.require(algorithm).withClaim("userId",user.getId())
-                    .withClaim("username",user.getLoginName()).withClaim("password",user.getPassword()).build();
+            Algorithm algorithm = Algorithm.HMAC256(SECRET);
+            JWTVerifier verifier = JWT.require(algorithm)
+                    .withClaim("userId",user.getId())
+                    .withClaim("userName",user.getLoginName())
+                    .build();
             verifier.verify(token);
             return true;
         } catch (JWTVerificationException exception){
@@ -79,17 +81,17 @@ public class JwtUtils implements InitializingBean {
     /**
      * 生成签名,准确地说是生成token
      * @param
-     * @param secret
+     * @param
      * @return
      */
-    public static String sign(User user,String secret){
+    public static String sign(User user){
         try{
             Date date = new Date(System.currentTimeMillis() + EXPIRE_TIME);
-            Algorithm algorithm = Algorithm.HMAC256(secret);
+            Algorithm algorithm = Algorithm.HMAC256(SECRET);
             //附带username,nickname信息
-            return JWT.create().withClaim("userId",user.getId())
-                    .withClaim("username",user.getLoginName())
-                    .withClaim("password",user.getPassword())
+            return JWT.create()
+                    .withClaim("userId",user.getId())
+                    .withClaim("userName",user.getLoginName())
                     .withExpiresAt(date).sign(algorithm);
         } catch (JWTCreationException e){
             e.printStackTrace();

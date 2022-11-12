@@ -76,7 +76,7 @@ public class UserUtils {
 
     public static void setUserIntoRedis(User user){
         String key = "userId:"+user.getId();
-        String value = user.getLoginName()+","+user.getPassword()+","+user.getSalt();
+        String value = user.getId()+","+user.getLoginName()+","+user.getSalt();
         ValueOperations valueOperations = redisTemplate.opsForValue();
         valueOperations.set(key,value,UserUtils.REDIS_TIME, TimeUnit.MILLISECONDS);
     }

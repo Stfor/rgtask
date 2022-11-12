@@ -7,7 +7,8 @@ import com.example.rgtask.pojo.User;
 import com.example.rgtask.mapper.UserMapper;
 import com.example.rgtask.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.rgtask.vo.PageVO;
+import com.example.rgtask.shiro.JwtToken;
+import com.example.rgtask.utils.UserUtils;
 import com.example.rgtask.vo.UserPageVO;
 import com.example.rgtask.vo.UserVO;
 import org.apache.shiro.crypto.hash.Md5Hash;
@@ -16,8 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 /**
@@ -133,5 +132,22 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             wrapper.eq("del_flag",pageVO.getDelFlag());
         }
         return userMapper.selectPage(page , wrapper);
+    }
+
+    @Override
+    public JwtToken loginByLoginNameAndPassword(String loginName, String password) throws Exception {
+        //将用户id，登录名，加密过的密码放入缓存
+        User user = getUserByLoginName(loginName);
+        if (user == null){
+            throw new Exception("不存在该用户");
+        }
+        password = new Md5Hash(password, user.getSalt(),2).toString();
+        if (!password.equals(user.getPassword())){
+            throw new Exception("用户名密码错误");
+        }
+
+        //将用户数据放入redis
+        UserUtils.setUserIntoRedis(user);
+        return new JwtToken(user.getId(),user.getLoginName());
     }
 }

@@ -145,11 +145,4 @@ public class UserController {
         return result;
     }
 
-    @PostMapping("aa")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "Access-Token", value = "访问token", paramType = "header", dataType = "string", required = true)
-    })
-    public String aa(){
-        return "aa";
-    }
 }

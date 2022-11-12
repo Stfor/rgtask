@@ -16,9 +16,9 @@ public class JwtToken implements AuthenticationToken {
         return userName;
     }
 
-    public JwtToken(String username,String password) {
-        this.userId = username;
-        this.userName = password;
+    public JwtToken(String userId,String userName) {
+        this.userId = userId;
+        this.userName = userName;
     }
 
     @Override

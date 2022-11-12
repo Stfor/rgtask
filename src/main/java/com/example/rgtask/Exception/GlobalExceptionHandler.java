@@ -18,14 +18,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 
     //可以放入自定义异常类 ， 不一定是要Exception ，可以是继承了运行时异常的类
-    @ExceptionHandler(TokenException.class)
-    public Object handleException1(Exception e) {
-        //异常具体位置
-        StackTraceElement[] stackTrace = e.getStackTrace();
-        CommonResult result = new CommonResult().init();
-        result.fail(MsgCodeUtils.MSG_CODE_JWT_TOKEN_ISNULL);
-        return result;
-    }
+//    @ExceptionHandler(Exception.class)
+//    public Object handleException1(Exception e) {
+//        //异常具体位置
+//        StackTraceElement[] stackTrace = e.getStackTrace();
+//        CommonResult result = new CommonResult().init();
+//        result.fail(Integer.parseInt(e.getMessage()));
+//        return result;
+//    }
 
 //    @ExceptionHandler(JWTDecodeException.class)
 //    public Object handleException2(Exception e) {

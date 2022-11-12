@@ -124,8 +124,7 @@ public class User implements Serializable {
      */
     private String university;
 
-    public User(String password, String loginName, String id){
-        this.password = password;
+    public User( String id, String loginName){
         this.loginName = loginName;
         this.id = id;
     }

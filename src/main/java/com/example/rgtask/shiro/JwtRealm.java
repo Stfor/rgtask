@@ -39,17 +39,18 @@ public class JwtRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         JwtToken token = (JwtToken) authenticationToken;
-        String loginName = (String)token.getPrincipal();
-        if (StringUtils.isNotBlank(loginName)){
-            User user = UserUtils.getUserFromRedis(loginName);
+        String userId = (String)token.getPrincipal();
+        if (StringUtils.isNotBlank(userId)){
+            User user = UserUtils.getUserFromRedis(userId);
             if (user == null){
-                user = userService.getUserByLoginName(loginName);
+                user = userService.getById(userId);
             }
             if (user == null){
                 throw new TokenException(-100086,"不存在该用户");
             }
-            return new SimpleAuthenticationInfo(user.getId(),user.getLoginName(),
-                    ByteSource.Util.bytes(user.getSalt()), getName());
+            return new SimpleAuthenticationInfo(user.getId(),user.getLoginName(), getName());
+//            return new SimpleAuthenticationInfo(user.getId(),user.getLoginName(),
+//                    ByteSource.Util.bytes(user.getSalt()), getName());
         }
         return null;
     }

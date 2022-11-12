@@ -40,6 +40,6 @@ spring:
 
 
 jwt:
-  secret: 123
+  secret: 1232131234321dASDad!@#!@#$!2easd
   expire_time: 5*60*1000
   auth_header: Access-Token

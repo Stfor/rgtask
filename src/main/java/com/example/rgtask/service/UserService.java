@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.rgtask.pojo.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.example.rgtask.shiro.JwtToken;
 import com.example.rgtask.vo.UserPageVO;
 import com.example.rgtask.vo.UserVO;
 
@@ -23,4 +24,6 @@ public interface UserService extends IService<User> {
     int insert(UserVO userVO);
 
     IPage<User> findPage(Page<User> page, UserPageVO pageVO);
+
+    JwtToken loginByLoginNameAndPassword(String loginName, String password) throws Exception;
 }

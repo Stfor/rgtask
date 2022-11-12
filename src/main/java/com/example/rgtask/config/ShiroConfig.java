@@ -110,9 +110,8 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/api/login", "anon");// 开放登录接口
 
         //登录接口拦截
-        filterChainDefinitionMap.put("/user/update", "jwtFilter");
-        filterChainDefinitionMap.put("/user/delete", "jwtFilter");
-        filterChainDefinitionMap.put("/user/aa", "jwtFilter");
+        filterChainDefinitionMap.put("/user/update/**", "jwtFilter");
+        filterChainDefinitionMap.put("/user/delete/**", "jwtFilter");
         //跑腿任务接口拦截
 //        filterChainDefinitionMap.put("/errandService/**", "jwtFilter");
         //兼职任务接口拦截
@@ -153,11 +152,11 @@ public class ShiroConfig {
          * 关闭shiro自带的session，详情见文档
          * http://shiro.apache.org/session-management.html#SessionManagement-StatelessApplications%28Sessionless%29
          */
-        DefaultSubjectDAO subjectDAO = new DefaultSubjectDAO();
-        DefaultSessionStorageEvaluator defaultSessionStorageEvaluator = new DefaultSessionStorageEvaluator();
-        defaultSessionStorageEvaluator.setSessionStorageEnabled(false);
-        subjectDAO.setSessionStorageEvaluator(defaultSessionStorageEvaluator);
-        securityManager.setSubjectDAO(subjectDAO);
+//        DefaultSubjectDAO subjectDAO = new DefaultSubjectDAO();
+//        DefaultSessionStorageEvaluator defaultSessionStorageEvaluator = new DefaultSessionStorageEvaluator();
+//        defaultSessionStorageEvaluator.setSessionStorageEnabled(false);
+//        subjectDAO.setSessionStorageEvaluator(defaultSessionStorageEvaluator);
+//        securityManager.setSubjectDAO(subjectDAO);
 
 
         return securityManager;
@@ -171,15 +170,15 @@ public class ShiroConfig {
      */
     @Bean
     public JwtRealm jwtRealm() {
-        //配置校验规则
-        HashedCredentialsMatcher matcher = new HashedCredentialsMatcher();
-        //使用DM5进行加密
-        matcher.setHashAlgorithmName("MD5");
-        //加密次数
-        matcher.setHashIterations(1);
-        JwtRealm jwtRealm = new JwtRealm();
-        jwtRealm.setCredentialsMatcher(matcher);
-        return jwtRealm;
+//        //配置校验规则
+//        HashedCredentialsMatcher matcher = new HashedCredentialsMatcher();
+//        //使用DM5进行加密
+//        matcher.setHashAlgorithmName("MD5");
+//        //加密次数
+//        matcher.setHashIterations(1);
+//        JwtRealm jwtRealm = new JwtRealm();
+//        jwtRealm.setCredentialsMatcher(matcher);
+        return new JwtRealm();
     }
 
     @Bean
