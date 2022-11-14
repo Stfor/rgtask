@@ -54,4 +54,11 @@ public class VoteOptionServiceImpl extends ServiceImpl<VoteOptionMapper, VoteOpt
             return false;
         }
     }
+
+    @Override
+    public List<VoteOption> findVoteOptionByAreaId(String areaId) {
+        QueryWrapper<VoteOption> wrapper = new QueryWrapper<>();
+        wrapper.eq("vote_id",areaId);
+        return voteOptionMapper.selectList(wrapper);
+    }
 }

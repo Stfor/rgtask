@@ -32,7 +32,7 @@ public class ErrandVO extends BaseVO implements Serializable {
      * 任务id
      */
     @NotBlank(groups = {Update.class}, message = "用户Id不能为空")
-    @ApiModelProperty(value = "用户id", example = "1812312", required = true)
+    @ApiModelProperty(value = "用户id", example = "easdsad-asd-asdaweq", required = true)
     private String id;
 
     /**
@@ -59,14 +59,14 @@ public class ErrandVO extends BaseVO implements Serializable {
      * 开始日期
      */
     @ApiModelProperty(value = "开始日期", example = "2018-09-29 11:26:20", required = true)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm")
     private LocalDateTime startDate;
 
     /**
      * 结束日期
      */
     @ApiModelProperty(value = "结束日期", example = "2018-09-29 11:26:20", required = true)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm")
     private LocalDateTime endDate;
 
     /**
@@ -81,6 +81,11 @@ public class ErrandVO extends BaseVO implements Serializable {
     @ApiModelProperty(value = "送达地址", example = "送达地址", required = true)
     private String deliveryAddress;
 
+    /**
+     * 电话号码
+     */
+    @ApiModelProperty(value = "发布人电话", example = "1850213213", required = true)
+    private String sponsorPhone;
 
     /**
      * 酬劳

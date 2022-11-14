@@ -140,6 +140,23 @@
             <artifactId>shiro-core</artifactId>
             <version>1.9.1</version>
         </dependency>
+        <!-- Hutool工具包 -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.7.2</version>
+        </dependency>
+        <!--文件上传-->
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>1.4</version>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>

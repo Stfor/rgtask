@@ -13,6 +13,7 @@ import com.example.rgtask.vo.ErrandPageVO;
 import com.example.rgtask.vo.ErrandVO;
 import com.example.rgtask.vo.PicturesVO;
 import com.example.rgtask.vo.UserPageVO;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,9 +47,9 @@ public class ErrandServiceImpl extends ServiceImpl<ErrandMapper, Errand> impleme
         Errand errand = new Errand();
         BeanUtils.copyProperties(errandVO,errand);
         errand.setCreateDate(LocalDateTime.now());
-        errand.setDelFlag("0");
         errand.setSponsorId(UserUtils.getPrincipal());
         errand.setId(UUID.randomUUID().toString());
+        errand.setStatus("0");
         //插入兼职的图片
         if (errandMapper.insert(errand) > 0){
             List<String> pictures = errandVO.getPictures();
@@ -69,10 +70,13 @@ public class ErrandServiceImpl extends ServiceImpl<ErrandMapper, Errand> impleme
         BeanUtils.copyProperties(errandVO,errand);
         errand.setUpdateDate(LocalDateTime.now());
         if (errandMapper.updateById(errand) > 0){
+            //修改图片信息
             picturesService.removeByAreaId(errand.getId());
             List<String> pictures = errandVO.getPictures();
-            for (String picture : pictures){
-                picturesService.insert(new PicturesVO(errand.getId(),picture));
+            if (pictures != null){
+                for (String picture : pictures){
+                    picturesService.insert(new PicturesVO(errand.getId(),picture));
+                }
             }
             return 1;
         }else {
@@ -91,28 +95,44 @@ public class ErrandServiceImpl extends ServiceImpl<ErrandMapper, Errand> impleme
     }
 
     @Override
+    public Boolean receive(Errand errand) {
+        errand.setRecipientId(UserUtils.getPrincipal());
+        errand.setStatus("1");
+        errand.setUpdateDate(LocalDateTime.now());
+        if (errandMapper.updateById(errand) > 0){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    @Override
     public IPage<Errand> findPage(Page<Errand> page, ErrandPageVO pageVO) {
         //创建查询条件
         QueryWrapper<Errand> wrapper = new QueryWrapper<>();
 
         //根据发起人查询
-        if (pageVO.getSponsorId() != null){
+        if (StringUtils.isNotEmpty(pageVO.getSponsorId())){
+            wrapper.eq("university",UserUtils.getUser().getUniversity());
+        }
+        //根据发起人查询
+        if (StringUtils.isNotEmpty(pageVO.getSponsorId())){
             wrapper.eq("sponsor_id",pageVO.getSponsorId());
         }
         //根据接收人查询
-        if (pageVO.getRecipientId() != null){
+        if (StringUtils.isNotEmpty(pageVO.getRecipientId())){
             wrapper.eq("recipient_id",pageVO.getRecipientId());
         }
         //根据标题查询
-        if (pageVO.getTitle() != null){
+        if (StringUtils.isNotEmpty(pageVO.getTitle())){
             wrapper.like("title",pageVO.getTitle());
         }
         //根据内容查询
-        if (pageVO.getContent() != null){
+        if (StringUtils.isNotEmpty(pageVO.getContent())){
             wrapper.like("content",pageVO.getContent());
         }
         //根据标签查询
-        if (pageVO.getLabel() != null){
+        if (StringUtils.isNotEmpty(pageVO.getLabel())){
             wrapper.eq("label",pageVO.getLabel());
         }
         //根据开始日期查询
@@ -124,15 +144,15 @@ public class ErrandServiceImpl extends ServiceImpl<ErrandMapper, Errand> impleme
             //暂时保留
         }
         //根据取货地址查询
-        if (pageVO.getTaskAddress() != null){
+        if (StringUtils.isNotEmpty(pageVO.getTaskAddress())){
             wrapper.like("task_address",pageVO.getTaskAddress());
         }
         //根据送达地址查询
-        if (pageVO.getDeliveryAddress() != null){
+        if (StringUtils.isNotEmpty(pageVO.getDeliveryAddress())){
             wrapper.like("delivery_address",pageVO.getDeliveryAddress());
         }
         //根据状态查询
-        if (pageVO.getStatus() != null){
+        if (StringUtils.isNotEmpty(pageVO.getStatus())){
             wrapper.eq("status",pageVO.getStatus());
         }
         //根据酬劳查询
@@ -148,11 +168,11 @@ public class ErrandServiceImpl extends ServiceImpl<ErrandMapper, Errand> impleme
             //暂时保留
         }
         //根据删除标记查询
-        if (pageVO.getDelFlag() != null){
+        if (StringUtils.isNotEmpty(pageVO.getDelFlag())){
             wrapper.eq("del_flag",pageVO.getDelFlag());
         }
         //根据备注查询
-        if (pageVO.getRemark() != null){
+        if (StringUtils.isNotEmpty(pageVO.getRemark())){
             wrapper.eq("remark",pageVO.getRemark());
         }
         return errandMapper.selectPage(page,wrapper);

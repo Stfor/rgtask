@@ -110,8 +110,8 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/api/login", "anon");// 开放登录接口
 
         //登录接口拦截
-        filterChainDefinitionMap.put("/user/update/**", "jwtFilter");
-        filterChainDefinitionMap.put("/user/delete/**", "jwtFilter");
+//        filterChainDefinitionMap.put("/user/update/**", "jwtFilter");
+//        filterChainDefinitionMap.put("/user/delete/**", "jwtFilter");
         //跑腿任务接口拦截
 //        filterChainDefinitionMap.put("/errandService/**", "jwtFilter");
         //兼职任务接口拦截

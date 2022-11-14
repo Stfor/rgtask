@@ -25,4 +25,6 @@ public interface ErrandService extends IService<Errand> {
     int updateAllById(ErrandVO errandVO);
 
     Boolean removeAllById(String errandId);
+
+    Boolean receive(Errand errand);
 }

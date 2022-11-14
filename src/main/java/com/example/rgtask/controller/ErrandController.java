@@ -109,6 +109,23 @@ public class ErrandController {
         return result.success("errand",errand);
     }
 
+    @GetMapping("/receive/{errandId}")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Access-Token", value = "访问token", paramType = "header", dataType = "string", required = true)
+    })
+    public CommonResult receive(@PathVariable String errandId){
+        CommonResult result = new CommonResult().init();
+        Errand errand = errandService.getById(errandId);
+        if (errand == null){
+            return (CommonResult) result.failCustom(-10086,"该任务不存在");
+        }
+        if (errandService.receive(errand)){
+            return result.success("errand",errand);
+        }else {
+            return (CommonResult) result.failCustom(-10086,"接单失败");
+        }
+    }
+
     @PostMapping("findPage")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Access-Token", value = "访问token", paramType = "header", dataType = "string", required = true)
@@ -126,13 +143,5 @@ public class ErrandController {
         return result;
     }
 
-    @GetMapping("aa")
-    public String aa(String aa){
-        return aa;
-    }
 
-    @PostMapping("bb")
-    public String bb(@RequestBody Errand aa){
-        return aa.getContent();
-    }
 }

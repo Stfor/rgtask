@@ -1,13 +1,12 @@
-package com.example.rgtask.pojo;
-
-import java.time.LocalDateTime;
-import java.util.Date;
-import java.io.Serializable;
+package com.example.rgtask.vo;
 
 import com.baomidou.mybatisplus.annotation.TableLogic;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <p>
@@ -19,14 +18,10 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class Errand implements Serializable {
+public class ErrandReturnVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 任务id
-     */
-    private String id;
 
     /**
      * 发起人id
@@ -84,28 +79,17 @@ public class Errand implements Serializable {
     private Double rewarded;
 
     /**
-     * 创建时间
-     */
-    private LocalDateTime createDate;
-
-    /**
-     * 更新时间
-     */
-    private LocalDateTime updateDate;
-
-    /**
-     * 删除标记
-     */
-    @TableLogic
-    private String delFlag;
-
-    /**
      * 备注
      */
     private String remark;
 
     /**
-     * 电话号码
+     * 图片base64集
+     */
+    private List<String> pictures;
+
+    /**
+     * 用户电话
      */
     private String sponsorPhone;
 }

@@ -20,4 +20,6 @@ public interface VoteOptionService extends IService<VoteOption> {
     boolean insertList(List<VoteOptionVO> voteOptionVOList,String areaId);
 
     boolean removeByVoteId(String voteId);
+
+    List<VoteOption> findVoteOptionByAreaId(String areaId);
 }
