@@ -61,4 +61,9 @@ public class VoteOptionServiceImpl extends ServiceImpl<VoteOptionMapper, VoteOpt
         wrapper.eq("vote_id",areaId);
         return voteOptionMapper.selectList(wrapper);
     }
+
+    @Override
+    public Boolean agree(String voteOptionId) {
+        return true;
+    }
 }

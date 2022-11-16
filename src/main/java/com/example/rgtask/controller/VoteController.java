@@ -14,6 +14,7 @@ import com.example.rgtask.vo.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +32,7 @@ import org.springframework.stereotype.Controller;
  * @author xa
  * @since 2022-10-31
  */
+@Slf4j
 @RestController
 @RequestMapping("/vote")
 @Transactional
@@ -131,7 +133,6 @@ public class VoteController {
             result.failIllegalArgument(bindingResult.getFieldErrors()).end();
             return result;
         }
-        result.success("page",voteService.findPage(pageVO));
         result.end();
         return result;
     }

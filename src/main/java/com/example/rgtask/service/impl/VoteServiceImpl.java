@@ -16,6 +16,7 @@ import com.example.rgtask.service.VoteService;
 import com.example.rgtask.vo.VotePageVO;
 import com.example.rgtask.vo.VoteReturnVO;
 import com.example.rgtask.vo.VoteVO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -35,6 +36,7 @@ import java.util.UUID;
  * @author xa
  * @since 2022-10-31
  */
+@Slf4j
 @Service
 public class VoteServiceImpl extends ServiceImpl<VoteMapper, Vote> implements VoteService {
     private VoteMapper voteMapper;
