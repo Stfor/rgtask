@@ -9,16 +9,14 @@ import com.example.rgtask.service.ErrandService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.rgtask.service.PicturesService;
 import com.example.rgtask.utils.UserUtils;
-import com.example.rgtask.vo.ErrandPageVO;
-import com.example.rgtask.vo.ErrandVO;
-import com.example.rgtask.vo.PicturesVO;
-import com.example.rgtask.vo.UserPageVO;
+import com.example.rgtask.vo.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -107,7 +105,8 @@ public class ErrandServiceImpl extends ServiceImpl<ErrandMapper, Errand> impleme
     }
 
     @Override
-    public IPage<Errand> findPage(Page<Errand> page, ErrandPageVO pageVO) {
+    public IPage<ErrandReturnVO> findPage( ErrandPageVO pageVO) {
+        Page<Errand> page = new Page<Errand>(pageVO.getPageNo(),pageVO.getPageSize());
         //创建查询条件
         QueryWrapper<Errand> wrapper = new QueryWrapper<>();
 
@@ -175,7 +174,24 @@ public class ErrandServiceImpl extends ServiceImpl<ErrandMapper, Errand> impleme
         if (StringUtils.isNotEmpty(pageVO.getRemark())){
             wrapper.eq("remark",pageVO.getRemark());
         }
-        return errandMapper.selectPage(page,wrapper);
+        IPage<Errand> errandPage = errandMapper.selectPage(page, wrapper);
+        IPage<ErrandReturnVO> errandReturnVOPage = new Page<>(pageVO.getPageNo(),pageVO.getPageSize());
+        BeanUtils.copyProperties(errandPage,errandReturnVOPage);
+
+        List<Errand> errandList = errandPage.getRecords();
+        List<ErrandReturnVO> errandReturnVOList = new ArrayList<>();
+        //复制所有的Errand
+        for (Errand errand : errandList){
+            ErrandReturnVO returnVO = new ErrandReturnVO();
+            BeanUtils.copyProperties(errand,returnVO);
+            errandReturnVOList.add(returnVO);
+        }
+        //为所有的ErrandReturnVO添加图片
+        for (ErrandReturnVO vo : errandReturnVOList){
+            vo.setPictures(picturesService.findPictures(vo.getId()));
+        }
+        errandReturnVOPage.setRecords(errandReturnVOList);
+        return errandReturnVOPage;
     }
 
 }

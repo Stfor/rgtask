@@ -112,7 +112,15 @@ public class PicturesController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Access-Token", value = "访问token", paramType = "header", dataType = "string", required = true)
     })
-    public List<Pictures> findPictures(@PathVariable String areaId){
+    public List<String> findPictures(@PathVariable String areaId){
         return picturesService.findPictures(areaId);
+    }
+
+    @GetMapping("/all")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Access-Token", value = "访问token", paramType = "header", dataType = "string", required = true)
+    })
+    public List<Pictures> all(){
+        return picturesService.list();
     }
 }

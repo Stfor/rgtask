@@ -72,6 +72,6 @@ public class VoteReturnVO extends BaseVO implements Serializable {
     /**
      * 投票图片 非数据库字段
      */
-    private List<Pictures> pictures;
+    private List<String> pictures;
 
 }

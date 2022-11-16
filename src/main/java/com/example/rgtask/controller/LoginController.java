@@ -2,15 +2,13 @@ package com.example.rgtask.controller;
 
 import cn.hutool.json.JSON;
 import cn.hutool.json.JSONUtil;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.example.rgtask.pojo.CommonResult;
 import com.example.rgtask.pojo.User;
 import com.example.rgtask.service.UserService;
 import com.example.rgtask.shiro.JwtToken;
-import com.example.rgtask.utils.ImageUtil;
-import com.example.rgtask.utils.JwtUtils;
-import com.example.rgtask.utils.MsgCodeUtils;
-import com.example.rgtask.utils.UserUtils;
+import com.example.rgtask.utils.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -31,7 +29,9 @@ import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -160,6 +160,40 @@ public class LoginController {
 //        return commonResult;
 //    }
 
+
+    @PostMapping(value = "/upload")
+    public CommonResult upload( MultipartFile file, HttpServletRequest request) {
+        CommonResult result = new CommonResult().init();
+        Calendar currTime = Calendar.getInstance();
+        String time = String.valueOf(currTime.get(Calendar.YEAR))+String.valueOf((currTime.get(Calendar.MONTH)+1));
+        String path = new String();
+        if (System.getProperties().getProperty( "os.name" ).contains("Windows")){
+             path ="D:\\src"+ File.separator+"img"+File.separator+time;
+        }else if (System.getProperties().getProperty( "os.name" ).contains("Linux")){
+             path ="/usr/local/"+ File.separator+"img"+File.separator+time;
+        }
+        String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+        suffix = suffix.toLowerCase();
+        if(suffix.equals(".jpg") || suffix.equals(".jpeg") || suffix.equals(".png") || suffix.equals(".gif")){
+            String fileName = UUID.randomUUID().toString()+suffix;
+            File targetFile = new File(path, fileName);
+            if(!targetFile.getParentFile().exists()){    //注意，判断父级路径是否存在
+                targetFile.getParentFile().mkdirs();
+            }
+            long size = 0;
+            //保存
+            try {
+                file.transferTo(targetFile);
+                result.success("filePath","http://43.142.99.39:8080/pictures/"+time+"/"+fileName);
+                size = file.getSize();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }else{
+            result.failCustom(-10086,"文件格式不支持");
+        }
+        return result;
+    }
     /**
      * 上传图片
      *
@@ -179,8 +213,4 @@ public class LoginController {
         }
     }
 
-    @GetMapping("aa")
-    public String aa(){
-        return secret+"____"+appid;
-    }
 }

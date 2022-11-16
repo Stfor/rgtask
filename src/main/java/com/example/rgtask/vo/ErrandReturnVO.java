@@ -1,6 +1,7 @@
 package com.example.rgtask.vo;
 
 import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.example.rgtask.pojo.Pictures;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -22,7 +23,10 @@ public class ErrandReturnVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-
+    /**
+     * ID
+     */
+    private String id;
     /**
      * 发起人id
      */
@@ -92,4 +96,25 @@ public class ErrandReturnVO implements Serializable {
      * 用户电话
      */
     private String sponsorPhone;
+
+    @Override
+    public String toString() {
+        return "ErrandReturnVO{" +
+                "id='" + id + '\'' +
+                ", sponsorId='" + sponsorId + '\'' +
+                ", recipientId='" + recipientId + '\'' +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", label='" + label + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", taskAddress='" + taskAddress + '\'' +
+                ", deliveryAddress='" + deliveryAddress + '\'' +
+                ", status='" + status + '\'' +
+                ", rewarded=" + rewarded +
+                ", remark='" + remark + '\'' +
+                ", pictures=" + pictures +
+                ", sponsorPhone='" + sponsorPhone + '\'' +
+                '}';
+    }
 }

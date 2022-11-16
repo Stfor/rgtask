@@ -34,12 +34,12 @@ public class VoteVO extends BaseVO implements Serializable {
     @ApiModelProperty(value = "投票id", example = "1812312", required = true)
     private String id;
 
-    /**
-     * 用户id
-     */
-    @NotBlank(groups = {Create.class}, message = "用户Id不能为空")
-    @ApiModelProperty(value = "用户id", example = "1812312", required = true)
-    private String userId;
+//    /**
+//     * 用户id
+//     */
+//    @NotBlank(groups = {Create.class}, message = "用户Id不能为空")
+//    @ApiModelProperty(value = "用户id", example = "1812312", required = true)
+//    private String userId;
 
     /**
      * 标题

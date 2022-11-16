@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,10 +44,14 @@ public class PicturesServiceImpl extends ServiceImpl<PicturesMapper, Pictures> i
     }
 
     @Override
-    public List<Pictures> findPictures(String areaId) {
+    public List<String> findPictures(String areaId) {
         QueryWrapper<Pictures> wrapper = new QueryWrapper<>();
         wrapper.eq("area_id",areaId);
-        return picturesMapper.selectList(wrapper);
+        List<String> pictures = new ArrayList<>();
+        for (Pictures p : picturesMapper.selectList(wrapper)){
+            pictures.add(p.getPicture());
+        }
+        return pictures;
     }
 
     @Override

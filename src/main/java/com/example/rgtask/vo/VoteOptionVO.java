@@ -58,11 +58,11 @@ public class VoteOptionVO extends BaseVO implements Serializable {
     @ApiModelProperty(value = "图片", example = "181231asdsad2", required = true)
     private String picture;
 
-    /**
-     * 赞同人数
-     */
-    @ApiModelProperty(value = "赞同人数", example = "12", required = true)
-    private Integer agreeNum;
+//    /**
+//     * 赞同人数
+//     */
+//    @ApiModelProperty(value = "赞同人数", example = "12", required = true)
+//    private Integer agreeNum;
 
 
 }

@@ -6,6 +6,7 @@ import com.example.rgtask.pojo.Errand;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.rgtask.pojo.User;
 import com.example.rgtask.vo.ErrandPageVO;
+import com.example.rgtask.vo.ErrandReturnVO;
 import com.example.rgtask.vo.ErrandVO;
 import com.example.rgtask.vo.UserPageVO;
 
@@ -20,7 +21,7 @@ import com.example.rgtask.vo.UserPageVO;
 public interface ErrandService extends IService<Errand> {
     int insert(ErrandVO errandVO);
 
-    IPage<Errand> findPage(Page<Errand> page, ErrandPageVO pageVO);
+    IPage<ErrandReturnVO> findPage(ErrandPageVO pageVO);
 
     int updateAllById(ErrandVO errandVO);
 

@@ -18,7 +18,7 @@ import java.util.List;
 public interface PicturesService extends IService<Pictures> {
     int insert(PicturesVO picturesVO);
 
-    List<Pictures> findPictures(String areaId);
+    List<String> findPictures(String areaId);
 
     int removeByAreaId(String areaId);
 

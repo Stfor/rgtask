@@ -4,20 +4,21 @@ package com.example.rgtask.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.rgtask.pojo.CommonResult;
 import com.example.rgtask.pojo.Errand;
+import com.example.rgtask.pojo.Pictures;
 import com.example.rgtask.pojo.User;
 import com.example.rgtask.service.ErrandService;
+import com.example.rgtask.service.PicturesService;
 import com.example.rgtask.utils.UserUtils;
 import com.example.rgtask.validation.Create;
 import com.example.rgtask.validation.Update;
-import com.example.rgtask.vo.ErrandPageVO;
-import com.example.rgtask.vo.ErrandVO;
-import com.example.rgtask.vo.UserPageVO;
-import com.example.rgtask.vo.UserVO;
+import com.example.rgtask.vo.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,8 @@ import org.springframework.stereotype.Controller;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -35,12 +38,15 @@ import java.time.LocalDateTime;
  * @author xa
  * @since 2022-10-31
  */
+@Slf4j
 @RestController
 @RequestMapping("/errand")
 @CrossOrigin
 @Api(value = "ErrandController", tags = "跑腿任务接口")
 public class ErrandController {
     private ErrandService errandService;
+    @Autowired
+    private PicturesService picturesService;
     @Autowired
     private void setErrandService(ErrandService errandService){
         this.errandService = errandService;
@@ -106,7 +112,11 @@ public class ErrandController {
             return (CommonResult) result.failCustom(-10086,"该任务不存在");
         }
         Errand errand = errandService.getById(errandId);
-        return result.success("errand",errand);
+        ErrandReturnVO errandReturnVO = new ErrandReturnVO();
+        BeanUtils.copyProperties(errand,errandReturnVO);
+        errandReturnVO.setPictures(picturesService.findPictures(errandReturnVO.getId()));
+        log.info(errandReturnVO.toString());
+        return result.success("errand",errandReturnVO);
     }
 
     @GetMapping("/receive/{errandId}")
@@ -137,9 +147,9 @@ public class ErrandController {
             result.failIllegalArgument(bindingResult.getFieldErrors()).end();
             return result;
         }
-        Page<Errand> page = new Page<Errand>(pageVO.getPageNo(),pageVO.getPageSize());
-        result.success("page",errandService.findPage(page, pageVO));
+        result.success("page",errandService.findPage(pageVO));
         result.end();
+        log.info("__________________________准备返回了");
         return result;
     }
 
