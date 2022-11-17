@@ -10,6 +10,8 @@ import com.example.rgtask.service.IdleGoodsService;
 import com.example.rgtask.service.PicturesService;
 import com.example.rgtask.utils.UserUtils;
 import com.example.rgtask.vo.IdleGoodsPageVO;
+import com.example.rgtask.vo.IdleGoodsVO;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,17 +42,24 @@ public class IdleGoodsServiceImpl extends ServiceImpl<IdleGoodsMapper, IdleGoods
     private void setPicturesService(PicturesService picturesService){
         this.picturesService=picturesService;
     }
+
     @Override
-    public int insert(IdleGoods idleGoods) {
-        idleGoods.setId(UUID.randomUUID().toString());
-        idleGoods.setCreateDate(LocalDateTime.now());
-        idleGoods.setSponsorId(UserUtils.getPrincipal());
-        if(idleGoodsMapper.insert(idleGoods) > 0 ){
-            return 1;
+    public int insert(IdleGoodsVO idleGoodsVO) {
+        IdleGoods goods = new IdleGoods();
+        BeanUtils.copyProperties(idleGoodsVO,goods);
+        goods.setId(UUID.randomUUID().toString());
+        goods.setCreateDate(LocalDateTime.now());
+        goods.setSponsorId(UserUtils.getPrincipal());
+        if(idleGoodsMapper.insert(goods) > 0 ) {
+            if (picturesService.insertList(idleGoodsVO.getPictures(), goods.getId()))
+            {
+                return 1;
+            }
+            else{
+                return 0;
+            }
         }
-        else {
-            return 0;
-        }
+         return 0;
     }
 
     @Override
@@ -58,17 +67,17 @@ public class IdleGoodsServiceImpl extends ServiceImpl<IdleGoodsMapper, IdleGoods
         return idleGoodsMapper.updateById(idleGoods) > 0;
     }
 
-    /*@Override
+    @Override
     public boolean removeAllById(String id) {
         if(idleGoodsMapper.deleteById(id) >0){
-            if(picturesService.removeById(id)){
+            if(picturesService.removeByAreaId(id) > 0){
                 return true;
             }else {
                 return false;
             }
         }
         else return false;
-    }*/
+    }
 
 
     @Override

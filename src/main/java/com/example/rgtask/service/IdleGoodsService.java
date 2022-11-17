@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.rgtask.pojo.IdleGoods;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.rgtask.vo.IdleGoodsPageVO;
+import com.example.rgtask.vo.IdleGoodsVO;
 
 /**
  * <p>
@@ -15,11 +16,11 @@ import com.example.rgtask.vo.IdleGoodsPageVO;
  * @since 2022-10-31
  */
 public interface IdleGoodsService extends IService<IdleGoods> {
-    int insert(IdleGoods idleGoods);
+    int insert(IdleGoodsVO idleGoodsVO);
 
     boolean modify(IdleGoods idleGoods);
 
-    /*boolean removeAllById(String id);*/
+    boolean removeAllById(String id);
 
 
     IPage<IdleGoods> findPage(Page<IdleGoods> page, IdleGoodsPageVO idleGoods);

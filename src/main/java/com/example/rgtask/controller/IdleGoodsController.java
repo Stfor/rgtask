@@ -8,10 +8,12 @@ import com.example.rgtask.service.IdleGoodsService;
 import com.example.rgtask.service.PicturesService;
 import com.example.rgtask.validation.Create;
 import com.example.rgtask.vo.IdleGoodsPageVO;
+import com.example.rgtask.vo.IdleGoodsVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -50,15 +52,15 @@ public class IdleGoodsController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Access-Token", value = "访问token", paramType = "header", dataType = "string", required = true)
     })
-    public CommonResult insert(@RequestBody @Validated({Create.class}) IdleGoods idleGoods, BindingResult bindingResult){
+    public CommonResult insert(@RequestBody @Validated({Create.class}) IdleGoodsVO idleGoodsVO, BindingResult bindingResult){
         CommonResult result = new CommonResult().init();
         //参数验证
-        log.info(String.valueOf(idleGoods));
+        /*log.info(String.valueOf(idleGoods));*/
         if (bindingResult.hasErrors()) {
             return (CommonResult) result.failIllegalArgument(bindingResult.getFieldErrors()).end();
         }
-        if(idleGoodsService.insert(idleGoods) > 0){
-            return result.success("goods",idleGoods);
+        if(idleGoodsService.insert(idleGoodsVO) > 0){
+            return result.success("goods",idleGoodsVO);
         }else {
             return (CommonResult) result.failCustom(400,"发布闲置信息失败");
         }
@@ -90,7 +92,7 @@ public class IdleGoodsController {
         if(idleGoodsService.getById(goodsId) == null){
             return (CommonResult) result.failCustom(400,"该物品不存在");
         }
-        if(idleGoodsService.removeById(goodsId)){
+        if(idleGoodsService.removeAllById(goodsId)){
             return (CommonResult) result.success();
         }else {
             return (CommonResult) result.failCustom(400,"删除失败");
@@ -107,6 +109,9 @@ public class IdleGoodsController {
             return (CommonResult) result.failCustom(400,"该物品不存在");
         }
         IdleGoods idleGoods = idleGoodsService.getById(goodsId);
+        IdleGoodsVO vo = new IdleGoodsVO();
+        BeanUtils.copyProperties(idleGoods,vo);
+        vo.setPictures(picturesService.findPictures(goodsId));
         return result.success("idlGoods",idleGoods);
     }
 
