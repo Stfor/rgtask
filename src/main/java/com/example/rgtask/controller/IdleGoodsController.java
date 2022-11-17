@@ -70,14 +70,14 @@ public class IdleGoodsController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Access-Token", value = "访问token", paramType = "header", dataType = "string", required = true)
     })
-    public CommonResult update(@RequestBody @Validated({Create.class}) IdleGoods idleGoods,BindingResult bindingResult){
+    public CommonResult update(@RequestBody @Validated({Create.class}) IdleGoodsVO idleGoodsVO,BindingResult bindingResult){
         CommonResult result = new CommonResult().init();
         //参数验证
         if (bindingResult.hasErrors()) {
             return (CommonResult) result.failIllegalArgument(bindingResult.getFieldErrors()).end();
         }
-        if(idleGoodsService.modify(idleGoods)){
-            return result.success("goods",idleGoods);
+        if(idleGoodsService.modify(idleGoodsVO) > 0){
+            return result.success("goods",idleGoodsVO);
         }else {
             return (CommonResult) result.failCustom(400,"更新闲置物品信息失败");
         }
@@ -127,9 +127,9 @@ public class IdleGoodsController {
             result.failIllegalArgument(bindingResult.getFieldErrors()).end();
             return result;
         }
-        Page<IdleGoods> page = new Page<IdleGoods>(pageVO.getPageNo(),pageVO.getPageSize());
-        result.success("page",idleGoodsService.findPage(page,pageVO));
+        result.success("page",idleGoodsService.findPage(pageVO));
         result.end();
+        log.info("------------------------------返回");
         return result;
     }
 

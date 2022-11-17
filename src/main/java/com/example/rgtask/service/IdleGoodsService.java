@@ -18,12 +18,12 @@ import com.example.rgtask.vo.IdleGoodsVO;
 public interface IdleGoodsService extends IService<IdleGoods> {
     int insert(IdleGoodsVO idleGoodsVO);
 
-    boolean modify(IdleGoods idleGoods);
+    int modify(IdleGoodsVO idleGoodsVO);
 
     boolean removeAllById(String id);
 
 
-    IPage<IdleGoods> findPage(Page<IdleGoods> page, IdleGoodsPageVO idleGoods);
+    IPage<IdleGoodsVO> findPage(IdleGoodsPageVO idleGoodsPageVO);
 
 
 }
