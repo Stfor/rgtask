@@ -133,6 +133,7 @@ public class VoteController {
             result.failIllegalArgument(bindingResult.getFieldErrors()).end();
             return result;
         }
+        result.success("page",voteService.findPage(pageVO));
         result.end();
         return result;
     }

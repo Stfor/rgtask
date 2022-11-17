@@ -31,7 +31,7 @@ public class VoteVO extends BaseVO implements Serializable {
      * 投票id
      */
     @NotBlank(groups = {Update.class}, message = "投票Id不能为空")
-    @ApiModelProperty(value = "投票id", example = "1812312", required = true)
+    @ApiModelProperty(value = "投票id", example = "18123a12", required = true)
     private String id;
 
 //    /**

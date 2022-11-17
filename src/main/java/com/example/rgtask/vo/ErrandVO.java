@@ -58,14 +58,14 @@ public class ErrandVO extends BaseVO implements Serializable {
     /**
      * 开始日期
      */
-    @ApiModelProperty(value = "开始日期", example = "2018-09-29 11:26:20", required = true)
+    @ApiModelProperty(value = "开始日期", example = "2018-09-29 11:26", required = true)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm")
     private LocalDateTime startDate;
 
     /**
      * 结束日期
      */
-    @ApiModelProperty(value = "结束日期", example = "2018-09-29 11:26:20", required = true)
+    @ApiModelProperty(value = "结束日期", example = "2018-09-29 11:26", required = true)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm")
     private LocalDateTime endDate;
 
@@ -84,7 +84,7 @@ public class ErrandVO extends BaseVO implements Serializable {
     /**
      * 电话号码
      */
-    @ApiModelProperty(value = "发布人电话", example = "1850213213", required = true)
+    @ApiModelProperty(value = "发布人电话", example = "123213123", required = true)
     private String sponsorPhone;
 
     /**

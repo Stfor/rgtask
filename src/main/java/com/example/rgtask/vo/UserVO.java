@@ -43,7 +43,7 @@ public class UserVO extends BaseVO implements Serializable {
      * 登录密码
      */
     @NotBlank(groups = {Create.class}, message = "用户密码")
-    @ApiModelProperty(value = "用户密码", example = "123456", required = true)
+    @ApiModelProperty(value = "用户密码", example = "12345a6", required = true)
     private String password;
 
     /**
