@@ -1,13 +1,17 @@
 package com.example.rgtask.controller;
 
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.rgtask.pojo.Comments;
 import com.example.rgtask.pojo.CommonResult;
+import com.example.rgtask.pojo.Errand;
 import com.example.rgtask.pojo.Pictures;
 import com.example.rgtask.service.CommentsService;
 import com.example.rgtask.validation.Create;
 import com.example.rgtask.validation.Update;
+import com.example.rgtask.vo.CommentsPageVO;
 import com.example.rgtask.vo.CommentsVO;
+import com.example.rgtask.vo.ErrandPageVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -109,6 +113,22 @@ public class CommentsController {
     })
     public List<Comments> findComments(@PathVariable String areaId){
         return commentsService.findComments(areaId);
+    }
+    @PostMapping("findPage")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Access-Token", value = "访问token", paramType = "header", dataType = "string", required = true)
+    })
+    public CommonResult findPage(@RequestBody CommentsPageVO pageVO, BindingResult bindingResult){
+        CommonResult result = new CommonResult().init();
+        //参数验证
+        if (bindingResult.hasErrors()) {
+            result.failIllegalArgument(bindingResult.getFieldErrors()).end();
+            return result;
+        }
+        Page<Comments> page = new Page<Comments>(pageVO.getPageNo(),pageVO.getPageSize());
+        result.success("page",commentsService.findPage(page, pageVO));
+        result.end();
+        return result;
     }
 }
 

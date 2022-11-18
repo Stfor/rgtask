@@ -1,11 +1,16 @@
 package com.example.rgtask.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.rgtask.pojo.Comments;
 import com.example.rgtask.mapper.CommentsMapper;
+import com.example.rgtask.pojo.Errand;
 import com.example.rgtask.pojo.Pictures;
 import com.example.rgtask.service.CommentsService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.rgtask.vo.CommentsPageVO;
 import com.example.rgtask.vo.CommentsVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,4 +56,15 @@ public class CommentsServiceImpl extends ServiceImpl<CommentsMapper, Comments> i
         wrapper.eq("area_id",areaId);
         return commentsMapper.selectList(wrapper);
     }
+
+    @Override
+    public IPage<Comments> findPage(Page<Comments> page, CommentsPageVO pageVO) {
+        QueryWrapper<Comments> wrapper = new QueryWrapper<>();
+        String id = pageVO.getId();
+        if(StringUtils.isNotBlank(id)){
+            wrapper.eq("parent_id",id);
+        }
+        return commentsMapper.selectPage(page,wrapper);
+    }
+
 }

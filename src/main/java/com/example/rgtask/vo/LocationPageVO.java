@@ -1,54 +1,47 @@
 package com.example.rgtask.vo;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value = "CommentsPageVO", description = "CommentsPageVO")
-public class CommentsVO {
+@ApiModel(value = "LocationVO", description = "LocationVO")
+public class LocationPageVO extends PageVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 评论id
+     * id
      */
     private String id;
 
     /**
-     * 区域id（悬赏，投票等id共用）
+     * 用户id
      */
-    private String areaId;
+    @TableField("userId")
+    private String userid;
 
     /**
-     * 评论者id
+     * 经度
      */
-    private String userId;
+    private Double longitude;
 
     /**
-     * 评论内容
+     * 纬度
      */
-    private String content;
-
-    /**
-     * 父级评论id
-     */
-    private String parentId;
-
-    /**
-     * 点赞数量
-     */
-    private Integer thumbsUp;
+    private Double latitude;
 
     /**
      * 创建时间
      */
-    private LocalDateTime createTime;
+    private LocalDateTime createDate;
 
     /**
-     * 更新时间
+     * 修改时间
      */
     private LocalDateTime updateTime;
 
@@ -58,8 +51,12 @@ public class CommentsVO {
     private String delFlag;
 
     /**
-     * 注释
+     * 备注
      */
     private String remark;
 
+    /**
+     * 状态 是否允许修改等
+     */
+    private String status;
 }

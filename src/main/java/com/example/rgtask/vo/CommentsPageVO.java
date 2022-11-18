@@ -4,12 +4,12 @@ import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
-
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value = "CommentsPageVO", description = "CommentsPageVO")
-public class CommentsVO {
+@ApiModel(value = "CommentsVO", description = "CommentsVO")
+public class CommentsPageVO extends PageVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -61,5 +61,4 @@ public class CommentsVO {
      * 注释
      */
     private String remark;
-
 }
