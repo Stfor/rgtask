@@ -1,5 +1,6 @@
 package com.example.rgtask.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -50,11 +51,13 @@ public class PartTimeJobPageVO extends PageVO implements Serializable {
     /**
      * 兼职开始日期
      */
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm")
     private LocalDateTime startTime;
 
     /**
      * 兼职结束日期
      */
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm")
     private LocalDateTime endTime;
 
     /**
@@ -80,11 +83,13 @@ public class PartTimeJobPageVO extends PageVO implements Serializable {
     /**
      * 创建时间
      */
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm")
     private LocalDateTime createDate;
 
     /**
      * 更新时间
      */
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm")
     private LocalDateTime updateDate;
 
     /**

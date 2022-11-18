@@ -2,6 +2,7 @@ package com.example.rgtask.vo;
 
 import com.example.rgtask.validation.Create;
 import com.example.rgtask.validation.Update;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -57,12 +58,14 @@ public class PartTimeJobVO extends BaseVO implements Serializable {
      * 兼职开始日期
      */
     @ApiModelProperty(value = "兼职开始日期", example = "2018-09-29 11:26", required = true)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm")
     private LocalDateTime startTime;
 
     /**
      * 兼职结束日期
      */
     @ApiModelProperty(value = "兼职结束日期", example = "2018-09-29 11:26", required = true)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm")
     private LocalDateTime endTime;
 
     /**

@@ -88,4 +88,10 @@ public class UserVO extends BaseVO implements Serializable {
     @ApiModelProperty(value = "用户头像", example = "注意使用base64上传")
     private String photo;
 
+    UserVO(){
+    }
+
+    public UserVO(String loginName){
+        this.loginName = loginName;
+    }
 }
