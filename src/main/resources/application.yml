@@ -126,5 +126,5 @@ jwt:
   auth_header: Access-Token
 
 wechat:
-  appid: asd
-  secret: asdfffasd
+  appid: wxee81aa0a767e1b01
+  secret: 15f07f5138d21ae35d35212e78538c3f

@@ -38,6 +38,7 @@ import java.util.UUID;
 @Slf4j
 @RestController
 @RequestMapping("/api")
+@CrossOrigin
 @Api(value = "LoginController", tags = "登录接口")
 public class LoginController {
 
@@ -58,6 +59,10 @@ public class LoginController {
             @ApiImplicitParam(name = "code", value = "code", paramType = "query", dataType = "string", required = true, defaultValue = "root"),
     })
     public CommonResult wechatLogin(String code) throws Exception {
+        log.info("--------------登录------------------");
+        log.info("当前的appid是:"+appid);
+        log.info("当前的secret是："+secret);
+        log.info("当前的code是"+code);
         CommonResult commonResult = new CommonResult().init();
         String url = "https://api.weixin.qq.com/sns/jscode2session" +
                 "?appid="+appid+"&secret="+secret+"&js_code="+code+"&grant_type=authorization_code";
@@ -114,7 +119,7 @@ public class LoginController {
 
 
     @PostMapping(value = "/upload")
-    public CommonResult upload( MultipartFile file, HttpServletRequest request) {
+    public CommonResult upload(@RequestPart(value = "file") MultipartFile file, HttpServletRequest request) {
         CommonResult result = new CommonResult().init();
         Calendar currTime = Calendar.getInstance();
         String time = String.valueOf(currTime.get(Calendar.YEAR))+String.valueOf((currTime.get(Calendar.MONTH)+1));
@@ -180,24 +185,24 @@ public class LoginController {
 //        return result;
 //    }
 
-//    /**
-//     * 上传图片
-//     *
-//     */
-//    @ApiOperation(value = "图片转换base64")
-//    @PostMapping(value = {"UploadPicture"})
-//    public CommonResult UploadPicture(@RequestPart(value = "file") MultipartFile[] file, HttpServletRequest request) throws Exception {
-//        CommonResult  result = new CommonResult().init();
-//        List<String> pictures = new ArrayList<>();
-//        for (MultipartFile multipartFile : file){
-//            pictures.add(ImageUtil.multipartFileToBASE64(multipartFile));
-//        }
-//        if (!pictures.isEmpty()) {
-//            return result.success("pictures",pictures);
-//        } else {
-//            return (CommonResult) result.failCustom(-10086,"获取base64失败");
-//        }
-//    }
+    /**
+     * 上传图片
+     *
+     */
+    @ApiOperation(value = "图片转换base64")
+    @PostMapping(value = {"UploadPicture"})
+    public CommonResult UploadPicture(@RequestPart(value = "file") MultipartFile[] file, HttpServletRequest request) throws Exception {
+        CommonResult  result = new CommonResult().init();
+        List<String> pictures = new ArrayList<>();
+        for (MultipartFile multipartFile : file){
+            pictures.add(ImageUtil.multipartFileToBASE64(multipartFile));
+        }
+        if (!pictures.isEmpty()) {
+            return result.success("pictures",pictures);
+        } else {
+            return (CommonResult) result.failCustom(-10086,"获取base64失败");
+        }
+    }
 
 
 //    @GetMapping("/wechatLogin")

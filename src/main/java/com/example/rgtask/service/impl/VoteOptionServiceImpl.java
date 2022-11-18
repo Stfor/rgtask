@@ -66,4 +66,5 @@ public class VoteOptionServiceImpl extends ServiceImpl<VoteOptionMapper, VoteOpt
     public Boolean agree(String voteOptionId) {
         return true;
     }
+
 }

@@ -24,4 +24,6 @@ public interface VoteOptionService extends IService<VoteOption> {
     List<VoteOption> findVoteOptionByAreaId(String areaId);
 
     Boolean agree(String voteOptionId);
+
+
 }

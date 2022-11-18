@@ -142,6 +142,8 @@ public class ErrandController {
     })
     public CommonResult findPage(@RequestBody ErrandPageVO pageVO, BindingResult bindingResult){
         CommonResult result = new CommonResult().init();
+        log.info("------------------打印跑腿findpage---------------");
+        log.info(pageVO.toString());
         //参数验证
         if (bindingResult.hasErrors()) {
             result.failIllegalArgument(bindingResult.getFieldErrors()).end();

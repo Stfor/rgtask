@@ -6,6 +6,7 @@ import com.example.rgtask.pojo.CommonResult;
 import com.example.rgtask.pojo.Errand;
 import com.example.rgtask.pojo.Vote;
 import com.example.rgtask.service.PicturesService;
+import com.example.rgtask.service.VoteLogService;
 import com.example.rgtask.service.VoteOptionService;
 import com.example.rgtask.service.VoteService;
 import com.example.rgtask.validation.Create;
@@ -41,6 +42,7 @@ public class VoteController {
     private VoteOptionService voteOptionService;
     private VoteService voteService;
     private PicturesService picturesService;
+    private VoteLogService voteLogService;
     @Autowired
     private void setVoteOptionService(VoteOptionService voteOptionService){
         this.voteOptionService = voteOptionService;
@@ -53,6 +55,11 @@ public class VoteController {
     private void setPicturesService(PicturesService picturesService){
         this.picturesService = picturesService;
     }
+    @Autowired
+    private void  setVoteLogService(VoteLogService voteLogService){
+        this.voteLogService = voteLogService;
+    }
+
 
     @PostMapping("/insert")
     @ApiImplicitParams({
@@ -138,4 +145,26 @@ public class VoteController {
         return result;
     }
 
+
+    @GetMapping("myVoted/{userId}")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Access-Token", value = "访问token", paramType = "header", dataType = "string", required = true)
+    })
+    public CommonResult myVoted(@PathVariable String userId){
+        CommonResult result = new CommonResult().init();
+        return result.success("voted",voteService.getVotedByUserId(userId));
+    }
+
+    @GetMapping("ifVoted/{userId}/{voteId}")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Access-Token", value = "访问token", paramType = "header", dataType = "string", required = true)
+    })
+    public CommonResult ifVoted(@PathVariable String userId,@PathVariable String voteId){
+        CommonResult result = new CommonResult().init();
+        if (voteLogService.hadVoted(userId,voteId)){
+            return result.success("ifVoted",true);
+        }else {
+            return result.success("ifVoted",false);
+        }
+    }
 }

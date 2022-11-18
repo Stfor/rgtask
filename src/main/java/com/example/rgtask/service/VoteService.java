@@ -11,6 +11,8 @@ import com.example.rgtask.vo.VotePageVO;
 import com.example.rgtask.vo.VoteReturnVO;
 import com.example.rgtask.vo.VoteVO;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -27,4 +29,6 @@ public interface VoteService extends IService<Vote> {
     boolean removeAllById(String id);
 
     IPage<VoteReturnVO> findPage(VotePageVO pageVO);
+
+    List<VoteReturnVO> getVotedByUserId(String userId);
 }

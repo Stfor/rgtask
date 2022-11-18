@@ -9,8 +9,10 @@ import com.example.rgtask.pojo.Errand;
 import com.example.rgtask.pojo.Vote;
 import com.example.rgtask.mapper.VoteMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.rgtask.pojo.VoteLog;
 import com.example.rgtask.pojo.VoteOption;
 import com.example.rgtask.service.PicturesService;
+import com.example.rgtask.service.VoteLogService;
 import com.example.rgtask.service.VoteOptionService;
 import com.example.rgtask.service.VoteService;
 import com.example.rgtask.vo.VotePageVO;
@@ -42,6 +44,7 @@ public class VoteServiceImpl extends ServiceImpl<VoteMapper, Vote> implements Vo
     private VoteMapper voteMapper;
     private VoteOptionService voteOptionService;
     private PicturesService picturesService;
+    private VoteLogService voteLogService;
     @Autowired
     private void setVoteMapper(VoteMapper voteMapper){
         this.voteMapper = voteMapper;
@@ -53,6 +56,10 @@ public class VoteServiceImpl extends ServiceImpl<VoteMapper, Vote> implements Vo
     @Autowired
     private void  setPicturesService(PicturesService picturesService){
         this.picturesService = picturesService;
+    }
+    @Autowired
+    private void  setVoteLogService(VoteLogService voteLogService){
+        this.voteLogService = voteLogService;
     }
 
     @Override
@@ -114,5 +121,19 @@ public class VoteServiceImpl extends ServiceImpl<VoteMapper, Vote> implements Vo
         }
         returnVOIPage.setRecords(voRecords);
         return returnVOIPage;
+    }
+
+    @Override
+    public List<VoteReturnVO> getVotedByUserId(String userId) {
+        List<VoteLog> voteLogList = voteLogService.getVoteLogByUserId(userId);
+        List<VoteReturnVO> returnVOList = new ArrayList<>();
+        for (VoteLog voteLog : voteLogList){
+            VoteReturnVO vo = new VoteReturnVO();
+            BeanUtils.copyProperties(voteMapper.selectById(voteLog.getVoteid()),vo);
+            vo.setVoteOptionVOList(voteOptionService.findVoteOptionByAreaId(vo.getId()));
+            vo.setPictures(picturesService.findPictures(vo.getId()));
+            returnVOList.add(vo);
+        }
+        return returnVOList;
     }
 }
