@@ -54,11 +54,11 @@ public class LoginController {
         this.userService = userService;
     }
 
-    @GetMapping("/wechatLogin")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "code", value = "code", paramType = "query", dataType = "string", required = true, defaultValue = "root"),
-    })
-    public CommonResult wechatLogin(String code) throws Exception {
+    @GetMapping("/wechatLogin/{code}")
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(name = "code", value = "code", paramType = "query", dataType = "string", required = true, defaultValue = "root"),
+//    })
+    public CommonResult wechatLogin(@PathVariable String code) throws Exception {
         log.info("--------------登录------------------");
         log.info("当前的appid是:"+appid);
         log.info("当前的secret是："+secret);
@@ -102,8 +102,9 @@ public class LoginController {
             }
 
             // 通过oppenid与session_key计算token
-            String token = JwtUtils.sign(new User(userService.getUserByLoginName(appid).getId(),appid));
+            String token = JwtUtils.sign(new User(userService.getUserByLoginName(openid).getId(),openid));
             commonResult.success("token",token);
+            commonResult.success("user",userService.getUserByLoginName(openid));
 
         }else if (errcode == -1){
             throw new Exception( "系统繁忙，稍候再试");
@@ -125,9 +126,9 @@ public class LoginController {
         String time = String.valueOf(currTime.get(Calendar.YEAR))+String.valueOf((currTime.get(Calendar.MONTH)+1));
         String path = new String();
         if (System.getProperties().getProperty( "os.name" ).contains("Windows")){
-             path ="D:\\src"+ File.separator+"img"+File.separator+time;
+            path ="D:\\src"+ File.separator+"img"+File.separator+time;
         }else if (System.getProperties().getProperty( "os.name" ).contains("Linux")){
-             path ="/usr/local/"+ File.separator+"img"+File.separator+time;
+            path ="/usr/local/"+ File.separator+"img"+File.separator+time;
         }
         String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
         suffix = suffix.toLowerCase();
