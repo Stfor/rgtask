@@ -39,6 +39,13 @@ public class VoteLogVO implements Serializable {
     @TableField("userId")
     private String userid;
 
+
+
+    /**
+     * 我投的选项
+     */
+    private String choice;
+
     VoteLogVO(){
 
     }
@@ -47,4 +54,6 @@ public class VoteLogVO implements Serializable {
         this.voteid = voteid;
         this.userid = userid;
     }
+
+
 }

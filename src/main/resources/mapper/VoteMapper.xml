@@ -20,4 +20,7 @@
         id, user_id, title, content, label, create_date, update_date, del_flag, remark
     </sql>
 
+    <select id="getLabel" resultType="java.lang.String" >
+        SELECT distinct label FROM vote
+    </select>
 </mapper>

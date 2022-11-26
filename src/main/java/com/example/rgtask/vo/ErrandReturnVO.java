@@ -87,6 +87,9 @@ public class ErrandReturnVO implements Serializable {
      */
     private String remark;
 
+
+
+
     /**
      * 图片base64集
      */

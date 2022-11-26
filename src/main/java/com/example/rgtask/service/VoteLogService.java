@@ -20,4 +20,8 @@ public interface VoteLogService extends IService<VoteLog> {
     List<VoteLog> getVoteLogByUserId(String userId);
 
     Boolean hadVoted(String userId,String voteId);
+
+    String getMyVotedChoice(String userId,String voteId);
+
+    Integer getVoteNumByVoteId(String voteId);
 }

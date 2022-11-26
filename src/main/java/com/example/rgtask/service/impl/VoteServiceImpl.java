@@ -3,28 +3,24 @@ package com.example.rgtask.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.rgtask.mapper.PicturesMapper;
-import com.example.rgtask.mapper.VoteOptionMapper;
-import com.example.rgtask.pojo.Errand;
 import com.example.rgtask.pojo.Vote;
 import com.example.rgtask.mapper.VoteMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.rgtask.pojo.VoteLog;
-import com.example.rgtask.pojo.VoteOption;
 import com.example.rgtask.service.PicturesService;
 import com.example.rgtask.service.VoteLogService;
 import com.example.rgtask.service.VoteOptionService;
 import com.example.rgtask.service.VoteService;
+import com.example.rgtask.vo.MyVotedReturnVO;
 import com.example.rgtask.vo.VotePageVO;
 import com.example.rgtask.vo.VoteReturnVO;
 import com.example.rgtask.vo.VoteVO;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
-import java.sql.Struct;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -102,6 +98,10 @@ public class VoteServiceImpl extends ServiceImpl<VoteMapper, Vote> implements Vo
         //创建查询条件
         QueryWrapper<Vote> wrapper = new QueryWrapper<>();
 
+        if (StringUtils.isNotBlank(pageVO.getLabel())){
+            wrapper.eq("label",pageVO.getLabel());
+        }
+
         IPage<Vote> iPage = voteMapper.selectPage(page,wrapper);
         IPage<VoteReturnVO> returnVOIPage = new Page<>(pageVO.getPageNo(),pageVO.getPageSize());
         BeanUtils.copyProperties(iPage,returnVOIPage);
@@ -124,16 +124,30 @@ public class VoteServiceImpl extends ServiceImpl<VoteMapper, Vote> implements Vo
     }
 
     @Override
-    public List<VoteReturnVO> getVotedByUserId(String userId) {
+    public List<MyVotedReturnVO> getVotedByUserId(String userId, String label) {
         List<VoteLog> voteLogList = voteLogService.getVoteLogByUserId(userId);
-        List<VoteReturnVO> returnVOList = new ArrayList<>();
+        List<MyVotedReturnVO> myVotedReturnVOS = new ArrayList<>();
         for (VoteLog voteLog : voteLogList){
-            VoteReturnVO vo = new VoteReturnVO();
-            BeanUtils.copyProperties(voteMapper.selectById(voteLog.getVoteid()),vo);
-            vo.setVoteOptionVOList(voteOptionService.findVoteOptionByAreaId(vo.getId()));
-            vo.setPictures(picturesService.findPictures(vo.getId()));
-            returnVOList.add(vo);
+
+            //投票选项数据
+            Vote vote = voteMapper.selectById(voteLog.getVoteid());
+            if (StringUtils.isNotBlank(label) && !vote.getLabel().equals(label)){
+                continue;
+            }
+            MyVotedReturnVO vo = new MyVotedReturnVO();
+            BeanUtils.copyProperties(vote,vo);
+            vo.setVoteId(vote.getId());
+            //我投的选项
+            vo.setChoice(voteLogService.getMyVotedChoice(userId,vo.getVoteId()));
+            //获得当前投票的投票人数
+            vo.setNum(voteLogService.getVoteNumByVoteId(vote.getId()));
+            myVotedReturnVOS.add(vo);
         }
-        return returnVOList;
+        return myVotedReturnVOS;
+    }
+
+    @Override
+    public List<String> getLabel() {
+        return voteMapper.getLabel();
     }
 }

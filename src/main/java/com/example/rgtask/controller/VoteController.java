@@ -25,6 +25,8 @@ import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
 
+import java.util.List;
+
 /**
  * <p>
  *  前端控制器
@@ -146,13 +148,17 @@ public class VoteController {
     }
 
 
-    @GetMapping("myVoted/{userId}")
+    @PostMapping("myVoted")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Access-Token", value = "访问token", paramType = "header", dataType = "string", required = true)
     })
-    public CommonResult myVoted(@PathVariable String userId){
+    public CommonResult myVoted(@RequestBody MyVotedVO myVotedVO){
+        if (myVotedVO!=null){
+            log.info(myVotedVO.getUserId()+"------------------------"+myVotedVO.getLabel());
+        }
+
         CommonResult result = new CommonResult().init();
-        return result.success("voted",voteService.getVotedByUserId(userId));
+        return result.success("voted",voteService.getVotedByUserId(myVotedVO.getUserId(),myVotedVO.getLabel()));
     }
 
     @GetMapping("ifVoted/{userId}/{voteId}")
@@ -166,5 +172,11 @@ public class VoteController {
         }else {
             return result.success("ifVoted",false);
         }
+    }
+
+    @GetMapping("/aa")
+    public List<String> aa(){
+        List<String> list = voteService.getLabel();
+        return list;
     }
 }

@@ -59,4 +59,21 @@ public class VoteLogServiceImpl extends ServiceImpl<VoteLogMapper, VoteLog> impl
             return false;
         }
     }
+
+    @Override
+    public String getMyVotedChoice(String userId, String voteId) {
+        QueryWrapper<VoteLog> wrapper = new QueryWrapper<>();
+        wrapper.eq("voteId",voteId);
+        wrapper.eq("userId",userId);
+        VoteLog voteLog = voteLogMapper.selectOne(wrapper);
+        return voteLog.getChoice();
+    }
+
+    @Override
+    public Integer getVoteNumByVoteId(String voteId) {
+        QueryWrapper<VoteLog> wrapper = new QueryWrapper<>();
+        wrapper.eq("voteId",voteId);
+        return voteLogMapper.selectCount(wrapper);
+    }
+
 }

@@ -4,6 +4,7 @@ import com.example.rgtask.pojo.VoteOption;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.rgtask.vo.VoteOptionVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -17,4 +18,5 @@ import java.util.List;
  */
 @Mapper
 public interface VoteOptionMapper extends BaseMapper<VoteOption> {
+    List<String> getAllChoiceByVoteId(@Param("voteId") String voteId);
 }

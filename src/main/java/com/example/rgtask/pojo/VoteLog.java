@@ -58,4 +58,11 @@ public class VoteLog implements Serializable {
      */
     private String remark;
 
+
+    /**
+     * 我投的选项
+     */
+    @TableField("choice")
+    private String choice;
+
 }

@@ -110,10 +110,10 @@ public class ErrandServiceImpl extends ServiceImpl<ErrandMapper, Errand> impleme
         //创建查询条件
         QueryWrapper<Errand> wrapper = new QueryWrapper<>();
 
-        //根据发起人查询
-        if (StringUtils.isNotEmpty(pageVO.getSponsorId())){
-            wrapper.eq("university",UserUtils.getUser().getUniversity());
-        }
+//        //根据发起人查询
+//        if (StringUtils.isNotEmpty(pageVO.getSponsorId())){
+//            wrapper.eq("university",UserUtils.getUser().getUniversity());
+//        }
         //根据发起人查询
         if (StringUtils.isNotEmpty(pageVO.getSponsorId())){
             wrapper.eq("sponsor_id",pageVO.getSponsorId());

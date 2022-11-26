@@ -4,10 +4,13 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.io.Serializable;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * <p>
@@ -56,11 +59,13 @@ public class Errand implements Serializable {
     /**
      * 开始日期
      */
+    @JsonFormat( pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime startDate;
 
     /**
      * 结束日期
      */
+    @JsonFormat( pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime endDate;
 
     /**
@@ -86,11 +91,13 @@ public class Errand implements Serializable {
     /**
      * 创建时间
      */
+    @JsonFormat( pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createDate;
 
     /**
      * 更新时间
      */
+    @JsonFormat( pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updateDate;
 
     /**

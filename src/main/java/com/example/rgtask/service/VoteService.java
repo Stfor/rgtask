@@ -1,15 +1,9 @@
 package com.example.rgtask.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.rgtask.pojo.Errand;
 import com.example.rgtask.pojo.Vote;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.example.rgtask.pojo.VoteOption;
-import com.example.rgtask.vo.ErrandPageVO;
-import com.example.rgtask.vo.VotePageVO;
-import com.example.rgtask.vo.VoteReturnVO;
-import com.example.rgtask.vo.VoteVO;
+import com.example.rgtask.vo.*;
 
 import java.util.List;
 
@@ -30,5 +24,7 @@ public interface VoteService extends IService<Vote> {
 
     IPage<VoteReturnVO> findPage(VotePageVO pageVO);
 
-    List<VoteReturnVO> getVotedByUserId(String userId);
+    List<MyVotedReturnVO> getVotedByUserId(String userId, String label);
+
+    List<String> getLabel();
 }

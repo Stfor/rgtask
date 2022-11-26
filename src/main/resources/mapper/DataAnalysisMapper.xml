@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.rgtask.mapper.DataAnalysisMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.example.rgtask.pojo.DataAnalysis">
+        <result column="user_id" property="userId" />
+        <result column="vote_id" property="voteId" />
+        <result column="address" property="address" />
+        <result column="age" property="age" />
+        <result column="constellation" property="constellation" />
+        <result column="grade" property="grade" />
+        <result column="sex" property="sex" />
+        <result column="university" property="university" />
+        <result column="choice" property="choice" />
+        <result column="del_flag" property="delFlag" />
+        <result column="create_date" property="createDate" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        user_id, vote_id, address, age, constellation, grade, sex, university, choice, del_flag, create_date
+    </sql>
+
+    <!--动态查询数据分析结果   List<AnalysisReturnVO> getAnalysis(@Param("condition") String condition);-->
+    <resultMap id="Analysis" type="com.example.rgtask.vo.AnalysisGetVO">
+        <result property="xAxis" column="xAxis"></result>
+        <result property="yAxis" column="yAxis"></result>
+        <result property="choice" column="choice"></result>
+    </resultMap>
+    <select id="getAnalysis" resultMap="Analysis">
+        SELECT ${condition} as xAxis,choice,COUNT(*) as yAxis from data_analysis where vote_id = ${voteId} GROUP BY choice,${condition}
+    </select>
+
+</mapper>

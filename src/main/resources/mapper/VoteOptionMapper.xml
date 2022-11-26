@@ -21,4 +21,8 @@
         id, vote_id, option, description, picture, agree_num, create_date, update_time, del_flag, remark
     </sql>
 
+    <!--根据投票获取所有的选项   List<String> getAllChoiceByVoteId(@Param("voteId") String voteId);-->
+    <select id="getAllChoiceByVoteId" resultType="String">
+        select distinct choice from vote_option where vote_id = ${voteId}
+    </select>
 </mapper>
