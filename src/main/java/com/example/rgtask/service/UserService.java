@@ -25,5 +25,5 @@ public interface UserService extends IService<User> {
 
     IPage<User> findPage(Page<User> page, UserPageVO pageVO);
 
-    JwtToken loginByLoginNameAndPassword(String loginName, String password) throws Exception;
+    JwtToken loginByLoginNameAndPassword(String loginName) throws Exception;
 }

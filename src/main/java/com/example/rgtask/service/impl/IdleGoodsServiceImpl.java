@@ -114,7 +114,7 @@ public class IdleGoodsServiceImpl extends ServiceImpl<IdleGoodsMapper, IdleGoods
         }
 
         if(pageVO.getLabel() != null){
-            wrapper.like(IdleGoods::getLabel,pageVO.getGoodsName());
+            wrapper.like(IdleGoods::getLabel,pageVO.getLabel());
         }
 
         if(pageVO.getGoodsName() != null){
@@ -128,6 +128,7 @@ public class IdleGoodsServiceImpl extends ServiceImpl<IdleGoodsMapper, IdleGoods
             wrapper.like(IdleGoods::getRemark,pageVO.getRemark());
         }
 
+        wrapper.orderByDesc(IdleGoods::getCreateDate);
         IPage<IdleGoods> idleGoodsPage = idleGoodsMapper.selectPage(page, wrapper);
         IPage<IdleGoodsVO> idleGoodsVOPage = new Page<>(pageVO.getPageNo(),pageVO.getPageSize());
         BeanUtils.copyProperties(idleGoodsPage,idleGoodsVOPage);

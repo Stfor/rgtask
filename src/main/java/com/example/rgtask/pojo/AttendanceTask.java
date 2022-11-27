@@ -14,23 +14,18 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author xa
- * @since 2022-10-31
+ * @since 2022-11-27
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class IdleGoods implements Serializable {
+public class AttendanceTask implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * 闲置信息id
+     * id
      */
     private String id;
-
-    /**
-     * 发布人id
-     */
-    private String sponsorId;
 
     /**
      * 标题
@@ -38,24 +33,14 @@ public class IdleGoods implements Serializable {
     private String title;
 
     /**
-     * 标签（什么类型的物品）
-     */
-    private String label;
-
-    /**
-     * 闲置信息名称
-     */
-    private String goodsName;
-
-    /**
-     * 闲置信息描述
+     * 描述
      */
     private String description;
 
     /**
-     * 价格
+     * 分组id
      */
-    private Double price;
+    private String groupId;
 
     /**
      * 创建时间
@@ -63,9 +48,19 @@ public class IdleGoods implements Serializable {
     private LocalDateTime createDate;
 
     /**
-     * 更新时间
+     * 修改时间
      */
     private LocalDateTime updateDate;
+
+    /**
+     * 开始时间
+     */
+    private LocalDateTime startTime;
+
+    /**
+     * 结束时间
+     */
+    private LocalDateTime endTime;
 
     /**
      * 删除标记
@@ -74,13 +69,9 @@ public class IdleGoods implements Serializable {
     private String delFlag;
 
     /**
-     * 备注信息
+     * 备注
      */
     private String remark;
 
 
-    /**
-     * 接受人id
-     */
-    private String recipientId;
 }

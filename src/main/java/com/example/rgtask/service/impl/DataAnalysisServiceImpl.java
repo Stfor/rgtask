@@ -40,7 +40,7 @@ public class DataAnalysisServiceImpl extends ServiceImpl<DataAnalysisMapper, Dat
 
     @Override
     public List<AnalysisReturnVO> getAnalysis(AnalysisVO analysisVO) {
-        List<String> allChoice = voteOptionMapper.getAllChoiceByVoteId(analysisVO.getVoteId());
+//        List<String> allChoice = voteOptionMapper.getAllChoiceByVoteId(analysisVO.getVoteId());
         //获取数据库基本信息
         List<AnalysisGetVO> getVOS = dataAnalysisMapper.getAnalysis(analysisVO.getCondition(),analysisVO.getVoteId());
         Map<String,AnalysisReturnVO> returnVOS = new HashMap<>();

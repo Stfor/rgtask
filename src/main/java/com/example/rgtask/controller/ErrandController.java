@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
 
+import javax.security.auth.Subject;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -107,6 +108,7 @@ public class ErrandController {
             @ApiImplicitParam(name = "Access-Token", value = "访问token", paramType = "header", dataType = "string", required = true)
     })
     public CommonResult select(@PathVariable String errandId){
+        log.info("------------------------"+ UserUtils.getPrincipal()+"-----------------------");
         CommonResult result = new CommonResult().init();
         if (errandService.getById(errandId) == null){
             return (CommonResult) result.failCustom(-10086,"该任务不存在");

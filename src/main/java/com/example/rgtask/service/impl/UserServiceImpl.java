@@ -55,9 +55,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         User user = new User();
         BeanUtils.copyProperties(userVO,user);
         user.setLoginFlag("1");
+        user.setPassword("123456");
         user.setCreateDate(LocalDateTime.now());
         user.setCredit(80);
-        user.setDelFlag("1");
         user.setExperienceValue("0");
         user.setSalt(UUID.randomUUID().toString());
         user.setId(UUID.randomUUID().toString());
@@ -135,16 +135,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public JwtToken loginByLoginNameAndPassword(String loginName, String password) throws Exception {
+    public JwtToken loginByLoginNameAndPassword(String loginName) throws Exception {
         //将用户id，登录名，加密过的密码放入缓存
         User user = getUserByLoginName(loginName);
         if (user == null){
             throw new Exception("不存在该用户");
         }
-        password = new Md5Hash(password, user.getSalt(),2).toString();
-        if (!password.equals(user.getPassword())){
-            throw new Exception("用户名密码错误");
-        }
+//        password = new Md5Hash(password, user.getSalt(),2).toString();
+//        if (!password.equals(user.getPassword())){
+//            throw new Exception("用户名密码错误");
+//        }
 
         //将用户数据放入redis
         UserUtils.setUserIntoRedis(user);

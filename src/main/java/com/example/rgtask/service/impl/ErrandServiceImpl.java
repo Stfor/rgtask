@@ -174,6 +174,7 @@ public class ErrandServiceImpl extends ServiceImpl<ErrandMapper, Errand> impleme
         if (StringUtils.isNotEmpty(pageVO.getRemark())){
             wrapper.eq("remark",pageVO.getRemark());
         }
+        wrapper.orderByDesc("create_date");
         IPage<Errand> errandPage = errandMapper.selectPage(page, wrapper);
         IPage<ErrandReturnVO> errandReturnVOPage = new Page<>(pageVO.getPageNo(),pageVO.getPageSize());
         BeanUtils.copyProperties(errandPage,errandReturnVOPage);

@@ -1,7 +1,6 @@
 package com.example.rgtask.pojo;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.io.Serializable;
 
 import com.baomidou.mybatisplus.annotation.TableLogic;
@@ -14,48 +13,33 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author xa
- * @since 2022-10-31
+ * @since 2022-11-27
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class IdleGoods implements Serializable {
+public class Organization implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * 闲置信息id
+     * 分组id
      */
     private String id;
 
     /**
-     * 发布人id
+     * 分组创建人id
      */
-    private String sponsorId;
+    private String userId;
 
     /**
-     * 标题
+     * 分组标题
      */
     private String title;
 
     /**
-     * 标签（什么类型的物品）
-     */
-    private String label;
-
-    /**
-     * 闲置信息名称
-     */
-    private String goodsName;
-
-    /**
-     * 闲置信息描述
+     * 描述
      */
     private String description;
-
-    /**
-     * 价格
-     */
-    private Double price;
 
     /**
      * 创建时间
@@ -63,7 +47,7 @@ public class IdleGoods implements Serializable {
     private LocalDateTime createDate;
 
     /**
-     * 更新时间
+     * 修改时间
      */
     private LocalDateTime updateDate;
 
@@ -74,13 +58,9 @@ public class IdleGoods implements Serializable {
     private String delFlag;
 
     /**
-     * 备注信息
+     * 备注
      */
     private String remark;
 
 
-    /**
-     * 接受人id
-     */
-    private String recipientId;
 }

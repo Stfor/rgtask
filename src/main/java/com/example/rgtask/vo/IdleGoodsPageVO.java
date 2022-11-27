@@ -70,4 +70,8 @@ public class IdleGoodsPageVO extends  PageVO implements Serializable {
      */
     private String remark;
 
+    /**
+     * 接受人id
+     */
+    private String recipientId;
 }

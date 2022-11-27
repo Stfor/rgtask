@@ -97,7 +97,7 @@ public class VoteServiceImpl extends ServiceImpl<VoteMapper, Vote> implements Vo
         Page<Vote> page = new Page<Vote>(pageVO.getPageNo(),pageVO.getPageSize());
         //创建查询条件
         QueryWrapper<Vote> wrapper = new QueryWrapper<>();
-
+        wrapper.orderByDesc("create_date");
         if (StringUtils.isNotBlank(pageVO.getLabel())){
             wrapper.eq("label",pageVO.getLabel());
         }

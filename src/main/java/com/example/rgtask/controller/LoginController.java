@@ -54,11 +54,11 @@ public class LoginController {
         this.userService = userService;
     }
 
-    @GetMapping("/wechatLogin")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "code", value = "code", paramType = "query", dataType = "string", required = true, defaultValue = "root"),
-    })
-    public CommonResult wechatLogin(String code) throws Exception {
+    @GetMapping("/wechatLogin/{code}")
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(name = "code", value = "code", paramType = "query", dataType = "string", required = true, defaultValue = "root"),
+//    })
+    public CommonResult wechatLogin(@PathVariable String code) throws Exception {
         log.info("--------------登录------------------");
         log.info("当前的appid是:"+appid);
         log.info("当前的secret是："+secret);
@@ -101,9 +101,17 @@ public class LoginController {
                 userService.insert(new UserVO(openid));
             }
 
-            // 通过oppenid与session_key计算token
-            String token = JwtUtils.sign(new User(userService.getUserByLoginName(appid).getId(),appid));
-            commonResult.success("token",token);
+            // 通过oppenid与session_key计算token 并且盘对是否正确
+//            String token = JwtUtils.sign(new User(userService.getUserByLoginName(openid).getId(),openid));
+//            commonResult.success("token",token);
+            //获取subject进行登录校验
+            JwtToken jwtToken = userService.loginByLoginNameAndPassword(openid);
+            Subject subject = SecurityUtils.getSubject();
+            subject.login(jwtToken);
+
+            String token = JwtUtils.sign(new User(userService.getUserByLoginName(openid).getId(),openid));
+            commonResult.success("token", token);
+            commonResult.success("user",userService.getUserByLoginName(openid));
 
         }else if (errcode == -1){
             throw new Exception( "系统繁忙，稍候再试");
@@ -125,9 +133,9 @@ public class LoginController {
         String time = String.valueOf(currTime.get(Calendar.YEAR))+String.valueOf((currTime.get(Calendar.MONTH)+1));
         String path = new String();
         if (System.getProperties().getProperty( "os.name" ).contains("Windows")){
-             path ="D:\\src"+ File.separator+"img"+File.separator+time;
+            path ="D:\\src"+ File.separator+"img"+File.separator+time;
         }else if (System.getProperties().getProperty( "os.name" ).contains("Linux")){
-             path ="/usr/local/"+ File.separator+"img"+File.separator+time;
+            path ="/usr/local/"+ File.separator+"img"+File.separator+time;
         }
         String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
         suffix = suffix.toLowerCase();
@@ -153,7 +161,7 @@ public class LoginController {
     }
 
 
-    //    @GetMapping("/login")
+//        @GetMapping("/login")
 //    @ApiImplicitParams({
 //            @ApiImplicitParam(name = "userName", value = "登录名", paramType = "query", dataType = "string", required = true, defaultValue = "root"),
 //            @ApiImplicitParam(name = "password", value = "密码", paramType = "query", dataType = "string", required = true, defaultValue = "123456"),
@@ -165,7 +173,7 @@ public class LoginController {
 //            return (CommonResult) result.end();
 //        }
 //
-//        JwtToken token = userService.loginByLoginNameAndPassword(userName, password);
+//        JwtToken token = userService.loginByLoginNameAndPassword(userName);
 //        result.success("token", token);
 //        result.success("user", userService.getUserByLoginName(userName));
 //

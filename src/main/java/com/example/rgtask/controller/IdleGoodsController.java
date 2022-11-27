@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.*;
  * @since 2022-10-31
  */
 @RestController
+@CrossOrigin
 @RequestMapping("/idle-goods")
 @Api(value = "IdleGoodsController", tags = "闲置物品接口")
 @Slf4j
