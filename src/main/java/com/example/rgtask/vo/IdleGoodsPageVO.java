@@ -74,4 +74,9 @@ public class IdleGoodsPageVO extends  PageVO implements Serializable {
      * 接受人id
      */
     private String recipientId;
+
+    /**
+     * 接受人id
+     */
+    private String status;
 }

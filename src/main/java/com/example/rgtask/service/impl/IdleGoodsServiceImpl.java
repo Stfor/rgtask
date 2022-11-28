@@ -13,6 +13,7 @@ import com.example.rgtask.utils.UserUtils;
 import com.example.rgtask.vo.IdleGoodsPageVO;
 import com.example.rgtask.vo.IdleGoodsVO;
 import com.example.rgtask.vo.PicturesVO;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,6 +53,7 @@ public class IdleGoodsServiceImpl extends ServiceImpl<IdleGoodsMapper, IdleGoods
         IdleGoods goods = new IdleGoods();
         BeanUtils.copyProperties(idleGoodsVO,goods);
         goods.setId(UUID.randomUUID().toString());
+        goods.setStatus("0");
         goods.setCreateDate(LocalDateTime.now());
         goods.setSponsorId(UserUtils.getPrincipal());
         if(idleGoodsMapper.insert(goods) > 0 ) {
@@ -108,7 +110,9 @@ public class IdleGoodsServiceImpl extends ServiceImpl<IdleGoodsMapper, IdleGoods
         if(pageVO.getSponsorId()!=null){
             wrapper.eq(IdleGoods::getSponsorId,pageVO.getSponsorId());;
         }
-
+        if (StringUtils.isNotBlank(pageVO.getRecipientId())){
+            wrapper.eq(IdleGoods::getRecipientId,pageVO.getRecipientId());;
+        }
         if(pageVO.getTitle() != null){
             wrapper.like(IdleGoods::getTitle,pageVO.getTitle());
         }
@@ -128,6 +132,7 @@ public class IdleGoodsServiceImpl extends ServiceImpl<IdleGoodsMapper, IdleGoods
             wrapper.like(IdleGoods::getRemark,pageVO.getRemark());
         }
 
+
         wrapper.orderByDesc(IdleGoods::getCreateDate);
         IPage<IdleGoods> idleGoodsPage = idleGoodsMapper.selectPage(page, wrapper);
         IPage<IdleGoodsVO> idleGoodsVOPage = new Page<>(pageVO.getPageNo(),pageVO.getPageSize());
@@ -141,9 +146,10 @@ public class IdleGoodsServiceImpl extends ServiceImpl<IdleGoodsMapper, IdleGoods
             BeanUtils.copyProperties(idleGoods,idleGoodsVO);
             idleGoodsVOList.add(idleGoodsVO);
         }
-        //添加图片
+        //添加图片 以及添加头像
         for(IdleGoodsVO vo : idleGoodsVOList){
             vo.setPictures(picturesService.findPictures(vo.getId()));
+            vo.setAvatar(UserUtils.getUserAvatarFromRedis(vo.getSponsorId()));
         }
         idleGoodsVOPage.setRecords(idleGoodsVOList);
         return idleGoodsVOPage;

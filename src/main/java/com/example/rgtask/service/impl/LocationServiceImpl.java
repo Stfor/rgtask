@@ -41,6 +41,7 @@ public class LocationServiceImpl extends ServiceImpl<LocationMapper, Location> i
         BeanUtils.copyProperties(locationVO,location);
         location.setId(UUID.randomUUID().toString());
         location.setCreateDate(LocalDateTime.now());
+        location.setUserid(UserUtils.getPrincipal());
         if (locationMapper.insert(location)>0){
             return 1;
         }else{

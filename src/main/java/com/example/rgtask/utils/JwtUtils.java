@@ -26,7 +26,7 @@ public class JwtUtils implements InitializingBean {
 
 
     // 过期时间5分钟
-    private static  long EXPIRE_TIME = 5*60*1000;
+    private static  long EXPIRE_TIME = 30*1000;
 
     //自己定制密钥
     public static  String SECRET;
@@ -91,8 +91,8 @@ public class JwtUtils implements InitializingBean {
             //附带username,nickname信息
             return JWT.create()
                     .withClaim("userId",user.getId())
-                    .withClaim("userName",user.getLoginName())
-                    .withExpiresAt(date).sign(algorithm);
+                    .withClaim("userName",user.getLoginName()).sign(algorithm);
+//                    .withExpiresAt(date).sign(algorithm);
         } catch (JWTCreationException e){
             e.printStackTrace();
             return null;

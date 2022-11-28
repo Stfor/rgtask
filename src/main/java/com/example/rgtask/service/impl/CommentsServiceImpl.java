@@ -10,6 +10,7 @@ import com.example.rgtask.pojo.Errand;
 import com.example.rgtask.pojo.Pictures;
 import com.example.rgtask.service.CommentsService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.rgtask.utils.UserUtils;
 import com.example.rgtask.vo.CommentsPageVO;
 import com.example.rgtask.vo.CommentsVO;
 import org.springframework.beans.BeanUtils;
@@ -42,6 +43,7 @@ public class CommentsServiceImpl extends ServiceImpl<CommentsMapper, Comments> i
         BeanUtils.copyProperties(commentsVO,comments);
         comments.setId(UUID.randomUUID().toString());
         comments.setCreateTime(LocalDateTime.now());
+        comments.setUserId(UserUtils.getPrincipal());
         if (commentsMapper.insert(comments)>0){
             return 1;
         }else{

@@ -56,4 +56,20 @@ public class IdleGoodsVO extends BaseVO implements Serializable {
      * 投票图片 非数据库字段
      */
     private List<String> pictures;
+
+    /**
+     *  非数据字段 发布者头像
+     */
+    private String avatar;
+
+
+    /**
+     * 接受人id
+     */
+    private String recipientId;
+
+    /**
+     * 接受人id
+     */
+    private String status;
 }

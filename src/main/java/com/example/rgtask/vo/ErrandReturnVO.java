@@ -88,6 +88,10 @@ public class ErrandReturnVO implements Serializable {
     private String remark;
 
 
+    /**
+     * 非数据库字段当前悬赏发布者的头像
+     */
+    private String avatar;
 
 
     /**

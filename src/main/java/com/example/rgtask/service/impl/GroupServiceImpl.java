@@ -8,6 +8,7 @@ import com.example.rgtask.mapper.GroupMapper;
 import com.example.rgtask.service.GroupService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.rgtask.service.GroupUserService;
+import com.example.rgtask.utils.UserUtils;
 import com.example.rgtask.vo.GroupPageVO;
 import com.example.rgtask.vo.GroupVO;
 import org.springframework.beans.BeanUtils;
@@ -45,6 +46,7 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, Organization> imp
         Organization group = new Organization();
         BeanUtils.copyProperties(groupVO,group);
         group.setCreateDate(LocalDateTime.now());
+        group.setUserId(UserUtils.getPrincipal());
         return groupMapper.insert(group) > 0;
     }
 

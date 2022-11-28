@@ -1,9 +1,7 @@
 package com.example.rgtask.controller;
 
 
-import com.example.rgtask.pojo.CommonResult;
-import com.example.rgtask.pojo.Errand;
-import com.example.rgtask.pojo.VoteOption;
+import com.example.rgtask.pojo.*;
 import com.example.rgtask.service.VoteLogService;
 import com.example.rgtask.service.VoteOptionService;
 import com.example.rgtask.service.VoteService;
@@ -16,6 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
+
+import java.util.List;
+import java.util.Random;
 
 /**
  * <p>
@@ -78,5 +79,21 @@ public class VoteOptionController {
         }
     }
 
-
+    @GetMapping("/aa")
+    public void aa(){
+        String[] photos = {
+                "http://43.142.99.39:8080/pictures/202211/1.jpg",
+                "http://43.142.99.39:8080/pictures/202211/2.jpg",
+                "http://43.142.99.39:8080/pictures/202211/3.jpg",
+                "http://43.142.99.39:8080/pictures/202211/4.jpg",
+                "http://43.142.99.39:8080/pictures/202211/5.jpg"
+        };
+        List<VoteOption> list = voteOptionService.list();
+        for (VoteOption voteOption : list){
+            Random random = new Random();
+            int i = random.nextInt(5);
+            voteOption.setPicture(photos[i]);
+            voteOptionService.updateById(voteOption);
+        }
+    }
 }

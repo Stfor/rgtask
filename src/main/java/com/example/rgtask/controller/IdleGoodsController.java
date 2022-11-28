@@ -6,6 +6,7 @@ import com.example.rgtask.pojo.IdleGoods;
 import com.example.rgtask.pojo.PartTimeJob;
 import com.example.rgtask.service.IdleGoodsService;
 import com.example.rgtask.service.PicturesService;
+import com.example.rgtask.utils.UserUtils;
 import com.example.rgtask.validation.Create;
 import com.example.rgtask.vo.IdleGoodsPageVO;
 import com.example.rgtask.vo.IdleGoodsVO;
@@ -113,8 +114,26 @@ public class IdleGoodsController {
         IdleGoodsVO vo = new IdleGoodsVO();
         BeanUtils.copyProperties(idleGoods,vo);
         vo.setPictures(picturesService.findPictures(goodsId));
+        vo.setAvatar(UserUtils.getUserAvatarFromRedis(vo.getSponsorId()));
         return result.success("idlGoods",idleGoods);
     }
+
+
+//    @GetMapping("/select/{goodsId}")
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(name = "Access-Token", value = "访问token", paramType = "header", dataType = "string", required = true)
+//    })
+//    public CommonResult cancel(@PathVariable String goodsId){
+//        CommonResult result = new CommonResult().init();
+//        if(idleGoodsService.getById(goodsId) == null){
+//            return (CommonResult) result.failCustom(400,"该物品不存在");
+//        }
+//        IdleGoods idleGoods = idleGoodsService.getById(goodsId);
+//        IdleGoodsVO vo = new IdleGoodsVO();
+//        BeanUtils.copyProperties(idleGoods,vo);
+//        vo.setPictures(picturesService.findPictures(goodsId));
+//        return result.success("idlGoods",idleGoods);
+//    }
 
 
     @PostMapping("findPage")

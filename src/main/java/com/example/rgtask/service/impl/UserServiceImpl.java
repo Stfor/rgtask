@@ -14,6 +14,8 @@ import com.example.rgtask.vo.UserVO;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -30,9 +32,14 @@ import java.util.UUID;
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
     private UserMapper userMapper;
+    private RedisTemplate<String,String>  redisTemplate;
     @Autowired
     public void setUserMapper(UserMapper userMapper){
         this.userMapper = userMapper;
+    }
+    @Autowired
+    public void setRedisTemplate(RedisTemplate redisTemplate) {
+        this.redisTemplate = redisTemplate;
     }
 
     @Override
@@ -57,12 +64,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         user.setLoginFlag("1");
         user.setPassword("123456");
         user.setCreateDate(LocalDateTime.now());
-        user.setCredit(80);
+        user.setCredit("80");
         user.setExperienceValue("0");
         user.setSalt(UUID.randomUUID().toString());
         user.setId(UUID.randomUUID().toString());
         Md5Hash md5Hash = new Md5Hash(user.getPassword(),user.getSalt(),2);
         user.setPassword(md5Hash.toString());
+        user.setPhoto("http://43.142.99.39:8080/pictures/202211/2.jpg");
+        //将头像放入redis
+        UserUtils.setUserIntoRedis(user);
         if (super.save(user)){
             return 1;
         }else {

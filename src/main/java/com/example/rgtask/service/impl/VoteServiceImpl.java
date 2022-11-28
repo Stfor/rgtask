@@ -11,6 +11,7 @@ import com.example.rgtask.service.PicturesService;
 import com.example.rgtask.service.VoteLogService;
 import com.example.rgtask.service.VoteOptionService;
 import com.example.rgtask.service.VoteService;
+import com.example.rgtask.utils.UserUtils;
 import com.example.rgtask.vo.MyVotedReturnVO;
 import com.example.rgtask.vo.VotePageVO;
 import com.example.rgtask.vo.VoteReturnVO;
@@ -64,6 +65,7 @@ public class VoteServiceImpl extends ServiceImpl<VoteMapper, Vote> implements Vo
         BeanUtils.copyProperties(voteVO,vote);
         vote.setId(UUID.randomUUID().toString());
         vote.setCreateDate(LocalDateTime.now());
+        vote.setUserId(UserUtils.getPrincipal());
         if (voteMapper.insert(vote) > 0){
             if (voteOptionService.insertList(voteVO.getVoteOptionVOList(),vote.getId())
                     && picturesService.insertList(voteVO.getPictures(),vote.getId())){
@@ -118,6 +120,7 @@ public class VoteServiceImpl extends ServiceImpl<VoteMapper, Vote> implements Vo
         for (VoteReturnVO vo : voRecords){
             vo.setVoteOptionVOList(voteOptionService.findVoteOptionByAreaId(vo.getId()));
             vo.setPictures(picturesService.findPictures(vo.getId()));
+            vo.setAvatar(UserUtils.getUserAvatarFromRedis(vo.getUserId()));
         }
         returnVOIPage.setRecords(voRecords);
         return returnVOIPage;
@@ -127,6 +130,7 @@ public class VoteServiceImpl extends ServiceImpl<VoteMapper, Vote> implements Vo
     public List<MyVotedReturnVO> getVotedByUserId(String userId, String label) {
         List<VoteLog> voteLogList = voteLogService.getVoteLogByUserId(userId);
         List<MyVotedReturnVO> myVotedReturnVOS = new ArrayList<>();
+        String avatar = UserUtils.getUserAvatarFromRedis(userId);
         for (VoteLog voteLog : voteLogList){
 
             //投票选项数据
@@ -135,6 +139,7 @@ public class VoteServiceImpl extends ServiceImpl<VoteMapper, Vote> implements Vo
                 continue;
             }
             MyVotedReturnVO vo = new MyVotedReturnVO();
+            vo.setAvatar(avatar);
             BeanUtils.copyProperties(vote,vo);
             vo.setVoteId(vote.getId());
             //我投的选项

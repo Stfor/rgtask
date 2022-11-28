@@ -47,6 +47,7 @@ public class ErrandServiceImpl extends ServiceImpl<ErrandMapper, Errand> impleme
         errand.setCreateDate(LocalDateTime.now());
         errand.setSponsorId(UserUtils.getPrincipal());
         errand.setId(UUID.randomUUID().toString());
+        errand.setSponsorId(UserUtils.getPrincipal());
         errand.setStatus("0");
         //插入兼职的图片
         if (errandMapper.insert(errand) > 0){
@@ -187,9 +188,10 @@ public class ErrandServiceImpl extends ServiceImpl<ErrandMapper, Errand> impleme
             BeanUtils.copyProperties(errand,returnVO);
             errandReturnVOList.add(returnVO);
         }
-        //为所有的ErrandReturnVO添加图片
+        //为所有的ErrandReturnVO添加图片以及头像
         for (ErrandReturnVO vo : errandReturnVOList){
             vo.setPictures(picturesService.findPictures(vo.getId()));
+            vo.setAvatar(UserUtils.getUserAvatarFromRedis(vo.getSponsorId()));
         }
         errandReturnVOPage.setRecords(errandReturnVOList);
         return errandReturnVOPage;

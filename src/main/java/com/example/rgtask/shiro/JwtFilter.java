@@ -76,8 +76,20 @@ public class JwtFilter extends AuthenticatingFilter {
                 responseMessage((HttpServletResponse) response, result);
                 return false;
             }
+//            //判断token是否过期，且redis中是否存在该token存在则刷新否则重新登录
+//            if (JwtUtils.isTokenExpired(token)){
+//                User userFromRedis = UserUtils.getUserFromRedis(userId);
+//                if (userFromRedis != null){
+//                    UserUtils.setUserIntoRedis(userFromRedis);
+//                }else {
+//                    result.failCustom(-10086,"token过期请重新登录");
+//                    result.end();
+//                    responseMessage((HttpServletResponse) response, result);
+//                    return false;
+//                }
+//            }
+
             //判断token是否过期，且redis中是否存在该token存在则刷新否则重新登录
-            if (JwtUtils.isTokenExpired(token)){
                 User userFromRedis = UserUtils.getUserFromRedis(userId);
                 if (userFromRedis != null){
                     UserUtils.setUserIntoRedis(userFromRedis);
@@ -87,7 +99,6 @@ public class JwtFilter extends AuthenticatingFilter {
                     responseMessage((HttpServletResponse) response, result);
                     return false;
                 }
-            }
 
             //执行shiro登录
             request.setAttribute("userName",username);

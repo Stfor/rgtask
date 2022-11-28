@@ -21,7 +21,7 @@ public class UserUtils {
     private static RedisTemplate<String,String> redisTemplate;
     private static UserService userService;
     private static long EXPIRE_TIME = 5*60*1000; //token的有效期
-    private static long REDIS_TIME = 30*60*1000;//redis中存储token的有效期用于刷新token
+    private static long REDIS_TIME = 60*1000;//redis中存储token的有效期用于刷新token
     @Autowired
     public void setUserService(UserService userService) {
         UserUtils.userService = userService;
@@ -77,7 +77,17 @@ public class UserUtils {
     public static void setUserIntoRedis(User user){
         String key = "userId:"+user.getId();
         String value = user.getId()+","+user.getLoginName()+","+user.getSalt();
-        ValueOperations valueOperations = redisTemplate.opsForValue();
+        ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
         valueOperations.set(key,value,UserUtils.REDIS_TIME, TimeUnit.MILLISECONDS);
+    }
+
+    public static void setUerAvatarToRedis(User user){
+        ValueOperations<String, String> operations = redisTemplate.opsForValue();
+        operations.set("user-avatar:"+user.getId(),user.getPhoto());
+    }
+
+    public static String getUserAvatarFromRedis(String userId){
+        ValueOperations<String, String> operations = redisTemplate.opsForValue();
+        return operations.get("user-avatar:"+userId);
     }
 }

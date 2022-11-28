@@ -48,4 +48,9 @@ public class MyVotedReturnVO extends BaseVO implements Serializable {
      * 选项非当前数据库字段
      */
     private String choice;
+
+    /**
+     * 用户头像
+     */
+    private String avatar;
 }

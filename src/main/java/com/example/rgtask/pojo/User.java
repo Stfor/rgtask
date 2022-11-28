@@ -71,7 +71,7 @@ public class User implements Serializable {
     /**
      * 用户信用
      */
-    private Integer credit;
+    private String credit;
 
     /**
      * 电话号码
@@ -86,7 +86,7 @@ public class User implements Serializable {
     /**
      * 最近登录日期
      */
-    private LocalTime loginDate;
+    private LocalDateTime loginDate;
 
     /**
      * 是否允许登录

@@ -9,6 +9,7 @@ import com.example.rgtask.service.PicturesService;
 import com.example.rgtask.service.VoteLogService;
 import com.example.rgtask.service.VoteOptionService;
 import com.example.rgtask.service.VoteService;
+import com.example.rgtask.utils.UserUtils;
 import com.example.rgtask.validation.Create;
 import com.example.rgtask.validation.Update;
 import com.example.rgtask.vo.*;
@@ -127,6 +128,7 @@ public class VoteController {
         BeanUtils.copyProperties(vote,vo);
         vo.setPictures(picturesService.findPictures(voteId));
         vo.setVoteOptionVOList(voteOptionService.findVoteOptionByAreaId(voteId));
+        vo.setAvatar(UserUtils.getUserAvatarFromRedis(vo.getUserId()));
         return result.success("vote",vo);
     }
 

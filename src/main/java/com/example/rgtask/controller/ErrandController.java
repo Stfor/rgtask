@@ -108,7 +108,6 @@ public class ErrandController {
             @ApiImplicitParam(name = "Access-Token", value = "访问token", paramType = "header", dataType = "string", required = true)
     })
     public CommonResult select(@PathVariable String errandId){
-        log.info("------------------------"+ UserUtils.getPrincipal()+"-----------------------");
         CommonResult result = new CommonResult().init();
         if (errandService.getById(errandId) == null){
             return (CommonResult) result.failCustom(-10086,"该任务不存在");
@@ -117,6 +116,7 @@ public class ErrandController {
         ErrandReturnVO errandReturnVO = new ErrandReturnVO();
         BeanUtils.copyProperties(errand,errandReturnVO);
         errandReturnVO.setPictures(picturesService.findPictures(errandReturnVO.getId()));
+        errandReturnVO.setAvatar(UserUtils.getUserAvatarFromRedis(errandReturnVO.getSponsorId()));
         log.info(errandReturnVO.toString());
         return result.success("errand",errandReturnVO);
     }

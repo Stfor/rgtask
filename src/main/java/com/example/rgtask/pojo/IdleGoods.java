@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.io.Serializable;
 
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -83,4 +85,10 @@ public class IdleGoods implements Serializable {
      * 接受人id
      */
     private String recipientId;
+
+    /**
+     * 接受人id
+     */
+    @TableField(updateStrategy = FieldStrategy.IGNORED)
+    private String status;
 }

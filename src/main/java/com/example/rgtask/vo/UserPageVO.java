@@ -53,7 +53,7 @@ public class UserPageVO extends PageVO{
     /**
      * 用户信用
      */
-    private Integer credit;
+    private String credit;
 
     /**
      * 电话号码

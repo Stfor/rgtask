@@ -40,6 +40,7 @@ public class PartTimeJobServiceImpl extends ServiceImpl<PartTimeJobMapper, PartT
         partTimeJob.setCreateDate(LocalDateTime.now());
         partTimeJob.setSponsorId(UserUtils.getPrincipal());
         partTimeJob.setId(UUID.randomUUID().toString());
+        partTimeJob.setSponsorId(UserUtils.getPrincipal());
         if (partTimeJobMapper.insert(partTimeJob) > 0){
             return 1;
         }else {
