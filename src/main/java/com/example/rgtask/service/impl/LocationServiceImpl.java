@@ -3,6 +3,7 @@ package com.example.rgtask.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.rgtask.mapper.UserMapper;
 import com.example.rgtask.pojo.Comments;
 import com.example.rgtask.pojo.Errand;
 import com.example.rgtask.pojo.Location;
@@ -70,5 +71,35 @@ public class LocationServiceImpl extends ServiceImpl<LocationMapper, Location> i
         QueryWrapper<Location> wrapper = new QueryWrapper<>();
         wrapper.eq("id",id);
         return locationMapper.selectList(wrapper);
+    }
+
+    @Override
+    public Boolean compareLocation(LocationVO locationVO) {
+        QueryWrapper<Location> wrapper = new QueryWrapper<>();
+        wrapper.eq("userId",locationVO.getUserid());
+        Location location = locationMapper.selectOne(wrapper);
+
+        double stdLongtitude = location.getLongitude();
+        double stdLatitude = location.getLatitude();
+
+        double longitude = locationVO.getLongitude();
+        double latitude = locationVO.getLatitude();
+        //经度转弧度
+        double longtitudeUser= Math.toRadians(longitude);
+        double longtitudeStd = Math.toRadians(stdLongtitude);
+        //纬度转弧度
+        double latitudeUser = Math.toRadians(latitude);
+        double latitudeStd = Math.toRadians(stdLatitude);
+        //经度之差
+        double longtitudeCut = longtitudeUser - longtitudeStd;
+        //纬度之差
+        double latitudeCut = latitudeUser - latitudeStd;
+        //距离
+        double middis = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(latitudeCut / 2), 2) +
+                Math.cos(latitudeUser) * Math.cos(latitudeStd) * Math.pow(Math.sin(longtitudeCut / 2), 2)));
+        //地球半径6378137
+        double distance = middis*6378137;
+
+        return distance<=10;
     }
 }

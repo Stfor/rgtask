@@ -27,4 +27,6 @@ public interface LocationService extends IService<Location> {
     IPage<Location> findPage(LocationPageVO pageVO);
     List<Location> findLocation(String id);
 
+    Boolean compareLocation(LocationVO locationVO);
+
 }

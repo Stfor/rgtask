@@ -106,7 +106,7 @@ public class LocationController {
         return result.success("location",location);
     }
 
-    @GetMapping("/findComments/{id}")
+    @GetMapping("/findLocations/{id}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Access-Token", value = "访问token", paramType = "header", dataType = "string", required = true)
     })
@@ -129,6 +129,17 @@ public class LocationController {
         result.success("page",locationService.findPage(pageVO));
         result.end();
         return result;
+    }
+    @PostMapping("compareLocation")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Access-Token", value = "访问token", paramType = "header", dataType = "string", required = true)
+    })
+    public CommonResult compareLocation(@RequestBody LocationVO locationVO){
+        CommonResult result = new CommonResult().init();
+        if(locationService.compareLocation(locationVO)){
+            return (CommonResult) result.success();
+        }
+        else return (CommonResult) result.failCustom(-10086,"位置不合");
     }
 
 
