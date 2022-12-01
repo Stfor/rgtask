@@ -157,32 +157,32 @@ public class UserController {
 
     @GetMapping("/aa")
     public void aa(){
-//        String[] photos = {
-//                "http://43.142.99.39:8080/pictures/202211/1.jpg",
-//                "http://43.142.99.39:8080/pictures/202211/2.jpg",
-//                "http://43.142.99.39:8080/pictures/202211/3.jpg",
-//                "http://43.142.99.39:8080/pictures/202211/4.jpg",
-//                "http://43.142.99.39:8080/pictures/202211/5.jpg"
-//        };
-//        List<User> users = userService.list();
-//        for (User user : users){
-////            String s = new String();
-////            for (int i =0;i<12;i++){
-////                Random random = new Random();
-////                int i1 = random.nextInt(10);
-////                s = s + String.valueOf(i1);
-////            }
-////            user.setPhone(s);
-//            Random random = new Random();
-//            int i = random.nextInt(5);
-//            user.setPhoto(photos[i]);
-//            userService.updateById(user);
-//        }
-
-        //将所有的头像信息放入redis
+        String[] photos = {
+                "http://43.142.99.39:8080/pictures/202211/1.jpg",
+                "http://43.142.99.39:8080/pictures/202211/2.jpg",
+                "http://43.142.99.39:8080/pictures/202211/3.jpg",
+                "http://43.142.99.39:8080/pictures/202211/4.jpg",
+                "http://43.142.99.39:8080/pictures/202211/5.jpg"
+        };
         List<User> users = userService.list();
         for (User user : users){
-            UserUtils.setUerAvatarToRedis(user);
+//            String s = new String();
+//            for (int i =0;i<12;i++){
+//                Random random = new Random();
+//                int i1 = random.nextInt(10);
+//                s = s + String.valueOf(i1);
+//            }
+//            user.setPhone(s);
+            Random random = new Random();
+            int i = random.nextInt(5);
+            user.setPhoto(photos[i]);
+            userService.updateById(user);
         }
+
+//        //将所有的头像信息放入redis
+//        List<User> users = userService.list();
+//        for (User user : users){
+//            UserUtils.setUerAvatarToRedis(user);
+//        }
     }
 }

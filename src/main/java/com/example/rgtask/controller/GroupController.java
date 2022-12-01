@@ -3,6 +3,7 @@ package com.example.rgtask.controller;
 
 import com.example.rgtask.pojo.CommonResult;
 import com.example.rgtask.service.GroupService;
+import com.example.rgtask.service.GroupUserService;
 import com.example.rgtask.validation.Update;
 import com.example.rgtask.vo.AttendanceTaskPageVO;
 import com.example.rgtask.vo.AttendanceTaskVO;
@@ -33,9 +34,14 @@ import org.springframework.stereotype.Controller;
 @Api(value = "GroupController", tags = "分组接口")
 public class GroupController {
     private GroupService groupService;
+    private GroupUserService groupUserService;
     @Autowired
     private void setGroupService(GroupService groupService){
         this.groupService = groupService;
+    }
+    @Autowired
+    private void setGroupUserService(GroupUserService groupUserService){
+        this.groupUserService = groupUserService;
     }
 
 
@@ -116,5 +122,4 @@ public class GroupController {
         result.success("page",groupService.findPage(pageVO)).end();
         return result;
     }
-
 }

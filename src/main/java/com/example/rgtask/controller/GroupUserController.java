@@ -3,7 +3,11 @@ package com.example.rgtask.controller;
 
 import com.example.rgtask.pojo.CommonResult;
 import com.example.rgtask.pojo.GroupUser;
+import com.example.rgtask.pojo.User;
+import com.example.rgtask.service.GroupService;
 import com.example.rgtask.service.GroupUserService;
+import com.example.rgtask.service.UserService;
+import com.example.rgtask.utils.UserUtils;
 import com.example.rgtask.validation.Update;
 import com.example.rgtask.vo.GroupPageVO;
 import com.example.rgtask.vo.GroupUserPageVO;
@@ -20,6 +24,9 @@ import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * <p>
  *  前端控制器
@@ -34,11 +41,20 @@ import org.springframework.stereotype.Controller;
 @Api(value = "GroupUserController", tags = "分组成员接口")
 public class GroupUserController {
     private GroupUserService groupUserService;
+    private GroupService groupService;
+    private UserService userService;
     @Autowired
     private void setGroupUserService(GroupUserService groupUserService){
         this.groupUserService = groupUserService;
     }
-
+    @Autowired
+    private void setUserService(UserService userService){
+        this.userService = userService;
+    }
+    @Autowired
+    private void setGroupService(GroupService groupService){
+        this.groupUserService = groupUserService;
+    }
 
     @PostMapping("/insert")
     @ApiImplicitParams({
@@ -50,8 +66,15 @@ public class GroupUserController {
         if (bindingResult.hasErrors()) {
             return (CommonResult) result.failIllegalArgument(bindingResult.getFieldErrors()).end();
         }
+        if (groupUserVO.getUserId() != null && groupService.getById(groupUserVO.getUserId())==null){
+            return (CommonResult) result.failCustom(-10086,"不存在该分组");
+        }
+        if (groupUserService.hadJoined(groupUserVO)){
+            return (CommonResult) result.failCustom(-10086,"已加入该分组");
+        }
         GroupUser groupUser = new GroupUser();
         BeanUtils.copyProperties(groupUserVO,groupUser);
+        groupUser.setUserId(UserUtils.getPrincipal());
         if (groupUserService.save(groupUser)){
             return result.success("groupUser",groupUser);
         }else {
@@ -122,4 +145,35 @@ public class GroupUserController {
         return result;
     }
 
+
+    @GetMapping("getUsersByGroupId/{groupId}")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Access-Token", value = "访问token", paramType = "header", dataType = "string", required = true)
+    })
+    public CommonResult getUsersByGroupId (@PathVariable String groupId){
+        CommonResult result = new CommonResult().init();
+        List<GroupUser> usersByGroup = groupUserService.getUsersByGroupId(groupId);
+        List<String> usernames = new ArrayList<>();
+        for (GroupUser groupUser : usersByGroup){
+            String userId = groupUser.getUserId();
+            User user = userService.getById(userId);
+            if (user != null){
+                usernames.add(user.getName());
+            }
+
+        }
+        result.success("users",usernames);
+        return result;
+    }
+
+
+    @GetMapping("/joined/{userId}")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Access-Token", value = "访问token", paramType = "header", dataType = "string", required = true)
+    })
+    public CommonResult joined(@PathVariable String userId){
+        CommonResult result = new CommonResult().init();
+        result.success("joined",groupUserService.getGroupJoinedByUserId(userId));
+        return result;
+    }
 }
