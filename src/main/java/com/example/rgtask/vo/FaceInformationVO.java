@@ -1,5 +1,6 @@
 package com.example.rgtask.vo;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -13,35 +14,30 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author xa
- * @since 2022-11-27
+ * @since 2022-11-18
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value = "GroupPageVO", description = "GroupPageVO")
-public class GroupPageVO extends PageVO implements Serializable {
+@ApiModel(value = "FaceInformationVO", description = "FaceInformationVO")
+public class FaceInformationVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * 分组id
+     * id
      */
     private String id;
 
     /**
-     * 分组创建人id
+     * 用户id
      */
-    private String userId;
+    @TableField("userId")
+    private String userid;
 
     /**
-     * 分组标题
+     * 图片地址
      */
-    private String title;
-
-    /**
-     * 描述
-     */
-    private String description;
-
+    private String picture;
 
     /**
      * 备注

@@ -1,5 +1,6 @@
 package com.example.rgtask.vo;
 
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -15,6 +16,7 @@ import java.io.Serializable;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
+@ApiModel(value = "GroupUserVO", description = "GroupUserVO")
 public class GroupUserVO implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -1,6 +1,7 @@
 package com.example.rgtask.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -17,6 +18,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
+@ApiModel(value = "AttendanceTaskVO", description = "AttendanceTaskVO")
 public class AttendanceTaskVO implements Serializable {
 
     private static final long serialVersionUID = 1L;

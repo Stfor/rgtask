@@ -2,6 +2,7 @@ package com.example.rgtask.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.rgtask.pojo.AttendanceTask;
 import com.example.rgtask.mapper.AttendanceTaskMapper;
@@ -51,7 +52,9 @@ public class AttendanceTaskServiceImpl extends ServiceImpl<AttendanceTaskMapper,
     public IPage<AttendanceTask> findPage(AttendanceTaskPageVO pageVO) {
         Page<AttendanceTask> page = new Page<>(pageVO.getPageNo(),pageVO.getPageSize());
         QueryWrapper<AttendanceTask> wrapper = new QueryWrapper<>();
-
+        if (StringUtils.isNotBlank(pageVO.getGroupId())){
+            wrapper.eq("group_id",pageVO.getGroupId());
+        }
         return attendanceTaskMapper.selectPage(page,wrapper);
     }
 }

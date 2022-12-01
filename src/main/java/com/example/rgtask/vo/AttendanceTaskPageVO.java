@@ -1,6 +1,7 @@
 package com.example.rgtask.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -17,6 +18,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
+@ApiModel(value = "AttendanceTaskPageVO", description = "AttendanceTaskPageVO")
 public class AttendanceTaskPageVO extends PageVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -54,15 +56,7 @@ public class AttendanceTaskPageVO extends PageVO implements Serializable {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm")
     private LocalDateTime endTime;
 
-    /**
-     * 删除标记
-     */
-    private String delFlag;
 
-    /**
-     * 备注
-     */
-    private String remark;
 
 
 }
