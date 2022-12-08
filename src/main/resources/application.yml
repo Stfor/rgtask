@@ -26,7 +26,7 @@ spring:
     druid:
       url: jdbc:mysql://43.142.99.39:3306/rgtask?useUnicode=true&characterEncoding=utf-8
       username: root
-      password: root
+      password: Wxy20020401
       driver-class-name: com.mysql.jdbc.Driver
       # 配置初始化大小、最小、最大
       initial-size: 5

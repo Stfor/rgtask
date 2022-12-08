@@ -2,6 +2,7 @@ package com.example.rgtask.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -24,6 +25,7 @@ import java.util.*;
  * @author iflytek
  */
 
+@Slf4j
 public class FaceUtils {
 
     public final static  String requestUrl =  "https://api.xf-yun.com/v1/private/s67c9c78c";
@@ -43,8 +45,11 @@ public class FaceUtils {
         if (respData!=null && respData.getPayLoad().getFaceCompareResult() != null) {
             String textBase64 = respData.getPayLoad().getFaceCompareResult().getText();
             String text = new String(Base64.getDecoder().decode(textBase64));
-            System.out.println("人脸比对结果(text)base64解码后：");
-            System.out.println(text);
+//            System.out.println("人脸比对结果(text)base64解码后：");
+//            System.out.println(text);
+            text = text.substring(text.lastIndexOf(":")+2,text.lastIndexOf(":")+9);
+            log.info("-----------------------------------");
+            log.info(text);
             return text;
         }
         return null;

@@ -3,8 +3,11 @@ package com.example.rgtask.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.rgtask.pojo.AttendanceTask;
 import com.example.rgtask.pojo.Organization;
 import com.example.rgtask.mapper.GroupMapper;
+import com.example.rgtask.service.AttendanceTaskService;
+import com.example.rgtask.service.AttendanceTaskUserService;
 import com.example.rgtask.service.GroupService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.rgtask.service.GroupUserService;
@@ -17,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -32,6 +36,7 @@ import java.util.UUID;
 public class GroupServiceImpl extends ServiceImpl<GroupMapper, Organization> implements GroupService {
     private GroupMapper groupMapper;
     private GroupUserService groupUserService;
+    private AttendanceTaskService attendanceTaskService;
     @Autowired
     private void setGroupMapper(GroupMapper groupMapper){
         this.groupMapper = groupMapper;
@@ -40,6 +45,11 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, Organization> imp
     private void setGroupUserService(GroupUserService groupUserService){
         this.groupUserService = groupUserService;
     }
+    @Autowired
+    private void setAttendanceTaskService(AttendanceTaskService attendanceTaskService){
+        this.attendanceTaskService = attendanceTaskService;
+    }
+
 
     @Override
     public Boolean insert(GroupVO groupVO) {
@@ -57,11 +67,10 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, Organization> imp
         group.setUpdateDate(LocalDateTime.now());
         return groupMapper.updateById(group) > 0;
     }
-
     @Override
     public Boolean removeAllById(String groupId) {
         if (groupMapper.deleteById(groupId) > 0){
-            return groupUserService.deleteByGroupId(groupId);
+            return groupUserService.deleteByGroupId(groupId) && attendanceTaskService.deleteAllByGroupId(groupId);
         }
         return false;
     }

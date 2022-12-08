@@ -6,7 +6,9 @@ import com.example.rgtask.mapper.FaceInformationMapper;
 import com.example.rgtask.service.FaceInformationService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.rgtask.utils.FaceUtils;
+import com.example.rgtask.utils.UserUtils;
 import com.example.rgtask.vo.FaceInformationVO;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +31,11 @@ public class FaceInformationServiceImpl extends ServiceImpl<FaceInformationMappe
     @Override
     public Boolean authenticated(FaceInformationVO faceInformationVO) throws Exception {
         QueryWrapper<FaceInformation> wrapper = new QueryWrapper<>();
-        wrapper.eq("userId",faceInformationVO.getUserid());
+        if (StringUtils.isNotBlank(faceInformationVO.getUserid())){
+            wrapper.eq("userId",faceInformationVO.getUserid());
+        }else {
+            wrapper.eq("userId", UserUtils.getPrincipal());
+        }
         FaceInformation faceInformation = faceInformationMapper.selectOne(wrapper);
         return Double.parseDouble(FaceUtils.execute(faceInformation.getPicture(), faceInformationVO.getPicture())) > 0.95;
     }

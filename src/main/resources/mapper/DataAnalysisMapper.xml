@@ -29,7 +29,7 @@
         <result property="choice" column="choice"></result>
     </resultMap>
     <select id="getAnalysis" resultMap="Analysis">
-        SELECT ${condition} as xAxis,choice,COUNT(*) as yAxis from data_analysis where vote_id = '${voteId}' GROUP BY choice,${condition}
+        SELECT ${condition} as xAxis,choice,COUNT(*) as yAxis from data_analysis where vote_id = '${voteId}' and ${condition} is not null  GROUP BY choice,${condition}
     </select>
 
 </mapper>

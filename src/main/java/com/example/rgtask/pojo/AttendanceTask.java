@@ -74,7 +74,7 @@ public class AttendanceTask implements Serializable {
     private String remark;
 
     /**
-     * 状态 是否晚点名
+     * 状态
      */
     private String status;
 }

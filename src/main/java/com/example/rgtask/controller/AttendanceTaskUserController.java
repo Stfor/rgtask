@@ -1,12 +1,14 @@
 package com.example.rgtask.controller;
 
 
+import com.example.rgtask.pojo.AttendanceTaskUser;
 import com.example.rgtask.pojo.CommonResult;
-import com.example.rgtask.pojo.Errand;
-import com.example.rgtask.service.AttendanceTaskService;
 import com.example.rgtask.service.AttendanceTaskUserService;
 import com.example.rgtask.validation.Update;
-import com.example.rgtask.vo.*;
+import com.example.rgtask.vo.AttendanceTaskUserPageVO;
+import com.example.rgtask.vo.AttendanceTaskUserVO;
+import com.example.rgtask.vo.GroupPageVO;
+import com.example.rgtask.vo.GroupVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -24,33 +26,33 @@ import org.springframework.stereotype.Controller;
  * </p>
  *
  * @author xa
- * @since 2022-11-27
+ * @since 2022-12-01
  */
 @RestController
-@RequestMapping("/attendance-task")
+@RequestMapping("/attendance-task-user")
 @CrossOrigin
-@Api(value = "AttendanceTaskController", tags = "晚点名任务接口")
-public class AttendanceTaskController {
-    private AttendanceTaskService attendanceTaskService;
+@Api(value = "AttendanceTaskUserController", tags = "用户-任务接口")
+public class AttendanceTaskUserController {
+    private AttendanceTaskUserService attendanceTaskUserService;
     @Autowired
-    private void setAttendanceTaskService(AttendanceTaskService attendanceTaskService){
-        this.attendanceTaskService = attendanceTaskService;
+    private void setAttendanceTaskUserService(AttendanceTaskUserService attendanceTaskUserService){
+        this.attendanceTaskUserService = attendanceTaskUserService;
     }
 
     @PostMapping("/insert")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Access-Token", value = "访问token", paramType = "header", dataType = "string", required = true)
     })
-    public CommonResult add(@RequestBody AttendanceTaskVO attendanceTaskVO, BindingResult bindingResult){
+    public CommonResult add(@RequestBody AttendanceTaskUserVO attendanceTaskUserVO, BindingResult bindingResult){
         CommonResult result = new CommonResult().init();
         //参数验证
         if (bindingResult.hasErrors()) {
             return (CommonResult) result.failIllegalArgument(bindingResult.getFieldErrors()).end();
         }
-        if (attendanceTaskService.insert(attendanceTaskVO)){
-            return result.success("attendanceTask",attendanceTaskVO);
+        if (attendanceTaskUserService.insert(attendanceTaskUserVO)){
+            return result.success("attendanceTaskUser",attendanceTaskUserVO);
         }else {
-            return (CommonResult) result.failCustom(-10086,"创建晚点名任务失败");
+            return (CommonResult) result.failCustom(-10086,"创建用户签到失败");
         }
     }
 
@@ -58,45 +60,47 @@ public class AttendanceTaskController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Access-Token", value = "访问token", paramType = "header", dataType = "string", required = true)
     })
-    public CommonResult update(@RequestBody @Validated({Update.class}) AttendanceTaskVO attendanceTaskVO, BindingResult bindingResult){
+    public CommonResult update(@RequestBody @Validated({Update.class}) AttendanceTaskUserVO attendanceTaskUserVO, BindingResult bindingResult){
         CommonResult result = new CommonResult().init();
         //参数验证
         if (bindingResult.hasErrors()) {
             return (CommonResult) result.failIllegalArgument(bindingResult.getFieldErrors()).end();
         }
-        if (attendanceTaskService.updateAllById(attendanceTaskVO)){
-            return result.success("attendanceTask",attendanceTaskVO);
+        AttendanceTaskUser attendanceTaskUser = new AttendanceTaskUser();
+        BeanUtils.copyProperties(attendanceTaskUserVO,attendanceTaskUser);
+        if (attendanceTaskUserService.updateById(attendanceTaskUser)){
+            return result.success("attendanceTaskUser",attendanceTaskUserVO);
         }else {
-            return (CommonResult) result.failCustom(-10086,"更新晚点名任务失败");
+            return (CommonResult) result.failCustom(-10086,"更新用户签到失败");
         }
     }
 
-    @GetMapping("/delete/{attendanceTaskId}")
+    @GetMapping("/delete/{attendanceTaskUserId}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Access-Token", value = "访问token", paramType = "header", dataType = "string", required = true)
     })
-    public CommonResult delete(@PathVariable String attendanceTaskId){
+    public CommonResult delete(@PathVariable String attendanceTaskUserId){
         CommonResult result = new CommonResult().init();
-        if (attendanceTaskService.getById(attendanceTaskId) == null){
-            return (CommonResult) result.failCustom(-10086,"该晚点名任务不存在");
+        if (attendanceTaskUserService.getById(attendanceTaskUserId) == null){
+            return (CommonResult) result.failCustom(-10086,"该用户签到不存在");
         }
-        if (attendanceTaskService.deleteAll(attendanceTaskId)){
+        if (attendanceTaskUserService.removeById(attendanceTaskUserId)){
             return (CommonResult) result.success();
         }else {
-            return (CommonResult) result.failCustom(-10086,"删除晚点名任务失败");
+            return (CommonResult) result.failCustom(-10086,"删除用户签到失败");
         }
     }
 
-    @GetMapping("/select/{attendanceTaskId}")
+    @GetMapping("/select/{attendanceTaskUserId}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Access-Token", value = "访问token", paramType = "header", dataType = "string", required = true)
     })
-    public CommonResult select(@PathVariable String attendanceTaskId){
+    public CommonResult select(@PathVariable String attendanceTaskUserId){
         CommonResult result = new CommonResult().init();
-        if (attendanceTaskService.getById(attendanceTaskId) == null){
-            return (CommonResult) result.failCustom(-10086,"该晚点名任务不存在");
+        if (attendanceTaskUserService.getById(attendanceTaskUserId) == null){
+            return (CommonResult) result.failCustom(-10086,"该用户签到不存在");
         }
-        return result.success("attendanceTask",attendanceTaskService.getById(attendanceTaskId));
+        return result.success("attendanceTaskUser",attendanceTaskUserService.getById(attendanceTaskUserId));
     }
 
 
@@ -104,16 +108,14 @@ public class AttendanceTaskController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Access-Token", value = "访问token", paramType = "header", dataType = "string", required = true)
     })
-    public CommonResult findPage(@RequestBody AttendanceTaskPageVO pageVO, BindingResult bindingResult){
+    public CommonResult findPage(@RequestBody AttendanceTaskUserPageVO pageVO, BindingResult bindingResult){
         CommonResult result = new CommonResult().init();
         //参数验证
         if (bindingResult.hasErrors()) {
             result.failIllegalArgument(bindingResult.getFieldErrors()).end();
             return result;
         }
-        result.success("page",attendanceTaskService.findPage(pageVO)).end();
+        result.success("page",attendanceTaskUserService.findPage(pageVO)).end();
         return result;
     }
-
-
 }

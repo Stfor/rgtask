@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.rgtask.vo.AttendanceTaskPageVO;
 import com.example.rgtask.vo.AttendanceTaskVO;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -20,4 +22,8 @@ public interface AttendanceTaskService extends IService<AttendanceTask> {
     Boolean updateAllById(AttendanceTaskVO attendanceTaskVO);
 
     IPage<AttendanceTask> findPage(AttendanceTaskPageVO pageVO);
+
+    Boolean deleteAll(String attendanceTaskId);
+
+    Boolean deleteAllByGroupId(String groupId);
 }

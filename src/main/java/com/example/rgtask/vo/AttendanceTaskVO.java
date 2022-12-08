@@ -56,6 +56,9 @@ public class AttendanceTaskVO implements Serializable {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm")
     private LocalDateTime endTime;
 
-
+    /**
+     * 状态  可以修改晚点名的状态
+     */
+    private String status;
 
 }

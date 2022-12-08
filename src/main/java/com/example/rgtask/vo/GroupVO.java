@@ -47,5 +47,8 @@ public class GroupVO implements Serializable {
      */
     private String remark;
 
-
+    /**
+     * 状态 是否允许更改基本信息
+     */
+    private String status;
 }

@@ -48,5 +48,9 @@ public class GroupPageVO extends PageVO implements Serializable {
      */
     private String remark;
 
+    /**
+     * 状态 是否允许更改基本信息
+     */
+    private String status;
 
 }

@@ -12,4 +12,12 @@ public class AnalysisReturnVO {
     Map<String,Integer> option;
 
     Integer allNum;
+
+    AnalysisReturnVO(){}
+
+    public AnalysisReturnVO(String xAxis, Map<String, Integer> option, Integer allNum) {
+        this.xAxis = xAxis;
+        this.option = option;
+        this.allNum = allNum;
+    }
 }
