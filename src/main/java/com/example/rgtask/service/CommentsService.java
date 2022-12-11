@@ -7,10 +7,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.rgtask.pojo.CommonResult;
 import com.example.rgtask.pojo.Errand;
 import com.example.rgtask.pojo.Pictures;
-import com.example.rgtask.vo.CommentsPageVO;
-import com.example.rgtask.vo.CommentsVO;
-import com.example.rgtask.vo.ErrandPageVO;
-import com.example.rgtask.vo.PicturesVO;
+import com.example.rgtask.vo.*;
 
 import java.util.List;
 
@@ -26,6 +23,6 @@ public interface CommentsService extends IService<Comments> {
     int insert(CommentsVO commentsVO);
     List<Comments> findComments(String areaId);
 
-    IPage<Comments> findPage(Page<Comments> page, CommentsPageVO pageVO);
+    IPage<CommentsReturnVO> findPage(CommentsPageVO pageVO);
 
 }

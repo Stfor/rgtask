@@ -12,12 +12,15 @@ import com.example.rgtask.service.CommentsService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.rgtask.utils.UserUtils;
 import com.example.rgtask.vo.CommentsPageVO;
+import com.example.rgtask.vo.CommentsReturnVO;
 import com.example.rgtask.vo.CommentsVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -60,14 +63,40 @@ public class CommentsServiceImpl extends ServiceImpl<CommentsMapper, Comments> i
     }
 
     @Override
-    public IPage<Comments> findPage(Page<Comments> page, CommentsPageVO pageVO) {
+    public IPage<CommentsReturnVO> findPage(CommentsPageVO pageVO) {
+        IPage<Comments> iPage = new Page<>(pageVO.getPageNo(),pageVO.getPageSize());
+        //创建查询条件
         QueryWrapper<Comments> wrapper = new QueryWrapper<>();
-        String id = pageVO.getId();
-        if(StringUtils.isNotBlank(id)){
-            wrapper.eq("parent_id",id);
+        //只查询最高祖宗评论
+        wrapper.eq("parent_id","0");
+        if (StringUtils.isNotBlank(pageVO.getAreaId())){
+            wrapper.eq("area_id",pageVO.getAreaId());
+        }
+        if (StringUtils.isNotBlank(pageVO.getId())){
+            wrapper.eq("id",pageVO.getId());
         }
         wrapper.orderByDesc("create_time");
-        return commentsMapper.selectPage(page,wrapper);
+        IPage<Comments> commentList = commentsMapper.selectPage(iPage, wrapper);
+        IPage<CommentsReturnVO> commentsReturnVOList = new Page<>(pageVO.getPageNo(),pageVO.getPageSize());
+        commentsReturnVOList.setRecords(getAllOffspringComment(commentList.getRecords()));
+        return commentsReturnVOList;
+    }
+
+    private List<CommentsReturnVO> getAllOffspringComment(List<Comments> comments){
+        QueryWrapper<Comments> wrapper = new QueryWrapper<>();
+        List<CommentsReturnVO> commentsReturnVOS = new ArrayList<>();
+        for (Comments comment : comments){
+            CommentsReturnVO commentsReturn = new CommentsReturnVO();
+            BeanUtils.copyProperties(comment,commentsReturn);
+            wrapper.eq("parent_id",comment.getId());
+            //获取所有得子评论
+            List<Comments> comments1 = commentsMapper.selectList(wrapper);
+            if (comments1.size() > 0){
+                commentsReturn.setOffspringComments(getAllOffspringComment(comments1));
+            }
+            commentsReturnVOS.add(commentsReturn);
+        }
+        return commentsReturnVOS;
     }
 
 }

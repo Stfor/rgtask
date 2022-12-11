@@ -125,8 +125,7 @@ public class CommentsController {
             result.failIllegalArgument(bindingResult.getFieldErrors()).end();
             return result;
         }
-        Page<Comments> page = new Page<Comments>(pageVO.getPageNo(),pageVO.getPageSize());
-        result.success("page",commentsService.findPage(page, pageVO));
+        result.success("page",commentsService.findPage(pageVO));
         result.end();
         return result;
     }
