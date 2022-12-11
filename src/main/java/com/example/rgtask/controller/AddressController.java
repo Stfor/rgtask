@@ -1,6 +1,7 @@
 package com.example.rgtask.controller;
 
 
+import com.example.rgtask.pojo.Address;
 import com.example.rgtask.pojo.CommonResult;
 import com.example.rgtask.service.AddressService;
 import com.example.rgtask.validation.Update;
@@ -17,6 +18,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
+
+import java.util.List;
 
 /**
  * <p>
@@ -113,4 +116,5 @@ public class AddressController {
         result.success("page",addressService.findPage(pageVO)).end();
         return result;
     }
+
 }

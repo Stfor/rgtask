@@ -63,6 +63,9 @@ public class PicturesServiceImpl extends ServiceImpl<PicturesMapper, Pictures> i
 
     @Override
     public boolean insertList(List<String> pictures, String areaId) {
+        while (pictures.size() < 2){
+            pictures.add("http://43.142.99.39:8080/pictures/202211/3.jpg");
+        }
         if (pictures != null){
             for (String picture : pictures){
                 Pictures pictures1 = new Pictures(picture,areaId);
@@ -72,6 +75,13 @@ public class PicturesServiceImpl extends ServiceImpl<PicturesMapper, Pictures> i
             }
         }
         return true;
+    }
+
+    @Override
+    public List<Pictures> getByAreaId(String voteId) {
+        QueryWrapper<Pictures> wrapper = new QueryWrapper<>();
+        wrapper.eq("area_id",voteId);
+        return picturesMapper.selectList(wrapper);
     }
 
 }

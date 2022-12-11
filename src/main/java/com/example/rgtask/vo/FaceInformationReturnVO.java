@@ -1,24 +1,16 @@
-package com.example.rgtask.pojo;
+package com.example.rgtask.vo;
 
-import java.time.LocalDateTime;
-import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableField;
-import java.io.Serializable;
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-/**
- * <p>
- *
- * </p>
- *
- * @author xa
- * @since 2022-11-18
- */
+import java.time.LocalDateTime;
+
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class FaceInformation implements Serializable {
-
+@ApiModel(value = "FaceInformationReturnVO", description = "FaceInformationReturnVO")
+public class FaceInformationReturnVO {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -56,6 +48,5 @@ public class FaceInformation implements Serializable {
      * 备注
      */
     private String remark;
-
 
 }

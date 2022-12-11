@@ -103,6 +103,9 @@ public class VoteServiceImpl extends ServiceImpl<VoteMapper, Vote> implements Vo
         if (StringUtils.isNotBlank(pageVO.getLabel())){
             wrapper.eq("label",pageVO.getLabel());
         }
+        if (StringUtils.isNotBlank(pageVO.getId())){
+            wrapper.eq("id",pageVO.getId());
+        }
 
         IPage<Vote> iPage = voteMapper.selectPage(page,wrapper);
         IPage<VoteReturnVO> returnVOIPage = new Page<>(pageVO.getPageNo(),pageVO.getPageSize());

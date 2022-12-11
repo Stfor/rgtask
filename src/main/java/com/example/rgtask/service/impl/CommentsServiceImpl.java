@@ -66,7 +66,7 @@ public class CommentsServiceImpl extends ServiceImpl<CommentsMapper, Comments> i
         if(StringUtils.isNotBlank(id)){
             wrapper.eq("parent_id",id);
         }
-        wrapper.orderByDesc("create_date");
+        wrapper.orderByDesc("create_time");
         return commentsMapper.selectPage(page,wrapper);
     }
 

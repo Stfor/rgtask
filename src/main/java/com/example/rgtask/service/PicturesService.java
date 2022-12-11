@@ -23,4 +23,6 @@ public interface PicturesService extends IService<Pictures> {
     int removeByAreaId(String areaId);
 
     boolean insertList (List<String> pictures,String areaId);
+
+    List<Pictures> getByAreaId(String voteId);
 }

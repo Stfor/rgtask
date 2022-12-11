@@ -4,6 +4,7 @@ package com.example.rgtask.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.rgtask.pojo.CommonResult;
 import com.example.rgtask.pojo.Errand;
+import com.example.rgtask.pojo.Pictures;
 import com.example.rgtask.pojo.Vote;
 import com.example.rgtask.service.PicturesService;
 import com.example.rgtask.service.VoteLogService;
@@ -177,8 +178,16 @@ public class VoteController {
     }
 
     @GetMapping("/aa")
-    public List<String> aa(){
-        List<String> list = voteService.getLabel();
-        return list;
+    public void aa(){
+        List<Vote> list = voteService.list();
+        for (Vote vote : list){
+            List<Pictures> pictures = picturesService.getByAreaId(vote.getId());
+            if (pictures.size() == 0){
+                picturesService.insert(new PicturesVO(vote.getId(),"http://43.142.99.39:8080/pictures/202211/3.jpg"));
+                picturesService.insert(new PicturesVO(vote.getId(),"http://43.142.99.39:8080/pictures/202211/3.jpg"));
+            }else if (pictures.size() == 1){
+                picturesService.insert(new PicturesVO(vote.getId(),"http://43.142.99.39:8080/pictures/202211/3.jpg"));
+            }
+        }
     }
 }
