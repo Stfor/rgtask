@@ -71,4 +71,24 @@ public class CommentsReturnVO implements Serializable {
      * 子评论
      */
     private List<CommentsReturnVO> offspringComments;
+
+    /**
+     * 用户名
+     */
+    private String username;
+
+    /**
+     * 用户头像
+     */
+    private String avatar;
+
+    /**
+     * 父级名称
+     */
+    private String parentUserName;
+
+    /**
+     * 是否点赞过
+     */
+    private Boolean agreed;
 }

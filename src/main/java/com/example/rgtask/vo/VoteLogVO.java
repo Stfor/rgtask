@@ -50,9 +50,10 @@ public class VoteLogVO implements Serializable {
 
     }
 
-    public VoteLogVO(String voteid, String userid) {
+    public VoteLogVO(String voteid, String userid,String choice) {
         this.voteid = voteid;
         this.userid = userid;
+        this.choice = choice;
     }
 
 

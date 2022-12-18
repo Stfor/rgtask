@@ -97,6 +97,11 @@ public class FaceUtils {
 
     //读取image
     private byte[] readImage(String imagePath) throws IOException {
+        log.info("-----------文件路径:"+imagePath);
+        if (System.getProperties().getProperty( "os.name" ).contains("Linux")){
+            imagePath.replaceAll("\\\\","/");
+        }
+        log.info("-----------文件路径:"+imagePath);
         InputStream is = new FileInputStream(imagePath);
         byte[] imageByteArray1 = FileUtil.read(imagePath);
         //return is.readAllBytes();

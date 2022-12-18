@@ -44,5 +44,6 @@ public class FaceInformationVO implements Serializable {
      */
     private String remark;
 
+    private String TaskId;
 
 }

@@ -38,6 +38,9 @@ public class AnalysisUtils {
         grade.add("大二");
         grade.add("大三");
         grade.add("大四");
+        grade.add("研一");
+        grade.add("研二");
+        grade.add("研三");
         xAxis.put("grade",grade);
         //省份
         List<String> province = new ArrayList<>();

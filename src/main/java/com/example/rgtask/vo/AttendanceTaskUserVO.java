@@ -47,4 +47,5 @@ public class AttendanceTaskUserVO implements Serializable {
         this.userId = userId;
         this.taskId = taskId;
     }
+
 }

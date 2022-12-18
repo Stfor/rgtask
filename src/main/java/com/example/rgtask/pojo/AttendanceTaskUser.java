@@ -60,5 +60,11 @@ public class AttendanceTaskUser implements Serializable {
      */
     private String remarks;
 
+    public AttendanceTaskUser() {
+    }
 
+    public AttendanceTaskUser(String id, String status) {
+        this.id = id;
+        this.status = status;
+    }
 }

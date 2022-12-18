@@ -106,4 +106,6 @@ public class ErrandPageVO extends PageVO implements Serializable {
      * 用户电话
      */
     private String sponsorPhone;
+
+
 }

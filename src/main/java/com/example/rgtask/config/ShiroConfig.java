@@ -109,22 +109,35 @@ public class ShiroConfig {
         // 根据需要配置需要拦截的url
         filterChainDefinitionMap.put("/api/login", "anon");// 开放登录接口
 
-        //登录接口拦截
-//        filterChainDefinitionMap.put("/user/update/**", "jwtFilter");
-//        filterChainDefinitionMap.put("/user/delete/**", "jwtFilter");
-        //跑腿任务接口拦截
-//        filterChainDefinitionMap.put("/errand/**", "jwtFilter");
-        //兼职任务接口拦截
-//        filterChainDefinitionMap.put("/part-time-job/**", "jwtFilter");
-        //用户-分组接口拦截
-        filterChainDefinitionMap.put("/group-user/**","jwtFilter");
-        //分组接口
-        filterChainDefinitionMap.put("/group/**","jwtFilter");
-        //任务-用户接口
+        //收货地址接口
+        filterChainDefinitionMap.put("/address/**", "jwtFilter");
+        //晚点名接口
         filterChainDefinitionMap.put("/attendance-task-user/**","jwtFilter");
         filterChainDefinitionMap.put("/attendance/**","jwtFilter");
         filterChainDefinitionMap.put("/location/**","jwtFilter");
         filterChainDefinitionMap.put("/face-information/**","jwtFilter");
+        filterChainDefinitionMap.put("/attendance-task/**","jwtFilter");
+        filterChainDefinitionMap.put("/group/**","jwtFilter");
+        filterChainDefinitionMap.put("/group-user/**","jwtFilter");
+        //评论接口
+        filterChainDefinitionMap.put("/comments/**","jwtFilter");
+        //数据分析接口
+        filterChainDefinitionMap.put("/data-analysis/**","jwtFilter");
+        //跑腿任务接口拦截
+        filterChainDefinitionMap.put("/errand/**", "jwtFilter");
+        //闲置接口拦截
+        filterChainDefinitionMap.put("/idle-goods/**", "jwtFilter");
+        //登录接口拦截
+        filterChainDefinitionMap.put("/user/update/**", "jwtFilter");
+        filterChainDefinitionMap.put("/user/delete/**", "jwtFilter");
+        //兼职任务接口拦截
+        filterChainDefinitionMap.put("/part-time-job/**", "jwtFilter");
+        //投票接口拦截
+        filterChainDefinitionMap.put("/vote/**", "jwtFilter");
+        //投票选项接口拦截
+        filterChainDefinitionMap.put("/vote-log/**", "jwtFilter");
+        //投票日志接口拦截
+        filterChainDefinitionMap.put("/vote-option/**", "jwtFilter");
 
         //其余接口一律拦截
         //主要这行代码必须放在所有权限设置的最后，不然会导致所有 url 都被拦截

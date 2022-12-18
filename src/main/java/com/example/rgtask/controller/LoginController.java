@@ -91,6 +91,7 @@ public class LoginController {
         if (errcode == null){
             // 用户唯一标识
             String openid = parse.getByPath("openid", String.class);
+            log.info("当前的openid是"+openid);
             // 会话密钥
             String sessionKey = parse.getByPath("session_key", String.class);
             // 用户在开放平台的唯一标识符，在满足 UnionID 下发条件的情况下会返回

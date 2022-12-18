@@ -100,4 +100,6 @@ public class ErrandVO extends BaseVO implements Serializable {
      */
     @ApiModelProperty(value = "图片集合", example = "")
     private List<String> pictures;
+
+    private String status;
 }

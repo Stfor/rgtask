@@ -82,6 +82,9 @@ public class AttendanceTaskServiceImpl extends ServiceImpl<AttendanceTaskMapper,
         if (StringUtils.isNotBlank(pageVO.getGroupId())){
             wrapper.eq("group_id",pageVO.getGroupId());
         }
+//        //匹配当前用户的任务
+//        List<AttendanceTaskUser> list = attendanceTaskUserService.list();
+//        wrapper.in("id",list);
         return attendanceTaskMapper.selectPage(page,wrapper);
     }
 
@@ -108,5 +111,12 @@ public class AttendanceTaskServiceImpl extends ServiceImpl<AttendanceTaskMapper,
             }
         }
         return true;
+    }
+
+    @Override
+    public List<AttendanceTask> getByGroupId(String groupId) {
+        QueryWrapper<AttendanceTask> wrapper = new QueryWrapper<>();
+        wrapper.eq("group_id",groupId);
+        return attendanceTaskMapper.selectList(wrapper);
     }
 }

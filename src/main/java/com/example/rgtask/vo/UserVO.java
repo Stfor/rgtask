@@ -2,6 +2,7 @@ package com.example.rgtask.vo;
 
 import com.example.rgtask.validation.Create;
 import com.example.rgtask.validation.Update;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -9,6 +10,8 @@ import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * <p>
@@ -29,7 +32,7 @@ public class UserVO extends BaseVO implements Serializable {
      * 用户id
      */
     @NotBlank(groups = {Update.class}, message = "用户Id不能为空")
-    @ApiModelProperty(value = "用户id", example = "1812312", required = true)
+    @ApiModelProperty(value = "用户id", example = "aaabb123w", required = true)
     private String id;
 
     /**
@@ -87,6 +90,18 @@ public class UserVO extends BaseVO implements Serializable {
      */
     @ApiModelProperty(value = "用户头像", example = "注意使用base64上传")
     private String photo;
+
+    private String grade;
+
+    private String constellation;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
+    private Date birthday;
+    /**
+     * 学校
+     */
+
+    private String university;
 
     UserVO(){
     }

@@ -11,6 +11,7 @@ import com.example.rgtask.service.UserService;
 import com.example.rgtask.vo.AttendanceTaskUserPageVO;
 import com.example.rgtask.vo.AttendanceTaskUserReturnVO;
 import com.example.rgtask.vo.AttendanceTaskUserVO;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,7 @@ import java.util.List;
  * @since 2022-12-01
  */
 @Service
+@Slf4j
 public class AttendanceTaskUserServiceImpl extends ServiceImpl<AttendanceTaskUserMapper, AttendanceTaskUser> implements AttendanceTaskUserService {
     private AttendanceTaskUserMapper attendanceTaskUserMapper;
     private UserService userService;
@@ -76,5 +78,15 @@ public class AttendanceTaskUserServiceImpl extends ServiceImpl<AttendanceTaskUse
         QueryWrapper<AttendanceTaskUser> wrapper = new QueryWrapper<>();
         wrapper.eq("task_id",taskId);
         return attendanceTaskUserMapper.selectList(wrapper);
+    }
+
+    @Override
+    public AttendanceTaskUser getAttendanceByUserIdAndTaskId(String taskId, String userId) {
+        QueryWrapper<AttendanceTaskUser> wrapper = new QueryWrapper<>();
+        wrapper.eq("task_id",taskId);
+        wrapper.eq("user_id",userId);
+        log.info("----------------");
+        log.info(taskId+"----"+userId);
+        return attendanceTaskUserMapper.selectOne(wrapper);
     }
 }

@@ -23,4 +23,6 @@ public interface AttendanceTaskUserService extends IService<AttendanceTaskUser> 
     IPage<AttendanceTaskUserReturnVO> findPage(AttendanceTaskUserPageVO attendanceTaskUserPageVO);
 
     List<AttendanceTaskUser> getListByTaskId(String taskId);
+
+    AttendanceTaskUser getAttendanceByUserIdAndTaskId(String taskId,String userId);
 }

@@ -6,6 +6,7 @@ import java.util.Date;
 import java.io.Serializable;
 
 import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -123,6 +124,13 @@ public class User implements Serializable {
      * 学校
      */
     private String university;
+
+    @JsonFormat( pattern = "yyyy-MM-dd")
+    private Date birthday;
+
+    private String grade;
+
+    private String constellation;
 
     public User( String id, String loginName){
         this.loginName = loginName;

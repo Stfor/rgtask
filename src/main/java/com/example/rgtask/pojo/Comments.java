@@ -73,5 +73,11 @@ public class Comments implements Serializable {
      */
     private String remark;
 
+    public Comments() {
+    }
 
+    public Comments(String id, Integer thumbsUp) {
+        this.id = id;
+        this.thumbsUp = thumbsUp;
+    }
 }

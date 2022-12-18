@@ -29,4 +29,6 @@ public interface FaceInformationService extends IService<FaceInformation> {
     IPage<FaceInformation> findPage(FaceInformationPageVO pageVO);
 
     List<FaceInformationReturnVO> getFaceInformationByUserId(String userId);
+
+    Integer getCountByUserId(String userId);
 }

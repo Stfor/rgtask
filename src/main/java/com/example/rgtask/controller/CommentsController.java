@@ -2,11 +2,10 @@ package com.example.rgtask.controller;
 
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.rgtask.pojo.Comments;
-import com.example.rgtask.pojo.CommonResult;
-import com.example.rgtask.pojo.Errand;
-import com.example.rgtask.pojo.Pictures;
+import com.example.rgtask.pojo.*;
+import com.example.rgtask.service.CommentAgreeService;
 import com.example.rgtask.service.CommentsService;
+import com.example.rgtask.utils.UserUtils;
 import com.example.rgtask.validation.Create;
 import com.example.rgtask.validation.Update;
 import com.example.rgtask.vo.CommentsPageVO;
@@ -39,9 +38,14 @@ import java.util.List;
 @Api(value = "CommentsController", tags = "评论接口")
 public class CommentsController {
     private CommentsService commentsService;
+    private CommentAgreeService commentAgreeService;
 
     @Autowired
     private void setCommentsService(CommentsService commentsService){this.commentsService = commentsService;}
+    @Autowired
+    private void setCommentAgreeService(CommentAgreeService commentAgreeService){
+        this.commentAgreeService = commentAgreeService;
+    }
 
     @PostMapping("/insert")
     @ApiImplicitParams({
@@ -107,13 +111,7 @@ public class CommentsController {
         return result.success("comments",comments);
     }
 
-    @GetMapping("/findComments/{areaId}")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "Access-Token", value = "访问token", paramType = "header", dataType = "string", required = true)
-    })
-    public List<Comments> findComments(@PathVariable String areaId){
-        return commentsService.findComments(areaId);
-    }
+
     @PostMapping("findPage")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Access-Token", value = "访问token", paramType = "header", dataType = "string", required = true)
@@ -128,6 +126,37 @@ public class CommentsController {
         result.success("page",commentsService.findPage(pageVO));
         result.end();
         return result;
+    }
+
+    @GetMapping("/agree/{commentId}")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Access-Token", value = "访问token", paramType = "header", dataType = "string", required = true)
+    })
+    public CommonResult agree(@PathVariable String commentId){
+        CommonResult result = new CommonResult().init();
+        Comments comment = commentsService.getById(commentId);
+        if (commentAgreeService.hadAgree(UserUtils.getPrincipal(),commentId)){
+            return (CommonResult) result.failCustom(-10086,"不可重复点赞");
+        }
+        if (commentsService.updateById(new Comments(commentId,comment.getThumbsUp()+1))){
+            if (commentAgreeService.save(new CommentAgree(commentId, UserUtils.getPrincipal()))){
+                return (CommonResult) result.success();
+            }else {
+                return (CommonResult) result.failCustom(-10086,"点赞失败");
+            }
+        }
+        return (CommonResult) result.failCustom(-10086,"点赞失败");
+    }
+
+    @GetMapping("/aa")
+    public void aa(){
+        List<Comments> list = commentsService.list();
+        for (Comments comments : list){
+            if (comments.getAreaId() == null){
+                comments.setAreaId(commentsService.getById(comments.getParentId()).getAreaId());
+                commentsService.updateById(comments);
+            }
+        }
     }
 }
 

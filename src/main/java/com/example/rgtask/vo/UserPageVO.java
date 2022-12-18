@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -92,5 +93,16 @@ public class UserPageVO extends PageVO{
      * 备注信息
      */
     private String remarks;
+
+    private String grade;
+
+    private String constellation;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
+    private Date birthday;
+    /**
+     * 学校
+     */
+    private String university;
 
 }

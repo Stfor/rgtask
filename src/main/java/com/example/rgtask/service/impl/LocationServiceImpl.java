@@ -76,7 +76,7 @@ public class LocationServiceImpl extends ServiceImpl<LocationMapper, Location> i
     @Override
     public Boolean compareLocation(LocationVO locationVO) {
         QueryWrapper<Location> wrapper = new QueryWrapper<>();
-        wrapper.eq("userId",locationVO.getUserid());
+        wrapper.eq("userId",UserUtils.getPrincipal());
         Location location = locationMapper.selectOne(wrapper);
 
         double stdLongtitude = location.getLongitude();

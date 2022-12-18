@@ -104,6 +104,7 @@ public class ErrandReturnVO implements Serializable {
      */
     private String sponsorPhone;
 
+    private String sponsorName;
     @Override
     public String toString() {
         return "ErrandReturnVO{" +

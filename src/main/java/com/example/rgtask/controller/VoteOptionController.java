@@ -10,6 +10,7 @@ import com.example.rgtask.vo.VoteLogVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +28,7 @@ import java.util.Random;
  * @since 2022-11-11
  */
 @RestController
+@Slf4j
 @RequestMapping("/vote-option")
 @Api(value = "VoteOptionController", tags = "投票选项接口")
 public class VoteOptionController {
@@ -38,7 +40,7 @@ public class VoteOptionController {
     }
     @Autowired
     private void setVoteLogService(VoteLogService voteLogService){
-        this.voteOptionService = voteOptionService;
+        this.voteLogService = voteLogService;
     }
 
 //    @GetMapping("/agree/{voteOptionId}")
@@ -72,28 +74,32 @@ public class VoteOptionController {
         }
         voteOption.setAgreeNum(voteOption.getAgreeNum()+1);
         if (voteOptionService.updateById(voteOption)){
-            voteLogService.insert(new VoteLogVO(voteOptionService.getById(voteOptionId).getVoteId(), UserUtils.getPrincipal()));
+            log.info("----------------------");
+            log.info("当前得投票选项id是："+voteOptionId);
+            log.info("----------------------");
+            VoteOption byId = voteOptionService.getById(voteOptionId);
+            voteLogService.insert(new VoteLogVO(byId.getVoteId(), UserUtils.getPrincipal(),byId.getChoice()));
             return (CommonResult) result.success();
         }else {
             return (CommonResult) result.failCustom(-10086,"赞同失败");
         }
     }
 
-    @GetMapping("/aa")
-    public void aa(){
-        String[] photos = {
-                "http://43.142.99.39:8080/pictures/202211/1.jpg",
-                "http://43.142.99.39:8080/pictures/202211/2.jpg",
-                "http://43.142.99.39:8080/pictures/202211/3.jpg",
-                "http://43.142.99.39:8080/pictures/202211/4.jpg",
-                "http://43.142.99.39:8080/pictures/202211/5.jpg"
-        };
-        List<VoteOption> list = voteOptionService.list();
-        for (VoteOption voteOption : list){
-            Random random = new Random();
-            int i = random.nextInt(5);
-            voteOption.setPicture(photos[i]);
-            voteOptionService.updateById(voteOption);
-        }
-    }
+//    @GetMapping("/aa")
+//    public void aa(){
+//        String[] photos = {
+//                "http://43.142.99.39:8080/pictures/202211/1.jpg",
+//                "http://43.142.99.39:8080/pictures/202211/2.jpg",
+//                "http://43.142.99.39:8080/pictures/202211/3.jpg",
+//                "http://43.142.99.39:8080/pictures/202211/4.jpg",
+//                "http://43.142.99.39:8080/pictures/202211/5.jpg"
+//        };
+//        List<VoteOption> list = voteOptionService.list();
+//        for (VoteOption voteOption : list){
+//            Random random = new Random();
+//            int i = random.nextInt(5);
+//            voteOption.setPicture(photos[i]);
+//            voteOptionService.updateById(voteOption);
+//        }
+//    }
 }

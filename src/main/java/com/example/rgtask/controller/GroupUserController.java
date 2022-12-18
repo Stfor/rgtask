@@ -1,18 +1,14 @@
 package com.example.rgtask.controller;
 
 
+import com.example.rgtask.pojo.AttendanceTask;
 import com.example.rgtask.pojo.CommonResult;
 import com.example.rgtask.pojo.GroupUser;
 import com.example.rgtask.pojo.User;
-import com.example.rgtask.service.GroupService;
-import com.example.rgtask.service.GroupUserService;
-import com.example.rgtask.service.UserService;
+import com.example.rgtask.service.*;
 import com.example.rgtask.utils.UserUtils;
 import com.example.rgtask.validation.Update;
-import com.example.rgtask.vo.GroupPageVO;
-import com.example.rgtask.vo.GroupUserPageVO;
-import com.example.rgtask.vo.GroupUserVO;
-import com.example.rgtask.vo.GroupVO;
+import com.example.rgtask.vo.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -43,6 +39,8 @@ public class GroupUserController {
     private GroupUserService groupUserService;
     private GroupService groupService;
     private UserService userService;
+    private AttendanceTaskService attendanceTaskService;
+    private AttendanceTaskUserService attendanceTaskUserService;
     @Autowired
     private void setGroupUserService(GroupUserService groupUserService){
         this.groupUserService = groupUserService;
@@ -54,6 +52,14 @@ public class GroupUserController {
     @Autowired
     private void setGroupService(GroupService groupService){
         this.groupUserService = groupUserService;
+    }
+    @Autowired
+    private void setAttendanceTaskService(AttendanceTaskService attendanceTaskService){
+        this.attendanceTaskService = attendanceTaskService;
+    }
+    @Autowired
+    private void setAttendanceTaskUserService(AttendanceTaskUserService attendanceTaskUserService){
+        this.attendanceTaskUserService = attendanceTaskUserService;
     }
 
     @PostMapping("/insert")
@@ -75,6 +81,11 @@ public class GroupUserController {
         GroupUser groupUser = new GroupUser();
         BeanUtils.copyProperties(groupUserVO,groupUser);
         groupUser.setUserId(UserUtils.getPrincipal());
+        //加入所有以存在任务
+        List<AttendanceTask> byGroupId = attendanceTaskService.getByGroupId(groupUserVO.getGroupId());
+        for (AttendanceTask attendanceTask : byGroupId){
+            attendanceTaskUserService.insert(new AttendanceTaskUserVO(attendanceTask.getId(),UserUtils.getPrincipal(),null));
+        }
         if (groupUserService.save(groupUser)){
             return result.success("groupUser",groupUser);
         }else {

@@ -50,6 +50,7 @@ public class FaceInformationServiceImpl extends ServiceImpl<FaceInformationMappe
         BeanUtils.copyProperties(faceinformationVO,faceinformation);
         faceinformation.setCreateDate(LocalDateTime.now());
         faceinformation.setId(UUID.randomUUID().toString());
+        faceinformation.setUserid(UserUtils.getPrincipal());
         if (faceInformationMapper.insert(faceinformation) > 0){
             return 1;
         }else {
@@ -106,6 +107,13 @@ public class FaceInformationServiceImpl extends ServiceImpl<FaceInformationMappe
     @Override
     public List<FaceInformationReturnVO> getFaceInformationByUserId(String userId) {
         return null;
+    }
+
+    @Override
+    public Integer getCountByUserId(String userId) {
+        QueryWrapper<FaceInformation> wrapper = new QueryWrapper<>();
+        wrapper.eq("userId",userId);
+        return faceInformationMapper.selectCount(wrapper);
     }
 
     @Override

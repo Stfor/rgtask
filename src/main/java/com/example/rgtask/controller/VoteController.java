@@ -177,17 +177,17 @@ public class VoteController {
         }
     }
 
-    @GetMapping("/aa")
-    public void aa(){
-        List<Vote> list = voteService.list();
-        for (Vote vote : list){
-            List<Pictures> pictures = picturesService.getByAreaId(vote.getId());
-            if (pictures.size() == 0){
-                picturesService.insert(new PicturesVO(vote.getId(),"http://43.142.99.39:8080/pictures/202211/3.jpg"));
-                picturesService.insert(new PicturesVO(vote.getId(),"http://43.142.99.39:8080/pictures/202211/3.jpg"));
-            }else if (pictures.size() == 1){
-                picturesService.insert(new PicturesVO(vote.getId(),"http://43.142.99.39:8080/pictures/202211/3.jpg"));
-            }
-        }
-    }
+//    @GetMapping("/aa")
+//    public void aa(){
+//        List<Vote> list = voteService.list();
+//        for (Vote vote : list){
+//            List<Pictures> pictures = picturesService.getByAreaId(vote.getId());
+//            if (pictures.size() == 0){
+//                picturesService.insert(new PicturesVO(vote.getId(),"http://43.142.99.39:8080/pictures/202211/3.jpg"));
+//                picturesService.insert(new PicturesVO(vote.getId(),"http://43.142.99.39:8080/pictures/202211/3.jpg"));
+//            }else if (pictures.size() == 1){
+//                picturesService.insert(new PicturesVO(vote.getId(),"http://43.142.99.39:8080/pictures/202211/3.jpg"));
+//            }
+//        }
+//    }
 }

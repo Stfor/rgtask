@@ -5,9 +5,11 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.rgtask.pojo.Errand;
 import com.example.rgtask.mapper.ErrandMapper;
+import com.example.rgtask.pojo.User;
 import com.example.rgtask.service.ErrandService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.rgtask.service.PicturesService;
+import com.example.rgtask.service.UserService;
 import com.example.rgtask.utils.UserUtils;
 import com.example.rgtask.vo.*;
 import org.apache.commons.lang3.StringUtils;
@@ -32,6 +34,11 @@ import java.util.UUID;
 public class ErrandServiceImpl extends ServiceImpl<ErrandMapper, Errand> implements ErrandService {
     private ErrandMapper errandMapper;
     private PicturesService picturesService;
+    private UserService userService;
+    @Autowired
+    private void setUserService(UserService userService){
+        this.userService = userService;
+    }
     @Autowired
     private void setErrandService(ErrandMapper errandMapper){
         this.errandMapper = errandMapper;
@@ -192,6 +199,16 @@ public class ErrandServiceImpl extends ServiceImpl<ErrandMapper, Errand> impleme
         for (ErrandReturnVO vo : errandReturnVOList){
             vo.setPictures(picturesService.findPictures(vo.getId()));
             vo.setAvatar(UserUtils.getUserAvatarFromRedis(vo.getSponsorId()));
+        }
+        //为所有跑腿添加用户名
+        for (ErrandReturnVO vo : errandReturnVOList){
+            User user =  userService.getById(vo.getSponsorId());
+            if (user.getLoginName() != null){
+                vo.setSponsorName(user.getLoginName());
+            }else {
+                vo.setSponsorName("未设置登录名");
+            }
+
         }
         errandReturnVOPage.setRecords(errandReturnVOList);
         return errandReturnVOPage;

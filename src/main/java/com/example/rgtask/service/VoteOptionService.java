@@ -25,5 +25,4 @@ public interface VoteOptionService extends IService<VoteOption> {
 
     Boolean agree(String voteOptionId);
 
-
 }

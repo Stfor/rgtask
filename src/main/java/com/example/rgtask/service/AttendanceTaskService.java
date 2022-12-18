@@ -26,4 +26,6 @@ public interface AttendanceTaskService extends IService<AttendanceTask> {
     Boolean deleteAll(String attendanceTaskId);
 
     Boolean deleteAllByGroupId(String groupId);
+
+    List<AttendanceTask> getByGroupId(String groupId);
 }
