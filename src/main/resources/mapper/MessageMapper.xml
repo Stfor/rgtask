@@ -18,11 +18,10 @@
     </resultMap>
 
 
-
     <select id="findmsg" resultType="com.example.rgtask.vo.MessageVO">
         SELECT send_id,receive_id,msg_content
         FROM message
-        WHERE send_id=#{sendid} and receive_id=#{receiveid}
+        WHERE (send_id=#{sendid} and receive_id=#{receiveid}) or (send_id=#{receiveid} and receive_id=#{sendid})
         ORDER BY create_time
     </select>
 
