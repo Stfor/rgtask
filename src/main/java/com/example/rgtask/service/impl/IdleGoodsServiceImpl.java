@@ -7,8 +7,10 @@ import com.example.rgtask.pojo.Errand;
 import com.example.rgtask.pojo.IdleGoods;
 import com.example.rgtask.mapper.IdleGoodsMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.rgtask.pojo.User;
 import com.example.rgtask.service.IdleGoodsService;
 import com.example.rgtask.service.PicturesService;
+import com.example.rgtask.service.UserService;
 import com.example.rgtask.utils.UserUtils;
 import com.example.rgtask.vo.IdleGoodsPageVO;
 import com.example.rgtask.vo.IdleGoodsVO;
@@ -36,6 +38,11 @@ public class IdleGoodsServiceImpl extends ServiceImpl<IdleGoodsMapper, IdleGoods
 
 
     private IdleGoodsMapper idleGoodsMapper;
+    private UserService userService;
+    @Autowired
+    private void setUserService(UserService userService){
+        this.userService = userService;
+    }
     @Autowired
     private void setIdleGoodsMapper(IdleGoodsMapper idleGoodsMapper){
         this.idleGoodsMapper=idleGoodsMapper;
@@ -75,9 +82,9 @@ public class IdleGoodsServiceImpl extends ServiceImpl<IdleGoodsMapper, IdleGoods
         goods.setUpdateDate(LocalDateTime.now());
         if(idleGoodsMapper.updateById(goods) > 0){
             //修改图片
-            picturesService.removeByAreaId(goods.getId());
             List<String> pictures = idleGoodsVO.getPictures();
             if(pictures != null){
+                picturesService.removeByAreaId(goods.getId());
                 for (String picture : pictures) {
                     picturesService.insert(new PicturesVO(goods.getId(),picture));
                 }
@@ -85,7 +92,6 @@ public class IdleGoodsServiceImpl extends ServiceImpl<IdleGoodsMapper, IdleGoods
             return 1;
         }
         else return 0;
-
     }
 
     @Override
@@ -149,7 +155,9 @@ public class IdleGoodsServiceImpl extends ServiceImpl<IdleGoodsMapper, IdleGoods
         //添加图片 以及添加头像
         for(IdleGoodsVO vo : idleGoodsVOList){
             vo.setPictures(picturesService.findPictures(vo.getId()));
-            vo.setAvatar(UserUtils.getUserAvatarFromRedis(vo.getSponsorId()));
+            User user = userService.getById(vo.getSponsorId());
+            vo.setAvatar(user.getPhoto());
+            vo.setLoginName(user.getLoginName());
         }
         idleGoodsVOPage.setRecords(idleGoodsVOList);
         return idleGoodsVOPage;

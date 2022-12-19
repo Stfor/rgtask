@@ -72,4 +72,6 @@ public class IdleGoodsVO extends BaseVO implements Serializable {
      * 接受人id
      */
     private String status;
+
+    private String loginName;
 }

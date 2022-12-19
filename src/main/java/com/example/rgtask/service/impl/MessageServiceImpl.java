@@ -23,6 +23,7 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
 
     @Override
     public List<MessageVO> findmsg(String sendid, String receiveid) {
+
         return messageMapper.findmsg(sendid,receiveid);
     }
 

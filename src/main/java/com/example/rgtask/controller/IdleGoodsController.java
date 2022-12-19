@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.rgtask.pojo.CommonResult;
 import com.example.rgtask.pojo.IdleGoods;
 import com.example.rgtask.pojo.PartTimeJob;
+import com.example.rgtask.pojo.User;
 import com.example.rgtask.service.IdleGoodsService;
 import com.example.rgtask.service.PicturesService;
+import com.example.rgtask.service.UserService;
 import com.example.rgtask.utils.UserUtils;
 import com.example.rgtask.validation.Create;
 import com.example.rgtask.vo.IdleGoodsPageVO;
@@ -37,8 +39,12 @@ import org.springframework.web.bind.annotation.*;
 public class IdleGoodsController {
 
 
+    private UserService userService;
     private IdleGoodsService idleGoodsService;
-
+    @Autowired
+    private void setUserService(UserService userService){
+        this.userService = userService;
+    }
     @Autowired
     private void setIdleGoodsService(IdleGoodsService idleGoodsService){
         this.idleGoodsService = idleGoodsService;
@@ -114,9 +120,12 @@ public class IdleGoodsController {
         IdleGoods idleGoods = idleGoodsService.getById(goodsId);
         IdleGoodsVO vo = new IdleGoodsVO();
         BeanUtils.copyProperties(idleGoods,vo);
-        vo.setPictures(picturesService.findPictures(goodsId));
-        vo.setAvatar(UserUtils.getUserAvatarFromRedis(vo.getSponsorId()));
-        return result.success("idlGoods",idleGoods);
+        User user = userService.getById(vo.getSponsorId());
+        vo.setAvatar(user.getPhoto());
+        vo.setLoginName(user.getLoginName());
+        //设置闲置的图片
+        vo.setPictures(picturesService.findPictures(vo.getId()));
+        return result.success("idlGoods",vo);
     }
 
 

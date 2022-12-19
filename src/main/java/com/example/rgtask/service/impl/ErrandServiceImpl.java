@@ -77,9 +77,9 @@ public class ErrandServiceImpl extends ServiceImpl<ErrandMapper, Errand> impleme
         errand.setUpdateDate(LocalDateTime.now());
         if (errandMapper.updateById(errand) > 0){
             //修改图片信息
-            picturesService.removeByAreaId(errand.getId());
             List<String> pictures = errandVO.getPictures();
             if (pictures != null){
+                picturesService.removeByAreaId(errand.getId());
                 for (String picture : pictures){
                     picturesService.insert(new PicturesVO(errand.getId(),picture));
                 }
