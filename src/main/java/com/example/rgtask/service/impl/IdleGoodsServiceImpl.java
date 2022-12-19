@@ -155,4 +155,16 @@ public class IdleGoodsServiceImpl extends ServiceImpl<IdleGoodsMapper, IdleGoods
         return idleGoodsVOPage;
 
     }
+
+    @Override
+    public Boolean receive(IdleGoods idleGoods) {
+        idleGoods.setRecipientId(UserUtils.getPrincipal());
+        idleGoods.setStatus("1");
+        idleGoods.setUpdateDate(LocalDateTime.now());
+        if(idleGoodsMapper.updateById(idleGoods) > 0){
+            return true;
+        }else {
+            return false;
+        }
+    }
 }

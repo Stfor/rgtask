@@ -13,6 +13,7 @@ import com.example.rgtask.vo.IdleGoodsVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -151,6 +152,24 @@ public class IdleGoodsController {
         result.end();
         log.info("------------------------------返回");
         return result;
+    }
+
+    @GetMapping("/receive/{idlgoodsId}")
+    @ApiOperation(value = "下单接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Access-Token", value = "访问token", paramType = "header", dataType = "string", required = true)
+    })
+    public CommonResult receive(@PathVariable String idlgoodsId){
+        CommonResult result = new CommonResult().init();
+        IdleGoods goods = idleGoodsService.getById(idlgoodsId);
+        if(goods == null){
+            return (CommonResult) result.failCustom(400,"该商品不存在");
+        }
+        if(idleGoodsService.receive(goods)){
+            return result.success("idlegoods",goods);
+        }else {
+            return (CommonResult) result.failCustom(400,"购买失败");
+        }
     }
 
 

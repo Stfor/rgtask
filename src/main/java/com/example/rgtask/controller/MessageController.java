@@ -39,6 +39,7 @@ public class MessageController {
         }
         message.setCreateTime(LocalDateTime.now());
         message.setId(UUID.randomUUID().toString());
+        message.setMsgType("0");
         if(messageService.save(message)){
             return (CommonResult) result.success();
         }

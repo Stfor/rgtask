@@ -25,5 +25,7 @@ public interface IdleGoodsService extends IService<IdleGoods> {
 
     IPage<IdleGoodsVO> findPage(IdleGoodsPageVO idleGoodsPageVO);
 
+    Boolean receive(IdleGoods idleGoods);
+
 
 }
